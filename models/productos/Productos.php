@@ -1,23 +1,16 @@
 <?php
-    
-    abstract class Productos {
-        protected $id_producto;
-        protected $nombre_producto;
-        protected $descripcion_producto;
-        protected $precio_producto;
-        protected $stock_producto;
-        protected $foto_producto;
+    class Productos {
+        public $id_producto;
+        public $nombre_producto;
+        public $descripcion_producto;
+        public $precio_producto;
+        public $stock_producto;
+        public $foto_producto;
 
 
-        public function __construct($id_producto,$nombre_producto,$descripcion_producto,$precio_producto,$stock_producto,$foto_producto)
+        public function __construct()
         {
         
-            $this -> id_producto = $id_producto;
-            $this -> nombre_producto = $nombre_producto;
-            $this -> descripcion_producto = $descripcion_producto;
-            $this -> precio_producto = $precio_producto;
-            $this -> stock_producto = $stock_producto;
-            $this -> foto_producto = $foto_producto;
         }
         public function getId_producto()
         {

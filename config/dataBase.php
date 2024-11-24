@@ -6,7 +6,6 @@
             if($con === false){
                 die("ERROR!¡!¡!¡!: No se puede conectar a la bbdd" . $con ->connect_error);
             } else {
-                echo 'conectado';
                 return $con;
             }
         }

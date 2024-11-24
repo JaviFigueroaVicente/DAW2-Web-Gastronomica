@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../views/css/styles.css">
+    <link rel="stylesheet" href="views/css/styles.css">
     <title>Productos</title>
 </head>
 <body>
@@ -78,92 +78,28 @@
             </div>  
             <div class="container text-center card-productos">
                 <div class="row">
-                    <?php
-                    foreach ($productos as $producto){
-                        $fotoBase64 = base64_encode($producto -> getFoto_producto());
-                    ?>
-                    <div class="col">
-                        <div class="card mb-3">
-                            <div class="card-img-container">
-                                <a href="#">
-                                    <img src="data:image/webp;base64,<?= $producto -> getFoto_producto()?>" class="card-img-top" alt="Producto 1">
-                                </a>
+                    <?php if (!empty($productos)): ?>
+                        <?php foreach ($productos as $producto): ?>
+                            <div class="col">
+                                <div class="card mb-3">
+                                    <div class="card-img-container">
+                                        <a href="#">
+                                            <!-- Mostrar la imagen desde Base64 si está disponible -->
+                                            <img src="data:image/webp;base64,<?= base64_encode($producto->getFoto_producto()) ?>" class="card-img-top" alt="<?= htmlspecialchars($producto->getNombre_producto()) ?>">
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="#" class="card-title"><?= htmlspecialchars($producto->getNombre_producto()) ?></a>                                    
+                                        <p class="card-text"><?= number_format($producto->getPrecio_producto(), 2, ',', '.') ?>€</p>
+                                        
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <a href="#" class="card-title"><?= $producto -> getNombre_producto() ?></a>
-                                <p class="card-text"><?= $producto -> getPrecio_producto() ?>€</p>
-                            </div>
-                        </div>
-                    </div>
-                    <?php } ?>
-                    <div class="col">
-                        <div class="card mb-3">
-                            <div class="card-img-container">
-                                <a href="#">
-                                    <img src="../views/img/banners/producto1.webp" class="card-img-top" alt="Producto 1">
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <a href="#" class="card-title">Card title</a>
-                                <p class="card-text">3.234,43€</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card mb-3">
-                            <div class="card-img-container">
-                                <a href="#">
-                                    <img src="../views/img/banners/producto1.webp" class="card-img-top" alt="Producto 1">
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <a href="#" class="card-title">Card title</a>
-                                <p class="card-text">3.234,43€</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="card mb-3">
-                            <div class="card-img-container">
-                                <a href="#">
-                                    <img src="../views/img/banners/producto1.webp" class="card-img-top" alt="Producto 1">
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <a href="#" class="card-title">Card title</a>
-                                <p class="card-text">3.234,43€</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card mb-3">
-                            <div class="card-img-container">
-                                <a href="#">
-                                    <img src="../views/img/banners/producto1.webp" class="card-img-top" alt="Producto 1">
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <a href="#" class="card-title">Card title</a>
-                                <p class="card-text">3.234,43€</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card mb-3">
-                            <div class="card-img-container">
-                                <a href="#">
-                                    <img src="../views/img/banners/producto1.webp" class="card-img-top" alt="Producto 1">
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <a href="#" class="card-title">Card title</a>
-                                <p class="card-text">3.234,43€</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>                
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>No hay productos disponibles.</p>
+                    <?php endif; ?>
+                </div>             
             </div>
         </section>
     </main>
@@ -173,6 +109,6 @@
         ?>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="../views/js/menu-lateral.js"></script>
+    <script src="js/menu-lateral.js"></script>
 </body>
 </html>

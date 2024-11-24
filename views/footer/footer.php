@@ -12,7 +12,7 @@
         <div class="contact-info">
             <div class="contact-item">
                 <a href="#">
-                    <img src="../views/img/icons/call-white.svg" alt="Teléfono">
+                    <img src="views/img/icons/call-white.svg" alt="Teléfono">
                     <div>
                         <strong>+34 945 552 031</strong>
                         <p>Lun-Vie, 9h a 19h</p>
@@ -21,7 +21,7 @@
             </div>
             <div class="contact-item">
                 <a href="#">
-                    <img src="../views/img/icons/chat-white.svg" alt="Chat">
+                    <img src="views/img/icons/chat-white.svg" alt="Chat">
                     <div>
                         <strong>Chatea online</strong>
                         <p>Lun-Vie, 9h a 19h</p>
@@ -30,7 +30,7 @@
             </div>
             <div class="contact-item">
                 <a href="#">
-                    <img src="../views/img/icons/location-white.svg" alt="Restaurante">
+                    <img src="views/img/icons/location-white.svg" alt="Restaurante">
                     <div>
                         <strong>Encuentra tu restaurante</strong>
                         <p>Visita nuestros restaurantes, te aconsejaremos</p>
@@ -72,20 +72,20 @@
     <div class="footer-redes">
         <div class="icon-list">                
             <a href="#">
-                <img src="../views/img/banners/excelente.webp" alt="">
+                <img src="views/img/banners/excelente.webp" alt="">
             </a>
             <a href="">
-                <img src="../views/img/banners/redes.webp" alt="">
+                <img src="views/img/banners/redes.webp" alt="">
             </a>                   
         </div>
         <div class="payment-icons">
             <span>Pagos online</span>
-            <img src="../views/img/banners/pagos.webp" alt="">
+            <img src="views/img/banners/pagos.webp" alt="">
         </div>
         <div class="shipping-icons">
             <span>Envíos realizados con:</span>
             <a href="">
-                <img src="../views/img/banners/envios.webp" alt="">
+                <img src="views/img/banners/envios.webp" alt="">
             </a>
         </div>
     </div>

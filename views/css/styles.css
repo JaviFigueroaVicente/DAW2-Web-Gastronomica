@@ -730,7 +730,7 @@ ul{
 
 .card-img-top {
     width: 100%;
-    height: auto;
+    height: 250px;
     transition: transform 0.3s ease-in-out;
     display: block;
     padding-top: 5%;
