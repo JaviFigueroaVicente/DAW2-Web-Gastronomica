@@ -67,7 +67,8 @@
             <h1>Todas las recetas</h1>
             <div class="productos-list">
                 <div class="productos-ordenar">
-                    <p>125 productos</p>
+                    <p>
+                        <?= $total_productos ?> productos</p>
                     <select>
                         <option selected>Ordenar</option>
                         <option value="1">One</option>
@@ -77,29 +78,37 @@
                 </div>
             </div>  
             <div class="container text-center card-productos">
-                <div class="row">
-                    <?php if (!empty($productos)): ?>
-                        <?php foreach ($productos as $producto): ?>
-                            <div class="col">
-                                <div class="card mb-3">
-                                    <div class="card-img-container">
-                                        <a href="#">
-                                            <!-- Mostrar la imagen desde Base64 si está disponible -->
-                                            <img src="data:image/webp;base64,<?= base64_encode($producto->getFoto_producto()) ?>" class="card-img-top" alt="<?= htmlspecialchars($producto->getNombre_producto()) ?>">
-                                        </a>
-                                    </div>
-                                    <div class="card-body">
-                                        <a href="#" class="card-title"><?= htmlspecialchars($producto->getNombre_producto()) ?></a>                                    
-                                        <p class="card-text"><?= number_format($producto->getPrecio_producto(), 2, ',', '.') ?>€</p>
-                                        
-                                    </div>
+                <?php if (!empty($productos)): ?>
+                    <div class="row">
+                        <?php
+                        $count = 0;
+                        foreach ($productos as $producto): 
+                            if ($count > 0 && $count % 3 === 0):
+                        ?>
+                            </div>
+                            <div class="row">
+                        <?php endif; ?>
+                        <div class="col"> 
+                            <div class="card mb-3">
+                                <div class="card-img-container">
+                                    <a href="#">                                        
+                                        <img src="data:image/webp;base64,<?= base64_encode($producto->getFoto_producto()) ?>" class="card-img-top" alt="<?= htmlspecialchars($producto->getNombre_producto()) ?>">
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <a href="#" class="card-title"><?= htmlspecialchars($producto->getNombre_producto()) ?></a>                                    
+                                    <p class="card-text"><?= number_format($producto->getPrecio_producto(), 2, ',', '.') ?>€</p>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>No hay productos disponibles.</p>
-                    <?php endif; ?>
-                </div>             
+                        </div>
+                        <?php
+                        $count++; 
+                        endforeach; 
+                        ?>
+                    </div>
+                <?php else: ?>
+                    <p>No hay productos disponibles.</p>
+                <?php endif; ?>            
             </div>
         </section>
     </main>

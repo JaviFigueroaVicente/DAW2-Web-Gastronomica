@@ -120,6 +120,7 @@
 nav{
     width: 80%;
     border-top: 1px solid #888888;
+    border-bottom: 1px solid #888888;
 }
 .nav{
     --bs-nav-link-hover-color: #101a25;
@@ -630,6 +631,7 @@ ul{
     padding-top: 1rem;
     overflow-y: hidden;
     margin-right: 10%;
+    margin-bottom: 50px;
 }
 
 .lista-productos nav{
@@ -694,15 +696,14 @@ ul{
 
 .productos-list .container{
     overflow-y: hidden;
-    height: max-content;
+    
 }
-.card-productos{
-    height: max-content;
-}
+
 .card-productos .col{
     overflow-y: hidden;
+    max-width: 30%;
 }
-.card {
+.card-productos .card {
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -715,12 +716,12 @@ ul{
     margin-top: 10px;
 }
 
-.card:hover {
+.card-productos .card:hover {
     transform: scale(1.05);
     border: 0.5px solid #1a1a1a;
 }
 
-.card-img-container {
+.card-productos -container {
     position: relative; 
     width: 100%;
     overflow: hidden;
@@ -728,28 +729,27 @@ ul{
     border-top-right-radius: 10px;
 }
 
-.card-img-top {
-    width: 100%;
+.card-productos -top {
     height: 250px;
     transition: transform 0.3s ease-in-out;
     display: block;
     padding-top: 5%;
 }
 
-.card:hover .card-img-top {
+.card-productos .card:hover -top {
     transform: scale(1.1);
 }
 
-.card:hover .card-body a{
+.card-productos :hover .card-body a{
     text-decoration: underline;
 }
 
-.card-body {
+.card-productos .card-body {
     padding: 1rem;
     text-align: center;
 }
 
-.card-title {
+.card-productos .card-title {
     font-size: 16px;
     font-weight: 400;
     color: #1a1a1a;
@@ -758,7 +758,7 @@ ul{
 }
 
 
-.card-text {
+.card-productos .card-text {
     font-size: 16px;
     font-weight: 400;
     color: #1a1a1a;
@@ -766,6 +766,309 @@ ul{
 }
 
 
+/* Finalizar */
+
+.cesta{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    width: 80%;
+    margin-right: 10%;
+    margin-left: 10%;
+    padding-top: 40px;
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 20px;
+}
+.cesta h2{
+    font-size: 32px;
+    font-weight: 700
+}
+
+.cesta p{
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+}
+
+
+.productos-finalizar{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.finalizar-izquierda{
+    width: 60%;
+}
+.productos-cesta{
+    margin-top: 20px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.productos-cesta .card{
+    border: none;
+}
+
+.card-finalizar{
+    display: flex;
+    flex-direction: row;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+
+.card-finalizar img{
+    height: 100px;
+    width: 100px;
+}
+
+
+.card-finalizar .card-body{
+    justify-content: flex-start;
+    padding: 0;
+    margin-left: 50px;
+    
+}
+
+.card-finalizar .card-title{
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.card-finalizar .texto-tamaño{
+    font-size: 13px;
+    font-weight: 400;
+    color: #888888;
+    margin-bottom: 5px;
+}
+
+.card-finalizar .texto-entrega{
+    font-size: 14px;
+    font-weight: 400;
+    color: #008800;
+    margin-bottom: 10px;
+}
+
+.card-finalizar .modificar-producto{
+    display: flex;
+    width: 105px;
+    border: 1px solid #888888;
+    margin-bottom: 10px;
+}
+
+.card-finalizar .modificar-producto button{
+    width: 35px;
+    height: 35px;
+    border: none;
+    font-size: 16px;
+    font-weight: 400;
+    background-color: #ffffff;    
+}
+
+.card-finalizar .modificar-producto input{
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    border-top: none;
+    border-bottom: none;
+    border-left: 1px solid #888888;
+    border-right: 1px solid #888888;
+}
+
+
+.card-finalizar .texto-descuento{
+    background-color: rgba(203, 86, 0, 0.1);
+    color: #CB5600;
+    font-size: 14px;
+    font-weight: 700;
+    width: 32.5%;
+    padding: 5px;
+}
+.card-finalizar .texto-descuento img{
+    height: 20px;
+    width: 20px;
+}
+
+.card-finalizar .producto-borrar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.card-finalizar .producto-borrar button{
+    background-color: transparent;
+    border: none;
+    width: 25px;
+}
+
+
+.card-finalizar .producto-borrar p{
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.cesta-bottom{
+    margin-bottom: 100px;
+}
+.cesta-bottom .d-flex{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin: 0;
+    border-radius: 5px;
+    background-color: rgba(203, 86, 0, 0.1);
+    margin-top: 40px;
+    height: 80px;
+    padding-left: 5%;
+}
+
+.cesta-bottom .d-flex div{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.cesta-bottom p{
+    font-size: 16px;
+    font-weight: 500;
+    height: 100%;
+    margin:0;   
+}
+.cesta-bottom .cupon{
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+.cesta-bottom img{
+    height: 30px;
+    width: 30px;
+}
+
+.cesta-bottom a{
+    color: #CB5600;
+    text-decoration: none;
+}
+.cesta-bottom .iva{
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 40px;
+}
+.tramitar-pedido{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tramitar-menu{
+    border: 1px solid #888888;
+    border-radius: 5px;
+    margin-top: 40px;
+    padding: 15px;
+    height: 230px;
+}
+
+
+.tramitar-subtotal{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    height: 25%;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.tramitar-subtotal div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.tramitar-subtotal p{
+    margin-bottom: 0px;
+}
+.tramitar-subtotal .div-gastos-envio{
+    gap: 5px;
+}
+
+.tramitar-subtotal .subtotal-icon{
+    height: 20px;
+    width: 20px;
+}
+
+.tramitar-total{
+    margin-top: 15px;
+    height: 30%;
+    gap: 10px;
+}
+.tramitar-total p{
+    margin-bottom: 0px;
+}
+
+.tramitar-total div{
+    display: flex;
+    justify-content: space-between;
+}
+.tramitar-total .total{
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.tramitar-total .ahorrado{
+    font-size: 14px;
+}
+
+.tramitar-total .ahorrado-verde{
+    color: #008800;
+    font-size: 13px;
+}
+
+.tramitar-menu button{
+    width: 100%;
+    border-color: transparent;
+    background-color: #E4022C;
+    color: #ffffff;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 5px;
+    margin-top: 25px;
+    height: 50px;
+}
+
+.tramitar-menu button:hover{
+    background-color: #EA3D5E;
+}
+
+.tramitar-metodos{
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tramitar-metodos .excelente{
+    height: 45px;
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+.tramitar-metodos p{
+    border-top: 1px solid #888888;
+    width: 100%;
+    padding-top: 10px;
+    font-size: 14px;
+    font-weight: 400;
+}
+.tramitar-metodos .pagos{
+    margin-top: 0px;
+    height: 80px;
+    width: 100%;
+}
 
 /* Footer */
 footer {

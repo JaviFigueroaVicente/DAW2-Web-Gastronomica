@@ -18,5 +18,17 @@ class ProductosDAO{
         $con->close();
         return $productos;
     }
+
+    public static function countAll(){
+        $con = DataBase::connect();
+        $stmt = $con->prepare("SELECT COUNT(*) as total_productos FROM productos");
+
+        $stmt->execute();
+        $result = $stmt->get_result();        
+        $total = $result->fetch_assoc();
+        
+        $con->close();
+        return $total['total_productos'];
+    }
 }
 ?>

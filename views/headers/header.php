@@ -21,7 +21,7 @@
     </ul>
 </div>
 <div class="header-main">
-    <a href="views/index.php">
+    <a href="?url=index">
         <img id="logo" src="views/img/icons/logo.webp" alt="">
     </a>
     <div class="buscador">
@@ -48,7 +48,7 @@
             </a>
         </div>
         <div>
-            <a href="views/finalizar.php">
+            <a href="?url=finalizar">
                 <div>
                     <img class="icon" src="views/img/icons/cart.svg" alt="">
                 </div>

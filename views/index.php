@@ -93,7 +93,7 @@
                         </a>
                     </div>
                     <div class="col">
-                        <img src="img/banners/comida5.webp" alt="">
+                        <img src="views/img/banners/comida5.webp" alt="">
                         <a href="productos.php">
                             <div>
                                 <p>COMIDA SIN <strong>GRASAS</strong></p>

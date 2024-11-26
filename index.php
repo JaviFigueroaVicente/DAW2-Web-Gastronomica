@@ -13,7 +13,13 @@ switch ($url) {
         include_once "controllers/productoController.php";
         $controller = new ProductoController();
         $controller->productos();  
-        break;    
+        break;  
+    
+    case 'finalizar':
+        include_once "controllers/finalizarController.php";
+        $controller = new FinalizarController();
+        $controller->finalizar();  
+        break; 
 
     default:
         echo "Página no encontrada.";
