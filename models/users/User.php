@@ -7,18 +7,11 @@
         protected $direction_user;
         protected $telefono_user;
         protected $email_user;
-        protected $foto_user;
+        
 
-        public function __construct($id_user,$nombre_user,$apellidos_user,$password_user,$direction_user,$telefono_user,$email_user,$foto_user)
+        public function __construct()
         {
-            $this -> id_user = $id_user;
-            $this -> nombre_user = $nombre_user;
-            $this -> apellidos_user = $apellidos_user;
-            $this -> password_user = $password_user;
-            $this -> direction_user = $direction_user;
-            $this -> telefono_user = $telefono_user;
-            $this -> email_user = $email_user;
-            $this -> foto_user = $foto_user;
+        
         }
 
         
@@ -112,17 +105,5 @@
                 return $this;
         }
 
-       
-        public function getFoto_user()
-        {
-                return $this->foto_user;
-        }
-
-        public function setFoto_user($foto_user)
-        {
-                $this->foto_user = $foto_user;
-
-                return $this;
-        }
     }
 ?>  

@@ -133,6 +133,8 @@ body{
 }
 
 .inicio-sesion .btn-group .dropdown-menu{
+    --bs-dropdown-link-active-color: #1a1a1a;
+    --bs-dropdown-link-active-bg: transparent;
     justify-content: center;
     padding: 15px;
     width: 250px;
@@ -283,6 +285,30 @@ ul{
     max-width: 435px;
 }
 
+.identificacion h5{
+    font-size: 16px;
+}
+
+.identificacion .comment{
+    color: #888888;
+}
+
+.identificacion .small:before{
+    content: 'i';
+    background: #888888;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    width: 15px;
+    height: 15px;
+    color: #ffffff;
+    border-radius: 50%;
+    position: relative;
+    bottom: 2px;
+}
 .btn-google{
     margin-top: 30px;
     margin-bottom: 20px;
@@ -443,6 +469,85 @@ ul{
     background-color: #EA3D5E;
     transition: all 0.2;
 }
+
+/* Registro */
+.registro{
+    background-color: #f2f2f2;
+}
+.registro .login{
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.registro .div-inicio-sesion{
+    padding: 0px;
+    width: 100%;
+    justify-content: center;
+}
+.registro .identificacion{
+    width: 100%;
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.registro h5{
+   font-size: 16px;
+}
+
+.registro .form-inicio{
+    padding-bottom: 30px;
+    width: 370px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.registro .form-inicio .form-group{
+    margin-top: 20px;
+}
+
+.registro .form-inicio .form-group{
+    margin-bottom: 5px;
+}
+.registro fieldset{
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.registro .form-aviso{
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.registro .form-aviso a{
+    color: #E4022C;
+    cursor: pointer;
+}
+
+.cuenta-login-link{
+    display: flex;
+    gap: 20px;
+    padding-top: 20px;
+    font-weight: 700;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-top: 1px solid #1a1a1a;
+}
+
+.cuenta-login-link a{
+    text-decoration: none;
+    color: #E4022C;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.cuenta-login-link a:hover{
+    text-decoration: underline solid 1.5px;
+}
+
+
 /* Main */
 /* Banner principal */
 
@@ -930,6 +1035,7 @@ ul{
 
 .lista-productos nav{
     border-top: none;
+    border-bottom: none;
 }
 
 .lista-productos h1{

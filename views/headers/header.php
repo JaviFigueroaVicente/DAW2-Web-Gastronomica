@@ -44,7 +44,7 @@
                         </li>
                         <hr>
                         <li>
-                            <p class="dropdown-item" type="button"><strong>¿Nuevo cliente?</strong><a href="?url=registro"> Crea tu cuenta</a></p>
+                            <p class="dropdown-item btn-nuevo-cliente" type="button"><strong>¿Nuevo cliente?</strong><a href="?url=registro"> Crea tu cuenta</a></p>
                         </li>
                     </ul>
                 </div>

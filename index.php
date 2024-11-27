@@ -32,6 +32,16 @@ switch ($url) {
         $controller = new RegistroController();
         $controller -> registro();
         break;
+
+    case 'registro/create': 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
+            include_once "models/users/userController.php";
+            $controller = new userController();
+            $controller->create(); 
+        } else {
+            echo "Método no permitido.";
+        }
+        break;
     
 
     default:
