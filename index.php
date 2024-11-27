@@ -26,6 +26,12 @@ switch ($url) {
         $controller = new LoginController();
         $controller -> login();
         break;
+
+    case 'registro':
+        include_once "controllers/registroController.php";
+        $controller = new RegistroController();
+        $controller -> registro();
+        break;
     
 
     default:

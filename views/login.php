@@ -13,16 +13,56 @@
 <body>
     <header>
         <?php
-            include_once "headers/headerInicio.php";
+            include "headers/headerInicio.php";
         ?>
     </header>
     <main>
-        <h2>
-            Login
-        </h2>
+        <section class="login">
+            <h2>Iniciar sesión</h2>
+            <div class="div-inicio-sesion">
+                <div class="identificacion">
+                    <h3>Identifícate para una mejor experiencia</h3>
+                    <div class="btn-google">
+                        <div class="btn-google-div">
+                            <a href="">
+                                <div>
+                                    <img src="views/img/icons/googlelogo.png" alt="">
+                                    <p>Continuar con Google</p>
+                                </div>                                                      
+                            </a>
+                        </div>
+                    </div>
+                    <h5><strong>O inicia sesión con tu email</strong></h5>
+                    <form class="form-inicio">
+                        <div class="form-group">
+                            <input type="text" id="input1" placeholder=" " required>
+                            <label for="input1">E-Mail</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="input2" placeholder=" " required>
+                            <label for="input2">Contraseña</label>
+                        </div>
+                        <input class="login-submit" type="submit" value="Identificarme">
+                        <a href="">¿Has olvidado tu contraseña?</a>
+                    </form>
+                </div>
+                <div class="identificacion nueva-cuenta">
+                    <h3>¿Eres nuevo cliente?</h3>
+                    <p>No te preocupes, crea rápidamente tu nueva cuenta.</p>
+                    <div>
+                        <a href="?url=registro">
+                            <p>Crear mi cuenta</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+
     <footer>
-        <p>hola</p>
+        <?php
+            include "footer/footerInicio.php";
+        ?>    
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
