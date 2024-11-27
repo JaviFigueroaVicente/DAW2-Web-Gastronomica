@@ -21,6 +21,13 @@ switch ($url) {
         $controller->finalizar();  
         break; 
 
+    case 'login':
+        include_once "controllers/loginController.php";
+        $controller = new LoginController();
+        $controller -> login();
+        break;
+    
+
     default:
         echo "Página no encontrada.";
         break;

@@ -1,12 +1,15 @@
 *{
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
     font-family: "Montserrat", serif;
 }
 
 /* INDEX */
 /* Header_top */
+
+body{
+    overflow-x: hidden ;
+}
 .header_top {
     background-color: #101A25;
     display: flex;
@@ -92,12 +95,12 @@
 
 #iconos{
     display: flex;
-    gap: 50px;
-    width: 25%;
+    gap: 30px;
+    width: 30%;
     justify-content: space-between;
 }
 
-#iconos a{
+#iconos .sesiones{
     align-items: center;
     text-decoration: none;
     color: #1a1a1a;
@@ -109,6 +112,80 @@
     height: 30px;
     width: 30px;
 }
+
+.inicio-sesion{
+    display: flex;
+    align-items: center;
+}
+
+.inicio-sesion .btn-group button{
+    background-color: transparent;
+    color: #1a1a1a;
+    font-size: 16px;
+    font-weight: 400;
+    border-color: transparent;
+}
+
+.inicio-sesion .btn-group button:focus{
+    background-color: transparent;
+    color: #1a1a1a;
+    border: none;
+}
+
+.inicio-sesion .btn-group .dropdown-menu{
+    justify-content: center;
+    padding: 15px;
+    width: 250px;
+    font-size: 14px;
+    border: none;
+    border-top: #E4022C 4px solid;
+    -webkit-box-shadow: 1px 7px 18px -1px rgba(26,26,26,0.8);
+    -moz-box-shadow: 1px 7px 18px -1px rgba(26,26,26,0.8);
+    box-shadow: 1px 7px 18px -1px rgba(26,26,26,0.8);
+    transition: max-height 0.3s ease;
+    transform: translateY(-10px);
+    transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease; 
+}
+
+
+.inicio-sesion .btn-group .dropdown-menu .btn-iniciar{
+    background-color: #E4022C;
+    color: #ffffff;
+    border-radius: 25px;
+    text-align: center;
+    align-content: center;
+    font-weight: 500;
+    height: 42px;
+    display: table;
+}
+
+.inicio-sesion .btn-group .dropdown-menu .btn-iniciar:hover{
+    background-color: #EA3D5E;
+    text-decoration: none;
+}
+
+.inicio-sesion .btn-group .dropdown-menu p{
+    text-align: left;
+    padding: 0;
+    width: 80%; 
+}
+
+.inicio-sesion .btn-group .dropdown-menu a{
+    text-decoration: none;
+    color: #E4022C;
+    font-weight: 500;
+}
+
+.inicio-sesion .btn-group .dropdown-menu a:hover{
+    text-decoration: underline 1px solid;
+}
+
+
+.inicio-sesion .btn-group .dropdown-menu .dropdown-item{
+    white-space: normal;
+}
+
+
 
 /* Header-nav */
 
@@ -147,6 +224,13 @@ ul{
     text-decoration-color: #E4022C; 
     text-decoration-thickness: 1.5px;
     text-underline-offset: 10px
+}
+
+
+/* Header inicio sesión y registro */
+.header-incio .header-a img{
+    width: 275px;
+    height: 42px;
 }
 
 /* Main */
@@ -559,7 +643,6 @@ ul{
     display: flex;
     gap: 1rem;
     overflow: hidden;
-    border-top: 1px solid #888888;
     padding-top: 30px;
 }
 
@@ -714,6 +797,7 @@ ul{
     background-color: transparent;
     border: none;
     margin-top: 10px;
+    ;
 }
 
 .card-productos .card:hover {
@@ -721,7 +805,7 @@ ul{
     border: 0.5px solid #1a1a1a;
 }
 
-.card-productos -container {
+.card-productos .card-img-container {
     position: relative; 
     width: 100%;
     overflow: hidden;
@@ -729,14 +813,14 @@ ul{
     border-top-right-radius: 10px;
 }
 
-.card-productos -top {
+.card-productos .card-img-top {
     height: 250px;
     transition: transform 0.3s ease-in-out;
     display: block;
     padding-top: 5%;
 }
 
-.card-productos .card:hover -top {
+.card-productos .card:hover .card-img-top {
     transform: scale(1.1);
 }
 

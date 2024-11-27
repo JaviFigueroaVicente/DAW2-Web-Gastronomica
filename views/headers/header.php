@@ -31,13 +31,24 @@
         </form>
     </div>
     <div id="iconos">
-        <div>
-            <a href="">
-                <div>
-                    <img class="icon" src="views/img/icons/profile.svg" alt="">
-                    <span>Hola, identífcate</span>
+        <div class="sesiones">
+            <div class="inicio-sesion">
+                <img class="icon" src="views/img/icons/profile.svg" alt="">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span>Hola, identifícate</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a href="?url=login" class="dropdown-item btn-iniciar" type="button">Iniciar sesión</a>
+                        </li>
+                        <hr>
+                        <li>
+                            <p class="dropdown-item" type="button"><strong>¿Nuevo cliente?</strong><a href="?url=registro"> Crea tu cuenta</a></p>
+                        </li>
+                    </ul>
                 </div>
-            </a>
+            </div>
         </div>
         <div>
             <a href="">
