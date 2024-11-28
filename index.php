@@ -26,6 +26,16 @@ switch ($url) {
         $controller = new LoginController();
         $controller -> login();
         break;
+    
+    case 'login/entrar': 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
+            include_once "controllers/userController.php";
+            $controller = new userController();
+            $controller->entrar(); 
+        } else {
+            echo "Método no permitido.";
+        }
+        break;
 
     case 'registro':
         include_once "controllers/registroController.php";
@@ -35,7 +45,7 @@ switch ($url) {
 
     case 'registro/create': 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
-            include_once "models/users/userController.php";
+            include_once "controllers/userController.php";
             $controller = new userController();
             $controller->create(); 
         } else {
@@ -43,6 +53,7 @@ switch ($url) {
         }
         break;
     
+        
 
     default:
         echo "Página no encontrada.";

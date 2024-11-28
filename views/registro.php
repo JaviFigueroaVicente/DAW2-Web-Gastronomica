@@ -35,33 +35,33 @@
                     <form class="form-inicio" method="POST" action="?url=registro/create">
                         <fieldset>
                             <div class="form-group">
-                                <input type="email" id="input1" placeholder=" " required>
+                                <input name="email" type="email" id="input1" placeholder=" " required>
                                 <label for="email">E-Mail</label>
                             </div>
                             <div class="form-group">
-                                <input type="password" id="input2" placeholder=" " required>
+                                <input name="contra" type="password" id="input2" placeholder=" " required>
                                 <label for="contra">Contraseña</label>                                                               
                             </div>
                             <small class="small comment">Debe tener un mínimo de 8 carácteres</small>
                             <div class="form-group">
-                                <input type="text" id="input1" placeholder=" " required>
+                                <input name="nombre" type="text" id="input1" placeholder=" " required>
                                 <label for="nombre">Nombre</label>
                             </div>
                         </fieldset>
                         <fieldset>
                             <p>Ayúdanos a conocerte para mejorar tu experiencia: <small class="comment">(Opcional)</small></p>
                             <div class="form-group">
-                                <input type="text" id="input1" placeholder=" ">
+                                <input name="apellidos" type="text" id="input1" placeholder=" ">
                                 <label for="apellidos">Apellidos</label>
                             </div>
                             <small class="small comment">Te lo pedimos para completar tu perfil</small>
                             <div class="form-group">
-                                <input type="text" id="input1" placeholder=" ">
+                                <input name="telefono" type="text" id="input1" placeholder=" ">
                                 <label for="telefono">Teléfono</label>
                             </div>
                             <small class="small comment">Te lo pedimos para poder contactar contigo</small>
                             <div class="form-group">
-                                <input type="text" id="input1" placeholder=" ">
+                                <input name="direction" type="text" id="input1" placeholder=" ">
                                 <label for="direction">Dirección</label>
                             </div>
                             <small class="small comment">Te lo pedimos para poder enviarte los pedidos</small>

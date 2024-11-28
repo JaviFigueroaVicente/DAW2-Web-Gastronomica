@@ -33,14 +33,14 @@
                         </div>
                     </div>
                     <h5><strong>O inicia sesión con tu email</strong></h5>
-                    <form class="form-inicio">
+                    <form class="form-inicio" method="post" action="?url=login/entrar">
                         <div class="form-group">
-                            <input type="text" id="input1" placeholder=" " required>
-                            <label for="input1">E-Mail</label>
+                            <input name="login-email" type="text" id="input1" placeholder=" " required>
+                            <label for="login-email">E-Mail</label>
                         </div>
                         <div class="form-group">
-                            <input type="text" id="input2" placeholder=" " required>
-                            <label for="input2">Contraseña</label>
+                            <input name="login-contra" type="text" id="input2" placeholder=" " required>
+                            <label for="login-contra">Contraseña</label>
                         </div>
                         <input class="login-submit" type="submit" value="Identificarme">
                         <a href="">¿Has olvidado tu contraseña?</a>

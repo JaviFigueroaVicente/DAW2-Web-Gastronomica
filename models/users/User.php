@@ -1,12 +1,12 @@
 <?php
     class User{
-        protected $id_user;
-        protected $nombre_user;
-        protected $apellidos_user;
-        protected $password_user;        
-        protected $direction_user;
-        protected $telefono_user;
-        protected $email_user;
+        public $id_user;
+        public $nombre_user;
+        public $apellidos_user;
+        public $password_user;        
+        public $direction_user;
+        public $telefono_user;
+        public $email_user;
         
 
         public function __construct()
