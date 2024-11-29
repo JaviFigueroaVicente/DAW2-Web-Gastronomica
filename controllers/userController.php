@@ -22,26 +22,49 @@ class userController{
         UserDAO::create($user);
         header("Location: ?url=login");
     }
-    public function entrar(){
+    public function entrar() {
+        
+        if (empty($_POST['login-email']) || empty($_POST['login-contra'])) {
+            echo "Por favor completa todos los campos.";
+            return;
+        }
+    
         $loginEmail = $_POST['login-email'];
         $loginContra = $_POST['login-contra'];
-
+    
+        echo "Email: $loginEmail<br>";
+        echo "Contraseña: $loginContra<br>";
+    
+        
         $users = UserDAO::getAllUsers();
-
-        // Bucle para verificar si las credenciales coinciden
         foreach ($users as $user) {
-            // Compara email y contraseña
-            if ($user->getEmail_user() === $loginEmail && password_verify($loginContra, $user->getPassword_user())) {
-                // Si se encuentra el usuario, iniciar sesión
-                session_start();
-                $_SESSION['user_id'] = $user->getId_user();
-                $_SESSION['user_name'] = $user->getNombre_user();
-                header("Location: ?url=index"); // Redirigir al inicio
-                exit;
-            }else{
-                echo "no se ha detectado usuario";
+            echo "Email esperado: " . $user->getEmail_user() . "<br>";
+            echo "Contraseña almacenada: " . $user->getPassword_user() . "<br>";
+            
+            if ($user->getEmail_user() === $loginEmail) {
+                echo "El email coincide.<br>";
+                
+                
+                if ($loginContra === $user->getPassword_user()) {
+                    echo "La contraseña también coincide.<br>";
+                    
+                    session_start();
+                    $_SESSION['user_id'] = $user->getId_user();
+                    $_SESSION['user_name'] = $user->getNombre_user();
+                    header("Location: ?url=index");
+                    exit;
+                } else {
+                    echo "La contraseña no coincide.<br>";
+                }
             }
         }
+    }
+
+    public function logout() {
+        session_start();
+        session_destroy();
+        header("Location: ?url=index");
+        exit;
     }
 }   
 ?>

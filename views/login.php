@@ -39,7 +39,7 @@
                             <label for="login-email">E-Mail</label>
                         </div>
                         <div class="form-group">
-                            <input name="login-contra" type="text" id="input2" placeholder=" " required>
+                            <input name="login-contra" type="password" id="input2" placeholder=" " required>
                             <label for="login-contra">Contraseña</label>
                         </div>
                         <input class="login-submit" type="submit" value="Identificarme">

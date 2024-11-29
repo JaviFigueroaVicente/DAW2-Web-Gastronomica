@@ -10,10 +10,10 @@
     <link rel="stylesheet" href="views/css/styles.css">   
     <title>Mammoth's Kitchen</title>    
 </head>
-<body>
+<body>    
     <header>
         <?php
-            include("headers/header.php");
+            include_once ("headers/header.php");
         ?>       
     </header>
     <main>

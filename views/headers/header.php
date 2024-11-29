@@ -35,18 +35,35 @@
             <div class="inicio-sesion">
                 <img class="icon" src="views/img/icons/profile.svg" alt="">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span>Hola, identifícate</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <a href="?url=login" class="dropdown-item btn-iniciar" type="button">Iniciar sesión</a>
-                        </li>
-                        <hr>
-                        <li>
-                            <p class="dropdown-item btn-nuevo-cliente" type="button"><strong>¿Nuevo cliente?</strong><a href="?url=registro"> Crea tu cuenta</a></p>
-                        </li>
-                    </ul>
+                    <?php
+                        if(empty($_SESSION['user_id'])){
+                            echo '<button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span>Hola, identifícate</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a href="?url=login" class="dropdown-item btn-iniciar" type="button">Iniciar sesión</a>
+                                </li>
+                                <hr>
+                                <li>
+                                    <p class="dropdown-item btn-nuevo-cliente" type="button"><strong>¿Nuevo cliente?</strong><a href="?url=registro"> Crea tu cuenta</a></p>
+                                </li>
+                            </ul>';
+                        }else{
+                            echo '<button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span>Hola, '.$_SESSION['user_name'].'</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a href="?url=cuenta" class="dropdown-item btn-iniciar" type="button">Mi perfil</a>
+                                </li>
+                                <li>
+                                    <a href="?url=logout" class="dropdown-item btn-iniciar" type="button">Cerrar sesión</a>
+                                </li>
+                            </ul>';
+                        }
+                    ?>
+                    
                 </div>
             </div>
         </div>

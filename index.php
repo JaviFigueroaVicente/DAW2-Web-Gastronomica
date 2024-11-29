@@ -1,5 +1,18 @@
 <?php
-$url = $_GET['url'] ?? '';
+session_start(); 
+
+
+$protectedRoutes = ['productos', 'finalizar'];
+
+
+$url = $_GET['url'] ?? 'index';
+
+
+if (in_array($url, $protectedRoutes) && !isset($_SESSION['user_id'])) {
+    echo "No has iniciado sesión. <a href='?url=login'>Inicia sesión</a>";
+    exit; 
+}
+
 
 
 switch ($url) {
@@ -37,6 +50,12 @@ switch ($url) {
         }
         break;
 
+    case 'logout':
+        include_once "controllers/userController.php";
+        $controller = new userController();
+        $controller -> logout();
+        break;
+
     case 'registro':
         include_once "controllers/registroController.php";
         $controller = new RegistroController();
@@ -53,7 +72,12 @@ switch ($url) {
         }
         break;
     
-        
+    case 'cuenta':
+        include_once "controllers/cuentaController.php";
+        $controller = new CuentaController();
+        $controller -> cuenta();
+        break;
+        break; 
 
     default:
         echo "Página no encontrada.";

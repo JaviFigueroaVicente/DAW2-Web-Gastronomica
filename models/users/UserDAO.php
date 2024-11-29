@@ -13,14 +13,15 @@ class UserDAO{
         $users = [];
         while ($data = $result->fetch_assoc()) {
             $user = new User();
-            $user->setId_user($data['id']);
+            $user->setId_user($data['id_user']);
             $user->setEmail_user($data['email']);
-            $user->setPassword_user($data['password']);
+            $user->setPassword_user($data['contra']);
             $user->setNombre_user($data['nombre']);
-            $user->setApellidos_user($data['apellidos']);
-            $user->setTelefono_user($data['telefono']);
-            $user->setDirection_user($data['direccion']);
-            $users[] = $user; // Agrega el usuario al array
+            $user->setApellidos_user($data['apellidos'] ?? null);
+            $user->setTelefono_user($data['telefono'] ?? null);
+            $user->setDirection_user($data['direction'] ?? null);
+
+            $users[] = $user; 
         }
 
         $con->close();
