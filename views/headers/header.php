@@ -46,19 +46,33 @@
                                 </li>
                                 <hr>
                                 <li>
-                                    <p class="dropdown-item btn-nuevo-cliente" type="button"><strong>¿Nuevo cliente?</strong><a href="?url=registro"> Crea tu cuenta</a></p>
+                                    <p class="dropdown-item btn-nuevo-cliente"><strong>¿Nuevo cliente?</strong><a href="?url=registro"> Crea tu cuenta</a></p>
                                 </li>
                             </ul>';
                         }else{
-                            echo '<button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span>Hola, '.$_SESSION['user_name'].'</span>
+                            echo 
+                            '<button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span>Mi cuenta</span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-log">
                                 <li>
-                                    <a href="?url=cuenta" class="dropdown-item btn-iniciar" type="button">Mi perfil</a>
+                                    <p class="dropdown-item nombre-desplegable">Hola <a href="?url=cuenta" >'.$_SESSION['user_name'].'</a></p>
+                                </li>
+                                <li class="ul-dropdown">
+                                    <ul class="lista-dropdown">
+                                        <li>
+                                            <a class="a-log" href="?url=cuenta">Mi cuenta</a>
+                                        </li>
+                                        <li>
+                                            <a class="a-log" href="">Mis pedidos</a>
+                                        </li>
+                                        <li>
+                                            <a class="a-log" href="">Atención al cliente</a>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li>
-                                    <a href="?url=logout" class="dropdown-item btn-iniciar" type="button">Cerrar sesión</a>
+                                    <a class="a-log" href="?url=logout">Cerrar sesión</a>
                                 </li>
                             </ul>';
                         }
