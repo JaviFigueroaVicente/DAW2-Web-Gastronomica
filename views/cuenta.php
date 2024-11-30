@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,7 +41,7 @@
                     <div class="col">
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
-                                <a href="">
+                                <a href="?url=datos-personales">
                                     <div class="col-md-3">
                                         <img src="views/img/icons/profile.svg" class="img-fluid rounded-start" alt="...">
                                     </div>
@@ -109,7 +109,7 @@
                     <div class="col">
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
-                                <a href="">
+                                <a href="?url=datos-acceso">
                                     <div class="col-md-3">
                                         <img src="views/img/icons/security_black.svg" class="img-fluid rounded-start" alt="...">
                                     </div>

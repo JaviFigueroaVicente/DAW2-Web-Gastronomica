@@ -7,6 +7,10 @@
 body{
     overflow-x: hidden ;
 }
+p{
+    font-size: 16px;
+    font-weight: 500;
+}
 
 main{
     border-top: 1px solid #888888;
@@ -198,6 +202,9 @@ main{
     background-color: transparent;
 }
 
+.nombre-desplegable:hover{
+    background-color: transparent;
+}
 
 /* Header-nav */
 
@@ -329,11 +336,11 @@ ul{
     font-size: 16px;
 }
 
-.identificacion .comment{
+.comment{
     color: #888888;
 }
 
-.identificacion .small:before{
+.small:before{
     content: 'i';
     background: #888888;
     display: inline-flex;
@@ -1581,6 +1588,113 @@ ul{
 .cuenta-section .col-md-3 img{
     width: 40px;
     height: 40px;
+}
+
+/* datos-personales */
+.datos-personales{
+    background-color: #f2f2f2;
+    padding-top: 40px;
+    padding-bottom: 50px;
+}
+
+.datos-personales h1{
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+.datos-personales-section{
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.datos-personales-section nav{
+    border-top: none;
+}
+
+
+.datos-personales-section .politicas a{
+    text-decoration: none;
+    color: #E4022C;
+}
+
+.datos-personales-section .politicas a:hover{
+    text-decoration: underline;
+}
+
+.datos-personales-section .datos-email{
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px;
+    border-bottom: #888888 1px solid;
+}
+
+.datos-personales-section .datos-email .datos-label{
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+.datos-personales-section .form-inicio{
+    margin-top: 20px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.datos-personales-section .form-inicio small{
+    margin-top: -15px;
+    padding-left: 15px;
+}
+
+.datos-personales-section .form-inicio .login-submit{
+    margin-top: 30px;
+}
+
+/* datos-acceso */
+.datos-acceso .datos-email{
+    margin-top: 30px;
+    background-color: #ffffff;
+    border: 1px solid #d6d6d6;
+    border-radius: 5px;
+}
+
+.datos-acceso .datos-email p{
+    margin-bottom: 0;
+}
+
+.datos-acceso .datos-contra{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.datos-acceso .datos-email a{
+    color: #1a1a1a;
+    font-weight: 600;
+    padding: 10px 20px;
+    text-decoration: none;
+    border: 1px solid #888888;
+    border-radius: 5px;
+}
+
+.datos-acceso .datos-email a:hover{
+    border-color: #1a1a1a;
+}
+
+/* datos-cambiar-contra*/
+.actu-contra-section h1{
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    border-bottom: #1a1a1a 2px solid;
+}
+
+.actu-contra small{
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+
+.actu-contra .login-submit{
+    margin-top: 20px !important;
 }
 /* Footer */
 footer {

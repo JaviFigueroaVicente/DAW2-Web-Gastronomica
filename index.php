@@ -43,7 +43,7 @@ switch ($url) {
     case 'login/entrar': 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
             include_once "controllers/userController.php";
-            $controller = new userController();
+            $controller = new UserController();
             $controller->entrar(); 
         } else {
             echo "Método no permitido.";
@@ -52,7 +52,7 @@ switch ($url) {
 
     case 'logout':
         include_once "controllers/userController.php";
-        $controller = new userController();
+        $controller = new UserController();
         $controller -> logout();
         break;
 
@@ -65,7 +65,7 @@ switch ($url) {
     case 'registro/create': 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
             include_once "controllers/userController.php";
-            $controller = new userController();
+            $controller = new UserController();
             $controller->create(); 
         } else {
             echo "Método no permitido.";
@@ -77,8 +77,38 @@ switch ($url) {
         $controller = new CuentaController();
         $controller -> cuenta();
         break;
-        break; 
+    
+    case 'datos-personales':
+        include_once "controllers/datosPersonalesController.php";
+        $controller = new DatosPersonalesController();
+        $controller->datosPersonales();
+        break;
+        
+    case 'datos-personales/update-perfil':
+        include_once "controllers/userController.php";
+        $controller = new UserController();
+        $controller->actualizarPerfil();
+        break;
+    
+    case 'datos-acceso':
+        include_once "controllers/datosAccesoController.php";
+        $controller = new DatosAccesoController();
+        $controller->datosAcceso();
+        break;
 
+    case 'datos-acceso/update-password':
+        include_once "controllers/datosCambiarContraController.php";
+        $controller = new DatosCambiarContraController();
+        $controller->cambiarContra();
+        break;
+
+    case 'datos-acceso/update-password/cambiar':        
+        include_once "controllers/userController.php";
+        $controller = new UserController();
+        $controller->updateContra();
+        break;
+    
+        
     default:
         echo "Página no encontrada.";
         break;

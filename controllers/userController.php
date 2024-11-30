@@ -2,7 +2,7 @@
 include_once "models/users/User.php";
 include_once "models/users/UserDAO.php";
 
-class userController{
+class UserController{
     public function create(){
         $email = $_POST['email'];
         $contra = $_POST['contra'];
@@ -51,6 +51,11 @@ class userController{
                     session_start();
                     $_SESSION['user_id'] = $user->getId_user();
                     $_SESSION['user_name'] = $user->getNombre_user();
+                    $_SESSION['user_apellidos'] = $user->getApellidos_user();
+                    $_SESSION['user_telefono'] = $user->getTelefono_user();
+                    $_SESSION['user_direction'] = $user->getDirection_user();
+                    $_SESSION['user_email'] = $user->getEmail_user();
+                    $_SESSION['user_contra'] = $user->getPassword_user();
                     header("Location: ?url=index");
                     exit;
                 } else {
@@ -66,5 +71,63 @@ class userController{
         header("Location: ?url=index");
         exit;
     }
+
+    public function actualizarPerfil() {                
+        $id = $_SESSION['user_id']; 
+        $nombre = $_POST['nombre-actualizar'];
+        $apellidos = !empty($_POST['apellidos-actualizar']) ? $_POST['apellidos-actualizar'] : null;
+        $direccion = !empty($_POST['direction-actualizar']) ? $_POST['direction-actualizar'] : null;
+        $telefono = !empty($_POST['telefono-actualizar']) ? $_POST['telefono-actualizar'] : null;
+        
+        $resultado = UserDAO::actualizarPerfil($id, $nombre, $apellidos, $direccion, $telefono);
+        
+        if ($resultado) {
+            $_SESSION['user_name'] = $nombre;
+            $_SESSION['user_apellidos'] = $apellidos;
+            $_SESSION['user_direction'] = $direccion;
+            $_SESSION['user_telefono'] = $telefono;
+        
+            header("Location: ?url=datos-personales");
+            exit;
+        } else {
+            echo "Hubo un error al actualizar el perfil. Inténtalo de nuevo.";
+        }
+    }
+    
+    public function updateContra() {
+
+        if (empty($_POST['actu-contra']) || empty($_POST['confirm-contra'])) {
+            echo "Por favor completa todos los campos.";
+            return;
+        }
+
+        $nuevaContrasena = $_POST['actu-contra'];
+        $confirmContrasena = $_POST['confirm-contra'];
+
+        if (strlen($nuevaContrasena) < 8) {
+            echo "La contraseña debe tener al menos 8 caracteres.";
+            return;
+        }
+
+        if ($nuevaContrasena !== $confirmContrasena) {
+            echo "Las contraseñas no coinciden.";
+            return;
+        }
+
+        session_start();
+        $idUsuario = $_SESSION['user_id'];
+    
+        $resultado = UserDAO::updateContra($idUsuario, $nuevaContrasena);
+    
+        if ($resultado) {
+            echo "Contraseña actualizada correctamente.";
+            header("Location: ?url=datos-acceso");
+            exit;
+        } else {
+            echo "Hubo un error al actualizar la contraseña. Inténtalo de nuevo.";
+        }
+    }        
+    
+    
 }   
 ?>

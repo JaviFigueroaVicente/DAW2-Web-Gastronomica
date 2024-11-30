@@ -44,5 +44,42 @@ class UserDAO{
         $stmt->execute();
         $con->close();
     }
+
+    public static function actualizarPerfil($id, $nombre, $apellidos, $direccion, $telefono) {
+        $con = DataBase::connect();
+
+        $stmt = $con->prepare("UPDATE users SET nombre = ?, apellidos = ?, direction = ?, telefono = ? WHERE id_user = ?");
+    
+        $stmt->bind_param("sssii", $nombre, $apellidos, $direccion, $telefono, $id);
+    
+        if (is_null($apellidos)) $apellidos = null;
+        if (is_null($direccion)) $direccion = null;
+        if (is_null($telefono)) $telefono = null;
+    
+        $resultado = $stmt->execute();
+ 
+        $stmt->close();
+        $con->close();
+    
+        return $resultado;
+    }
+    
+    public static function updateContra($idUsuario, $nuevaContrasena) {
+        $con = DataBase::connect();
+    
+        if (empty($nuevaContrasena)) {
+            return false; 
+        }
+
+        $stmt = $con->prepare("UPDATE users SET contra = ? WHERE id_user = ?");
+        $stmt->bind_param("si", $nuevaContrasena, $idUsuario);
+    
+        $resultado = $stmt->execute();
+        $stmt->close();
+        $con->close();
+    
+        return $resultado;
+    }
+    
 }
 ?>
