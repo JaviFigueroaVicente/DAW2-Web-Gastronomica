@@ -27,29 +27,23 @@
                 </nav>               
                 <div class="gallery-container">
                     <div class="thumbnails">
-                        <div class="thumbnail active"><img src="views/img/banners/comida1.webp" alt="Bike Image 1"></div>
-                        <div class="thumbnail"><img src="views/img/banners/comida2.webp" alt="Bike Image 2"></div>
-                        <div class="thumbnail"><img src="views/img/banners/comida3.webp" alt="Bike Image 3"></div>
-                        <div class="thumbnail"><img src="views/img/banners/comida4.webp" alt="Bike Image 4"></div>
-                        <div class="thumbnail"><img src="views/img/banners/comida5.webp" alt="Bike Image 5"></div>
+                        <div class="thumbnail active"><img src="data:image/webp;base64,<?=base64_encode($productoIndividual->getFoto_producto())?>" alt=""></div>                        
                     </div>
                     <div class="main-image">
                         <span class="discount-badge">-50%</span>
-                        <img src="views/img/banners/comida1.webp" alt="Imagen Principal">
-                    </div>
-                    
-                </div>
-                 
+                        <img src="data:image/webp;base64,<?=base64_encode($productoIndividual->getFoto_producto())?>" alt="Imagen Principal">
+                    </div>                    
+                </div>                 
             </div>
             <div class="col-lg-4">
                 <div class="header-producto">
                     <strong><a href="">Hamburguesa</a></strong>
-                    <h1>Hamburguesa de queso</h1>
+                    <h1><?=$productoIndividual->getNombre_producto()?></h1>
                 </div>
                 <div>
                     <div class="header-precios">
-                        <span class="rebajado">489,00€</span>
-                        <span class="precio-antiguo">230,00€</span>
+                        <span class="rebajado" data-precio="<?=$productoIndividual->getPrecio_producto()?>">€</span>
+                        <span class="precio-antiguo" data-precio="230.00">€</span>
                     </div>
                 </div>
                 <div class="entrega-estimada">
@@ -81,10 +75,11 @@
                     <div class="cantidad">
                         <p>Cantidad:</p>
                         <div class="modify">
+                            <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual->getStock_producto())?>">
                             <div class="modificar-producto">
-                                <button type="button">-</button>
-                                <input type="text" value="1">
-                                <button type="button">+</button>
+                                <button type="button" class="btn-reducir">-</button>
+                                <input type="text" value="1" class="cantidad-productos">
+                                <button type="button" class="btn-aumentar">+</button>
                             </div>
                         </div>
                     </div>
@@ -98,7 +93,7 @@
                         <span class="favorito-text">Añadir a favoritos</span>
                     </button>                
                 </div>                
-            </div>
+            </div>  
             <div class="desplegable-cesta offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                 <div class="offcanvas-header">
                     <div>                        
@@ -109,33 +104,48 @@
                 </div>
                 <div class="offcanvas-body">
                     <div class="card card-finalizar">
-                        <a href=""><img src="views/img/banners/carne.webp" alt="..." class="card-img-top"></a>
+                        <a href=""><img src="data:image/webp;base64,<?=base64_encode($productoIndividual->getFoto_producto())?>" alt="..." class="card-img-top"></a>
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
+                            <h5 class="card-title"><?=$productoIndividual->getNombre_producto()?></h5>
                             <p class="card-text texto-tamaño">Tamaño: normal</p>
                             <p class="card-text texto-entrega">Entrega estimada 21:30h 25 oct</p>
                             <div class="modificar-producto">
-                                <button type="button">-</button>
-                                <input type="text" value="1">
-                                <button type="button">+</button>
+                                <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual->getStock_producto())?>">
+                                <button type="button" class="btn-reducir">-</button>
+                                <input type="text" value="1" class="cantidad-productos">
+                                <button type="button" class="btn-aumentar">+</button>
                             </div>                            
                         </div>
-                        <div class="producto-borrar">     
-                            <p class="rebajado">123,00€</p>                       
-                            <p class="precio-antiguo">326,00€</p>
+                        <div class="producto-borrar header-precios">     
+                            <span class="rebajado" data-precio="<?=number_format($productoIndividual->getPrecio_producto())?>">€</span>                       
+                            <span class="precio-antiguo" data-precio="230.00">€</span>
                         </div>                        
                     </div>
                     <div class="sumario">                            
-                        <p><strong>Mi cesta: </strong>(1 artículo)</p>
-                        <p>Subtotal:<strong> 123,00€</strong></p>                            
+                        <p><strong>Mi cesta: </strong><span class="num-articulos">(1 artículo)</span></p>
+                        <p>Subtotal:<strong><span class="subtotal">€</span></strong></p>                            
                     </div>
                     <div class="botones-cesta">
-                        <button class="cesta-compra" type="button">Ver mi cesta</button>
+                        <a href="?url=finalizar"><button class="cesta-compra" type="button" >Ver mi cesta</button></a>
                         <button class="continuar-compra" type="button" data-bs-dismiss="offcanvas" aria-label="Close">Seguir comprando</button>
                     </div>
                 </div>
             </div>
         </section>
+        <section class="footer-productos-section col-6">
+            <div class="descripcion-producto">
+                <h2>Características <?=$productoIndividual->getNombre_producto()?></h2>
+                <p class="caracteristicas-producto"><?=$productoIndividual->getDescripcion_producto()?></p>
+            </div>
+            <div class="ingredientes-producto">
+                <strong>Ingredientes:</strong>
+                <ul>
+                    <li><strong class="ingrediente-strong">bacon:</strong> bacon</li>
+                    <li><strong class="ingrediente-strong">bacon:</strong> bacon</li>
+                </ul>
+                <strong>*Algunos productos podrían provocar alergías</strong>
+            </div>
+        </section>        
     </main>
     <footer>
         <?=

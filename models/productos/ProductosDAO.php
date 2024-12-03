@@ -30,5 +30,19 @@ class ProductosDAO{
         $con->close();
         return $total['total_productos'];
     }
+
+    public static function getProductoIndividual($id){
+        $con = DataBase::connect();
+        $stmt = $con->prepare("SELECT * FROM productos WHERE id_producto = ?");
+
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $producto = $result->fetch_object("Productos");
+
+        $con->close();
+        return $producto;
+    }
 }
 ?>
