@@ -14,7 +14,6 @@ if (in_array($url, $protectedRoutes) && !isset($_SESSION['user_id'])) {
 }
 
 
-
 switch ($url) {
     case 'index':
         include_once "controllers/indexController.php"; 
@@ -27,6 +26,12 @@ switch ($url) {
         $controller = new ProductoController();
         $controller->productos();  
         break;  
+
+    case 'productos/producto-individual':
+        include_once "controllers/productoIndividualController.php";
+        $controller = new ProductoIndividualController();
+        $controller->productoIndividual();
+        break;
     
     case 'finalizar':
         include_once "controllers/finalizarController.php";
@@ -41,13 +46,9 @@ switch ($url) {
         break;
     
     case 'login/entrar': 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
-            include_once "controllers/userController.php";
-            $controller = new UserController();
-            $controller->entrar(); 
-        } else {
-            echo "Método no permitido.";
-        }
+        include_once "controllers/userController.php";
+        $controller = new UserController();
+        $controller->entrar(); 
         break;
 
     case 'logout':
@@ -62,14 +63,10 @@ switch ($url) {
         $controller -> registro();
         break;
 
-    case 'registro/create': 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
-            include_once "controllers/userController.php";
-            $controller = new UserController();
-            $controller->create(); 
-        } else {
-            echo "Método no permitido.";
-        }
+    case 'registro/create':
+        include_once "controllers/userController.php";
+        $controller = new UserController();
+        $controller->create(); 
         break;
     
     case 'cuenta':

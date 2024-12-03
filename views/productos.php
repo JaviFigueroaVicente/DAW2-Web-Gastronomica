@@ -91,7 +91,7 @@
                         <div class="col"> 
                             <div class="card mb-3">
                                 <div class="card-img-container">
-                                    <a href="#">                                        
+                                    <a href="?url=productos/producto-individual">                                        
                                         <img src="data:image/webp;base64,<?= base64_encode($producto->getFoto_producto()) ?>" class="card-img-top" alt="<?= htmlspecialchars($producto->getNombre_producto()) ?>">
                                     </a>
                                 </div>
