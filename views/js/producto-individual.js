@@ -79,7 +79,7 @@ function deshabilitarBotones() {
         const cantidad = parseInt(cantidadInput.value) || 0;
         const botonAumentar = botonesAumentar[index];
 
-        // Deshabilitar si la cantidad es 1
+        // Deshabilitar si la cantidad es mayor al stock
         if (cantidad >= stock) {
             botonAumentar.setAttribute('disabled', 'true');
         } else {

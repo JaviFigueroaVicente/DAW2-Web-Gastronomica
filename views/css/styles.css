@@ -2012,17 +2012,12 @@ ul{
 }
 
 .desplegable-cesta .offcanvas-body .botones-cesta button{
+    margin-bottom: 20px;
     width: 100%;
     border-radius: 25px;
     height: 50px;
 }
 
-.desplegable-cesta .offcanvas-body .botones-cesta a{
-    width: 100%;    
-    border-radius: 25px;
-    height: 50px;
-    margin-bottom: 20px;
-}
 .desplegable-cesta .offcanvas-body .botones-cesta .cesta-compra{
     font-weight: 700;
     font-size: 20px;

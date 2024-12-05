@@ -24,11 +24,14 @@
         <section class="productos-finalizar">
             <div class="finalizar-izquierda">
                 <div class="productos-cesta">
+                    <?php
+                    foreach ($cesta as $producto):  
+                    ?>
                     <div class="card card-finalizar">
                         <img src="views/img/banners/carne.webp" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">Card title</h5>
-                            <p class="card-text texto-tamaño">Tamaño: normal</p>
+                            <p class="card-text texto-tamaño">Tamaño: <?= $producto -> getTamaño()?></p>
                             <p class="card-text texto-entrega">Entrega estimada, 21:30h 25 oct. 2024</p>
                             <div class="modificar-producto">
                                 <button type="button">-</button>
@@ -41,25 +44,10 @@
                             <button type="button" class="btn-close" aria-label="Close"></button>
                             <p>123,00€</p>
                         </div>
-                    </div>
-                    <div class="card card-finalizar">
-                        <img src="views/img/banners/carne.webp" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text texto-tamaño">Tamaño: normal</p>
-                            <p class="card-text texto-entrega">Entrega estimada, 21:30h 25 oct. 2024</p>
-                            <div class="modificar-producto">
-                                <button type="button">-</button>
-                                <input type="text" value="1">
-                                <button type="button">+</button>
-                            </div>
-                            <p class="card-text texto-descuento"><img src="views/img/icons/check-verde.svg" alt="">50% de descuento</p>
-                        </div>
-                        <div class="producto-borrar">
-                            <button type="button" class="btn-close" aria-label="Close"></button>
-                            <p>123,00€</p>
-                        </div>
-                    </div>
+                    </div> 
+                    <?php
+                    endforeach;
+                    ?>           
                 </div>
                 <div class="cesta-bottom ">
                     <div class="d-flex align-items-center">

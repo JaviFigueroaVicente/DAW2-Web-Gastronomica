@@ -51,11 +51,6 @@ class UserController{
                     session_start();
                     $_SESSION['user_id'] = $user->getId_user();
                     $_SESSION['user_name'] = $user->getNombre_user();
-                    $_SESSION['user_apellidos'] = $user->getApellidos_user();
-                    $_SESSION['user_telefono'] = $user->getTelefono_user();
-                    $_SESSION['user_direction'] = $user->getDirection_user();
-                    $_SESSION['user_email'] = $user->getEmail_user();
-                    $_SESSION['user_contra'] = $user->getPassword_user();
                     header("Location: ?url=index");
                     exit;
                 } else {

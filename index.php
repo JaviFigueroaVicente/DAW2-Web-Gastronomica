@@ -39,6 +39,12 @@ switch ($url) {
         $controller->finalizar();  
         break; 
 
+    case'añadir-cesta':
+        include_once "controllers/cestaController.php";
+        $controller = new CestaController();
+        $controller->añadirCesta();
+        break;
+    
     case 'login':
         include_once "controllers/loginController.php";
         $controller = new LoginController();
