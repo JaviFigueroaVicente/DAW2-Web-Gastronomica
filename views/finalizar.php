@@ -28,21 +28,21 @@
                     foreach ($cesta as $producto):  
                     ?>
                     <div class="card card-finalizar">
-                        <img src="views/img/banners/carne.webp" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text texto-tamaño">Tamaño: <?= $producto -> getTamaño()?></p>
+                        <img src="data:image/webp;base64,<?= base64_encode($producto['foto_producto']) ?>" class="card-img-top"  class="card-img-top" alt="...">
+                        <div class="card-body"><?=$producto['nombre_producto']?></h5>
+                            <p class="card-text texto-tamaño">Tamaño: <?= $producto['tamaño']?></p>
                             <p class="card-text texto-entrega">Entrega estimada, 21:30h 25 oct. 2024</p>
+                            <input class="stock-producto" type="text" hidden value="<?=number_format($producto['stock_producto'])?>">
                             <div class="modificar-producto">
-                                <button type="button">-</button>
-                                <input type="text" value="1">
-                                <button type="button">+</button>
+                                <button type="button" class="btn-reducir">-</button>
+                                <input type="text" class="cantidad-producto" value="<?=$producto['cantidad']?>">
+                                <button type="button" class="btn-aumentar">+</button>
                             </div>
                             <p class="card-text texto-descuento"><img src="views/img/icons/check-verde.svg" alt="">50% de descuento</p>
                         </div>
                         <div class="producto-borrar">
                             <button type="button" class="btn-close" aria-label="Close"></button>
-                            <p>123,00€</p>
+                            <p><?=$producto['precio_producto']*$producto['cantidad']?>€</p>
                         </div>
                     </div> 
                     <?php
@@ -101,5 +101,6 @@
         ?>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="views/js/producto-individual.js"></script>
 </body>
 </html>
