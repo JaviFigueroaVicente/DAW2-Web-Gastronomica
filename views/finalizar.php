@@ -19,7 +19,7 @@
     <main>
         <section class= "cesta">
             <h2>Mi cesta</h2>
-            <p>(2 artículos)</p>
+            <p>(<?=$totalCesta?> artículos)</p>
         </section>        
         <section class="productos-finalizar">
             <div class="finalizar-izquierda">
@@ -28,20 +28,27 @@
                     foreach ($cesta as $producto):  
                     ?>
                     <div class="card card-finalizar">
-                        <img src="data:image/webp;base64,<?= base64_encode($producto['foto_producto']) ?>" class="card-img-top"  class="card-img-top" alt="...">
+                        <a href="?url=productos/producto-individual&id=<?=$producto['id_producto']?>"><img src="data:image/webp;base64,<?= base64_encode($producto['foto_producto']) ?>" class="card-img-top"  class="card-img-top" alt="..."></a>
                         <div class="card-body"><?=$producto['nombre_producto']?></h5>
                             <p class="card-text texto-tamaño">Tamaño: <?= $producto['tamaño']?></p>
-                            <p class="card-text texto-entrega">Entrega estimada, 21:30h 25 oct. 2024</p>
-                            <input class="stock-producto" type="text" hidden value="<?=number_format($producto['stock_producto'])?>">
-                            <div class="modificar-producto">
-                                <button type="button" class="btn-reducir">-</button>
-                                <input type="text" class="cantidad-producto" value="<?=$producto['cantidad']?>">
-                                <button type="button" class="btn-aumentar">+</button>
-                            </div>
+                            <p class="card-text texto-entrega">Entrega estimada, 21:30h 25 oct. 2024</p>                            
+                            <form action="?url=finalizar/modificar-producto-cesta" method="POST">
+                                <div class="modificar-producto">  
+                                    <input type="text" name="tamaño" value="<?= $producto['tamaño']?>" hidden>                                  
+                                    <input class="stock-producto" type="text" hidden value="<?=number_format($producto['stock_producto'])?>">                                
+                                    <input type="text" name="producto_id" value="<?=$producto['id_producto']?>" hidden>
+                                    <button type="submit" name="modificar" value="reducir" class="btn-reducir" <?php if($producto['cantidad']<= 1 ){echo 'disabled';}?>>-</button>
+                                    <input name="cantidad" type="text" class="cantidad-producto" value="<?=$producto['cantidad']?>">
+                                    <button type="submit" name="modificar" value="aumentar" class="btn-aumentar" <?php if($producto['cantidad'] == $producto['stock_producto']){echo 'disabled';}?>>+</button>
+                                </div>
+                            </form>                            
                             <p class="card-text texto-descuento"><img src="views/img/icons/check-verde.svg" alt="">50% de descuento</p>
                         </div>
                         <div class="producto-borrar">
-                            <button type="button" class="btn-close" aria-label="Close"></button>
+                            <form action="?url=finalizar/eliminar-producto-cesta" method="POST">
+                                <input type="text" name="producto_id" value="<?=$producto['id_producto']?>" hidden>
+                                <button type="submit" class="btn-close" aria-label="Close"></button>
+                            </form>                            
                             <p><?=$producto['precio_producto']*$producto['cantidad']?>€</p>
                         </div>
                     </div> 
@@ -101,6 +108,6 @@
         ?>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="views/js/producto-individual.js"></script>
+    <script src="views/js/modificar-cesta.js"></script>
 </body>
 </html>
