@@ -120,6 +120,37 @@ main{
     width: 30px;
 }
 
+.carrito-icon {
+    position: relative;
+    display: inline-block;
+}
+
+.carrito-icon a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.carrito-icon .icon {
+    display: block;
+}
+
+.carrito-icon span {
+    position: absolute;
+    top: -10px;    
+    background-color: #ff0000; /* Color de fondo del círculo */
+    color: #ffffff; /* Color del texto */
+    font-size: 13px; /* Tamaño del texto dentro del círculo */
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 50%;
+}
+
 .inicio-sesion{
     display: flex;
     align-items: center;
@@ -749,10 +780,14 @@ ul{
     padding: 5px 10px;
     text-align: center; 
     background-color: #ffffff;
-    transition: filter 0.3s ease;   
+    transition: filter 0.2s ease;   
 }
 #grid-comidas .col a:hover{
     color: #888888;
+}
+
+#grid-comidas .col a:hover .arrow{
+    transform: translateX(5px);
 }
 
 .colocar{
@@ -763,7 +798,7 @@ ul{
     position: absolute;
     right: -20px;
     top: 0;
-    z-index: 1;
+    z-index: 999;
     height: 100%;
 }
 #row1 a{
@@ -777,7 +812,7 @@ ul{
 #grid-comidas .col a div {
     display: flex;
     align-items: center;
-    gap: 5%; 
+    gap: 2.5%; 
 }
 
 #grid-comidas .col a p {
@@ -788,7 +823,7 @@ ul{
 .arrow {
     height: 20px !important; 
     width: 40px !important; 
-    transition: filter 0.1s ease;
+    transition: all 0.2s ease;
 }
 
 .col a:hover .arrow {
@@ -1244,7 +1279,33 @@ ul{
     margin-left: 10%;
     margin-right: 10%;
 }
+/* Cesta vacía */
+.productos-finalizar .cesta-vacia{
+    width: 100%;
+    min-height: 600px;
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+.productos-finalizar .cesta-vacia h2{
+    padding-top: 30px;
+    margin-bottom: 20px;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.productos-finalizar .cesta-vacia a{
+    color: #E4022C;
+    text-decoration: none;
+}
+
+.productos-finalizar .cesta-vacia a:hover{
+    text-decoration: 1px underline solid;
+}
+
+/* Cesta con productos */
 .finalizar-izquierda{
     width: 60%;
 }
@@ -1332,7 +1393,7 @@ ul{
     color: #CB5600;
     font-size: 14px;
     font-weight: 700;
-    width: 32.5%;
+    width: 40%;
     padding: 5px;
 }
 .card-finalizar .texto-descuento img{
@@ -1345,6 +1406,7 @@ ul{
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
+    width: 20%;
 }
 .card-finalizar .producto-borrar button{
     background-color: transparent;
@@ -1514,6 +1576,175 @@ ul{
     margin-top: 0px;
     height: 80px;
     width: 100%;
+}
+
+
+
+/* Comprar */
+.comprar{
+    padding-top: 50px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+.tramitar h1{
+    font-size: 24px;
+    padding-left: 10px;
+    padding-bottom: 15px;
+    font-weight: 800;
+    border-bottom: 2px solid #1a1a1a;
+    margin-bottom: 30px;
+}
+.tramitar .tramitar-direction{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.tramitar .direction-header{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid #d6d6d6;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+}
+
+.paso-tramitar{
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 50%;
+    background-color: #E4022C;
+    color: #ffffff;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+.tramitar .direction-header h2{
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.tramitar .direction-body{
+    padding-left: 50px;
+}
+
+.direction-body .direction-selection{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.direction-body .direction-selection img{
+    height: 20px;
+    width: 20px;
+}
+
+.direction-body .direction-selection button{
+    color: #E4022C;
+    background-color: transparent;
+    border: none;
+    margin-left: 5px;
+}
+
+.direction-body .direction-selection button:hover{
+    text-decoration: 1.5px solid underline;
+    font-weight: 500;
+}
+
+.direction-body{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.direction-recogida{
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #888888;
+}
+
+.direction-recogida .btn{
+    background-color: transparent ;
+    border: none;
+    color: #008800;
+    font-weight: 600;
+    --bs-btn-active-color: #008800;
+    --bs-btn-active-bg: transparent;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.direction-tienda{
+    border-bottom: 1px solid #888888;
+    padding: 15px;
+}
+
+.direction-tienda label{
+    font-weight: 700;
+}
+.direction-recogida button input{
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #888888;
+    border-radius: 50%; 
+    outline: none;
+    cursor: pointer;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    background-color: white; 
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.direction-recogida button input:checked {
+    box-shadow: inset 0 0 0 2px #ffffff; 
+    background-color: #E4022C !important; /* Fondo verde al seleccionarse */
+    border-color: #E4022C !important; /* Cambia el borde */
+    
+}
+
+.direction .direction-recogida .btn:hover{
+    background-color: transparent ;
+    border: none;
+    color: #008800;
+    font-weight: 600;
+}
+
+
+.direction-recogida button label{
+    color: #1a1a1a;
+    margin-right: 10px;
+}
+
+.direction .direction-recogida .btn:hover label{
+    color: #1a1a1a;
+}
+
+.direction-tienda div{
+    border: none;   
+}
+
+.direction-domicilio{
+    padding: 15px;
+}
+
+.direction-domicilio .btn{
+    color: #1a1a1a;
+}
+
+.direction-domicilio .btn:focus{
+    color:#1a1a1a;
+}
+
+.direction-domicilio strong{
+    font-weight: 700;
+    margin-right: 10px;
 }
 
 

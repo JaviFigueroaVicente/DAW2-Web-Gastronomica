@@ -2,18 +2,20 @@
 include_once "config/dataBase.php";
 include_once "models/cesta/Cesta.php";
 
-class CestaDAO{
+class CestaDAO{   
     public static function countTotal($id){
         $con = DataBase::connect();
-        $stmt = $con->prepare("SELECT COUNT(*) as total_cesta FROM cesta WHERE id__user = $id");
+        $stmt = $con->prepare("SELECT SUM(cantidad) as total_cesta FROM cesta WHERE id__user = $id");
+
 
         $stmt->execute();
-        $result = $stmt->get_result();        
+        $result = $stmt->get_result();
         $total = $result->fetch_assoc();
-        
+
         $con->close();
         return $total['total_cesta'];
     }
+    
     public static function existeProductoCesta($cesta){
         $con = DataBase::connect();
         $stmt = $con->prepare("SELECT * FROM cesta WHERE id__user = ? AND id__producto = ?");

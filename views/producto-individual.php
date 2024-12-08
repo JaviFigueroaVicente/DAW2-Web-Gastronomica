@@ -43,7 +43,7 @@
                     </div>
                     <div>
                         <div class="header-precios">
-                            <span class="rebajado" data-precio="<?=$productoIndividual->getPrecio_producto()?>">€</span>
+                            <span class="rebajado" data-precio="<?=number_format($productoIndividual->getPrecio_producto(), 2, ',', '.')?>">€</span>
                             <span class="precio-antiguo" data-precio="230.00">€</span>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                         <div class="cantidad">
                             <p>Cantidad:</p>
                             <div class="modify">
-                                <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual->getStock_producto())?>">
+                                <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual->getStock_producto(), 2, ',', '.')?>">
                                 <div class="modificar-producto">
                                     <button type="button" class="btn-reducir">-</button>
                                     <input type="text" value="1" class="cantidad-productos">
@@ -111,15 +111,15 @@
                                 <p class="card-text texto-tamaño">Tamaño: normal</p>
                                 <p class="card-text texto-entrega">Entrega estimada 21:30h 25 oct</p>
                                 <div class="modificar-producto">
-                                    <input name="producto_id" type="text" hidden value="<?=number_format($productoIndividual->getId_producto())?>">
-                                    <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual->getStock_producto())?>">
+                                    <input name="producto_id" type="text" hidden value="<?=number_format($productoIndividual->getId_producto(), 2, ',', '.')?>">
+                                    <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual->getStock_producto(), 2, ',', '.')?>">
                                     <button type="button" class="btn-reducir">-</button>
                                     <input name="cantidad" type="text" value="1" class="cantidad-productos">
                                     <button type="button" class="btn-aumentar">+</button>
                                 </div>                            
                             </div>
                             <div class="producto-borrar header-precios">     
-                                <span class="rebajado" data-precio="<?=number_format($productoIndividual->getPrecio_producto())?>">€</span>                       
+                                <span class="rebajado" data-precio="<?=number_format($productoIndividual->getPrecio_producto(), 2, ',', '.')?>">€</span>                       
                                 <span class="precio-antiguo" data-precio="230.00">€</span>
                             </div>                        
                         </div>

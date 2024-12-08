@@ -1,3 +1,9 @@
+<?php
+include_once "models/cesta/CestaDAO.php";
+$totalCesta = CestaDAO::countTotal($_SESSION['user_id']);
+?>
+
+
 <div class="header_top">
     <ul>
         <li>
@@ -36,8 +42,8 @@
                 <img class="icon" src="views/img/icons/profile.svg" alt="">
                 <div class="btn-group">
                     <?php
-                        if(empty($_SESSION['user_id'])){
-                            echo '<button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        if(empty($_SESSION['user_id'])){?>
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span>Hola, identifícate</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
@@ -49,9 +55,9 @@
                                     <p class="dropdown-item btn-nuevo-cliente"><strong>¿Nuevo cliente?</strong><a href="?url=registro"> Crea tu cuenta</a></p>
                                 </li>
                             </ul>';
-                        }else{
-                            echo 
-                            '<button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <?php
+                        }else{?>                           
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span>Mi cuenta</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-log">
@@ -74,10 +80,8 @@
                                 <li>
                                     <a class="a-log" href="?url=logout">Cerrar sesión</a>
                                 </li>
-                            </ul>';
-                        }
-                    ?>
-                    
+                            </ul>
+                        <?php ; } ?>
                 </div>
             </div>
         </div>
@@ -89,12 +93,12 @@
                 <span></span>
             </a>
         </div>
-        <div>
-            <a href="?url=finalizar">
-                <div>
-                    <img class="icon" src="views/img/icons/cart.svg" alt="">
-                </div>
-                <span></span>
+        <div class="carrito-icon"> 
+            <a href="?url=finalizar">                
+                <img class="icon" src="views/img/icons/cart.svg" alt="">
+                <?php if($totalCesta > 0){ ?>
+                    <span><?php echo number_format($totalCesta); ?></span>  
+                <?php }; ?>                          
             </a>
         </div>
     </div>

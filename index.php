@@ -56,6 +56,12 @@ switch ($url) {
         $controller = new CestaController();
         $controller->actualizarCantidadProductoCesta();
         break;
+
+    case 'comprar':
+        include_once "controllers/comprarController.php";
+        $controller = new ComprarController();
+        $controller->comprar();
+        break;
     
     case 'login':
         include_once "controllers/loginController.php";
