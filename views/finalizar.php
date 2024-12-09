@@ -19,7 +19,11 @@
     <main>
         <section class= "cesta">
             <h2>Mi cesta</h2>
-            <p>(<?=$totalCesta?> artículos)</p>
+            <p>(<?php if($totalCesta>0){
+                    echo $totalCesta;
+                }else{
+                    echo 0;
+                } ?> artículos)</p>
         </section>        
         <section class="productos-finalizar">
             <?php if($totalCesta !=0 ){ ?>

@@ -1,9 +1,3 @@
-<?php
-include_once "models/cesta/CestaDAO.php";
-$totalCesta = CestaDAO::countTotal($_SESSION['user_id']);
-?>
-
-
 <div class="header_top">
     <ul>
         <li>
@@ -62,7 +56,7 @@ $totalCesta = CestaDAO::countTotal($_SESSION['user_id']);
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-log">
                                 <li>
-                                    <p class="dropdown-item nombre-desplegable">Hola <a href="?url=cuenta" >'.$_SESSION['user_name'].'</a></p>
+                                    <p class="dropdown-item nombre-desplegable">Hola <a href="?url=cuenta" ><?php echo $_SESSION['user_name'] ?></a></p>
                                 </li>
                                 <li class="ul-dropdown">
                                     <ul class="lista-dropdown">
@@ -96,9 +90,13 @@ $totalCesta = CestaDAO::countTotal($_SESSION['user_id']);
         <div class="carrito-icon"> 
             <a href="?url=finalizar">                
                 <img class="icon" src="views/img/icons/cart.svg" alt="">
-                <?php if($totalCesta > 0){ ?>
-                    <span><?php echo number_format($totalCesta); ?></span>  
-                <?php }; ?>                          
+                <?php
+                if(isset($_SESSION['user_id'])){
+                    include_once "models/cesta/CestaDAO.php";
+                    $totalCesta = CestaDAO::countTotal($_SESSION['user_id']);
+                    if($totalCesta > 0){ ?>
+                    <span><?php echo number_format($totalCesta);?></span>
+                <?php } } ?>                         
             </a>
         </div>
     </div>

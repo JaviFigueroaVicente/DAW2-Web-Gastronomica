@@ -22,8 +22,7 @@ class UserController{
         UserDAO::create($user);
         header("Location: ?url=login");
     }
-    public function entrar() {
-        
+    public function entrar() {        
         if (empty($_POST['login-email']) || empty($_POST['login-contra'])) {
             echo "Por favor completa todos los campos.";
             return;
@@ -51,6 +50,10 @@ class UserController{
                     session_start();
                     $_SESSION['user_id'] = $user->getId_user();
                     $_SESSION['user_name'] = $user->getNombre_user();
+                    $_SESSION['user_email'] = $user->getEmail_user();
+                    $_SESSION['user_apellidos'] = $user->getApellidos_user();
+                    $_SESSION['user_direction'] = $user->getDirection_user();
+                    $_SESSION['user_telefono'] = $user->getTelefono_user();
                     header("Location: ?url=index");
                     exit;
                 } else {

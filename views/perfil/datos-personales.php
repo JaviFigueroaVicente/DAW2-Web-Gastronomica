@@ -29,23 +29,23 @@
             </div>
             <div class="datos-email">
                 <p class="datos-label">E-Mail:</p>
-                <p><?= $_SESSION['user_email'] ;?></p>
+                <p><?php echo $_SESSION['user_email'] ?></p>
             </div>
             <form class="form-inicio" action="?url=datos-personales/update-perfil" method="post">
                 <div class="form-group">
-                    <input name="nombre-actualizar" type="text" placeholder=" " value="<?= $_SESSION['user_name'] ;?>" required >
+                    <input name="nombre-actualizar" type="text" placeholder=" " value="<?php echo $_SESSION['user_name'] ?>" required >
                     <label for="nombre-actualizar">Nombre</label>
                 </div>
                 <div class="form-group">
-                    <input name="apellidos-actualizar" type="text" placeholder=" " value="<?= $_SESSION['user_apellidos'] ;?>">
+                    <input name="apellidos-actualizar" type="text" placeholder=" " value="<?php echo $_SESSION['user_apellidos'] ;?>">
                     <label for="apellidos-actualizar">Apellidos</label>                                                               
                 </div>                
                 <div class="form-group">
-                    <input name="direction-actualizar" type="text" placeholder=" " value="<?= $_SESSION['user_direction'] ;?>">
+                    <input name="direction-actualizar" type="text" placeholder=" " value="<?php echo $_SESSION['user_direction'] ;?>">
                     <label for="direction-actualizar">Dirección</label>
                 </div>
                 <div class="form-group">
-                    <input name="telefono-actualizar" type="text" placeholder=" " value="<?= $_SESSION['user_telefono'] ;?>">
+                    <input name="telefono-actualizar" type="text" placeholder=" " value="<?php echo $_SESSION['user_telefono'] ;?>">
                     <label for="telefono-actualizar">Telefono</label>
                 </div>
                 <small class="small comment">Sólo te llamaremos si hay una incidencia con tus pedidos. Si contactas con nosotros lo usaremos para buscar tus pedidos.</small>
