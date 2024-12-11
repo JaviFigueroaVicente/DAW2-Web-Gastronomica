@@ -17,8 +17,8 @@
         ?>
     </header>
     <main>
-        <section class="comprar">
-            <form action="">
+        <form action="">
+            <section class="comprar row">
                 <div class="tramitar col-8">
                     <h1>Tramita tu pedido</h1>                
                     <div class="tramitar-direction">
@@ -129,27 +129,93 @@
                             </div>
                         </button>    
                         <div class="collapse" id="collapseResumenPedido">
-                            <div class="card card-body">                                            
-                                <div class="form-group">
-                                    <input name="login-email" type="text" id="input1" value="<?= $_SESSION['user_direction']; ?>" placeholder=" " required>
-                                    <label for="login-email">Dirección</label>
-                                </div>
+                            <div class="card card-body">   
                                 <div class="actualizar-direction">
-                                    <div class="custom-checkbox-container">
-                                        <input type="checkbox" id="custom-checkbox" class="custom-checkbox">
-                                        <label for="custom-checkbox"></label>                                                    
+                                    <?php    
+                                    foreach ($cesta as $producto):  
+                                    ?>
+                                    <div class="card card-finalizar">
+                                        <a href="?url=productos/producto-individual&id=<?=$producto['id_producto']?>"><img src="data:image/webp;base64,<?= base64_encode($producto['foto_producto']) ?>" class="card-img-top"  class="card-img-top" alt="..."></a>
+                                        <div class="card-body">
+                                            <h5><a href="?url=productos/producto-individual&id=<?=$producto['id_producto']?>"><?=$producto['nombre_producto']?></a></h5>
+                                            <p class="card-text texto-tamaño comment">Tamaño: <?= $producto['tamaño']?></p>
+                                            <div class="producto-borrar">                                                      
+                                                <p class="card-text texto-cantidad comment">Cantidad: <?= $producto['cantidad']?></p> 
+                                                <p><?=number_format($producto['precio_producto']*$producto['cantidad'], 2, ',', '.')?>€</p>
+                                            </div>                                            
+                                        </div>                                        
+                                    </div> 
+                                    <?php
+                                    endforeach; 
+                                    ?>        
+                                </div>     
+                                <div class="revisar-bottom">
+                                    <p>Elige una opción de envío para estos productos</p>
+                                    <div>
+                                        <input id="radio-domicilio" type="radio" name="PayOption" value="Transfer" class="direction-radio">
+                                        <p>Envío Estandar - GRATIS</p>
+                                        <p class="green">Entrega estimada <strong>16/12/2024</strong></p>
                                     </div>
-                                    <p>Actualizar mi dirección</p>
-                                </div>                                                  
-                            </div>
+                                </div>                                             
+                            </div>                            
                         </div>                      
                     </div>
                 </div>
                 <div class= col-4>
-
+                    <aside class="sticky-top">
+                        <h2>Resumen de tu pedido</h2>
+                        <div class="tramitar-menu">
+                            <div class="tramitar-subtotal">
+                                <div>
+                                    <p>Subtotal</p>
+                                    <p class="precio-subtotal"><?php
+                                    $subtotal = 0;
+                                    foreach ($cesta as $producto) {
+                                        $subtotal += $producto['precio_producto']*$producto['cantidad'];
+                                    }
+                                    echo number_format($subtotal, 2, ',', '.');
+                                    ?> €</p>
+                                </div>
+                                <div>
+                                    <div class="div-gastos-envio">
+                                        <p>Gastos de envío GRATIS</p>
+                                    </div>                            
+                                    <p class="gastos-envio">0,00 €</p>
+                                </div>
+                            </div>
+                            <div class="tramitar-total">
+                                <div class="total">
+                                    <p>Total</p>
+                                    <p class="precio-total"><?php
+                                    $total = 0;
+                                    foreach ($cesta as $producto) {
+                                        $total += $producto['precio_producto']*$producto['cantidad'];
+                                    }
+                                    echo number_format($total, 2, ',', '.');
+                                    ?> €</p>
+                                </div>
+                                <div class="ahorrado">
+                                    <p class="ahorrado-verde">Has ahorrado 5,75€</p>
+                                    <p>* IVA incluido</p>
+                                </div>
+                            </div>                                                                          
+                        </div>
+                        <div class="tramitar-menu ">
+                            <div class="tramitar-total tramitar-checkbox">
+                                <div class="total direction-body terminos">
+                                    <div class="custom-checkbox-container">
+                                        <input type="checkbox" id="checkbox-terminos" class="custom-checkbox" required>
+                                        <label for="checkbox-terminos"></label>           
+                                    </div>
+                                    <p><strong>He leído y acepto </strong> las <a href="">Condiciones de compra</a> de www.mammothskitchen.com</p>
+                                </div>                                
+                            </div>  
+                        </div>
+                        <button class="agregar-cesta" type="submit">Tramitar pedido</button>
+                    </aside>
                 </div>
-            </form>
-        </section>        
+            </section>   
+        </form>     
     </main>
     <footer>
         <?php

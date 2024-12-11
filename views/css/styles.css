@@ -1589,6 +1589,7 @@ ul{
     padding-top: 50px;
     padding-left: 10%;
     padding-right: 10%;
+    padding-bottom: 60px;
 }
 .tramitar h1{
     font-size: 24px;
@@ -1936,7 +1937,115 @@ ul{
     padding-bottom: 30px;
 }
 
+.actualizar-direction .card-finalizar{
+    border: none;
+}
 
+.actualizar-direction .card-finalizar h5{
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.actualizar-direction .card-finalizar a{
+    text-decoration: none;
+    color: #1a1a1a;
+}
+
+.actualizar-direction .card-finalizar img{
+    height: 60px;
+    width: 60px;
+    border-radius: 0px;
+}
+
+.actualizar-direction .card-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.actualizar-direction .producto-borrar{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.actualizar-direction .producto-borrar .comment{
+    color: #1a1a1a;
+    font-size: 13px;
+}
+
+.revisar-bottom{
+    border-top: 1px solid #d6d6d6;
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+}
+
+.revisar-bottom div{
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    border: 1px solid #d6d6d6;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #f2f2f2;
+}
+
+.revisar-bottom div .green{
+    color: #008800;
+    margin-left: 10px;
+    font-size: 14px;
+}
+.comprar .sticky-top{
+    padding-top: 15px;
+}
+
+.comprar aside h2{
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.comprar aside .tramitar-menu{
+    margin-top: 20px;
+    height: auto;
+    border-color: #d6d6d6;
+}
+
+.comprar aside .tramitar-total{
+    margin: 0;
+}
+
+
+
+.comprar aside .tramitar-total .terminos{
+    width: 70%;
+    padding: 0;
+}
+
+
+
+.comprar aside .tramitar-total .total p{
+    padding-top: 10px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.comprar aside .tramitar-checkbox p{
+    font-size: 14px !important;
+    padding-top: 0px !important;
+    font-weight: 500!important;
+    padding-left: 10px;
+}
+.comprar aside .tramitar-menu a{
+    text-decoration: none;
+    color: #E4022C;
+}
+
+.comprar aside .tramitar-menu a:hover{
+    text-decoration: underline;
+}
 /* Cuenta */
 
 .cuenta{
