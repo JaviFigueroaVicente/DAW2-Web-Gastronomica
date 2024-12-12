@@ -11,14 +11,18 @@ class UserController{
         $telefono = !empty($_POST['telefono']) ? $_POST['telefono'] : null;
         $direction = !empty($_POST['direction']) ? $_POST['direction'] : null;
 
+        $contraHashed = password_hash($contra, PASSWORD_DEFAULT);
+
         $user = new User();
         $user->setEmail_user($email);
-        $user->setPassword_user($contra);
+        $user->setPassword_user($contraHashed);
         $user->setNombre_user($nombre);
         $user->setApellidos_user($apellidos);
         $user->setTelefono_user($telefono);
         $user->setDirection_user($direction);
         
+        
+
         UserDAO::create($user);
         header("Location: ?url=login");
     }
@@ -44,7 +48,7 @@ class UserController{
                 echo "El email coincide.<br>";
                 
                 
-                if ($loginContra === $user->getPassword_user()) {
+                if (!password_verify($loginContra, $user->getPassword_user())) {
                     echo "La contraseña también coincide.<br>";
                     
                     session_start();
@@ -102,6 +106,7 @@ class UserController{
         $nuevaContrasena = $_POST['actu-contra'];
         $confirmContrasena = $_POST['confirm-contra'];
 
+        $contraHashed = password_hash($confirmContrasena, PASSWORD_DEFAULT);
         if (strlen($nuevaContrasena) < 8) {
             echo "La contraseña debe tener al menos 8 caracteres.";
             return;
@@ -124,8 +129,7 @@ class UserController{
         } else {
             echo "Hubo un error al actualizar la contraseña. Inténtalo de nuevo.";
         }
-    }        
-    
+    }      
     
 }   
 ?>

@@ -62,6 +62,14 @@ switch ($url) {
         $controller = new ComprarController();
         $controller->comprar();
         break;
+
+    case 'comprar/tramitar-pedido':
+        include_once "controllers/tramitarPedidoController.php";
+        $controller = new TramitarPedidoController();
+        $controller->crearPedido();
+        break;
+
+    
     
     case 'login':
         include_once "controllers/loginController.php";

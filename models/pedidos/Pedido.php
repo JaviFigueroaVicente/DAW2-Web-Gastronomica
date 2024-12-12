@@ -1,20 +1,17 @@
 <?php
-abstract class Pedido{
-    protected $id_pedido;
-    protected $fecha_pedido;
-    protected $estado_pedido;
-    protected $id_user_pedido;
-    protected $precio_pedido;
+class Pedido{
+    public $id_pedido;
+    public $fecha_pedido;
+    public $estado_pedido;
+    public $id_user_pedido;
+    public $precio_pedido;
+    public $direccion_pedido;
+    public $metodo_pago_pedido;
 
-    public function __construct($id_pedido,$fecha_pedido,$estado_pedido,$id_user_pedido,$precio_pedido)
+    public function __construct()
     {
-        $this -> id_pedido = $id_pedido;
-        $this -> fecha_pedido = $fecha_pedido;
-        $this -> estado_pedido = $estado_pedido;
-        $this -> id_user_pedido = $id_user_pedido;
-        $this -> precio_pedido = $precio_pedido;
+        
     }
-
 
    
     public function getId_pedido()
@@ -77,6 +74,17 @@ abstract class Pedido{
     public function setPrecio_pedido($precio_pedido)
     {
         $this->precio_pedido = $precio_pedido;
+
+        return $this;
+    }
+
+    public function getDireccion_pedido()
+    {
+        return $this->direccion_pedido;
+    }
+    public function setDireccion_pedido($direccion_pedido)
+    {
+        $this->direccion_pedido = $direccion_pedido;
 
         return $this;
     }

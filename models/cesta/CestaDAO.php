@@ -34,7 +34,6 @@ class CestaDAO{
     public static function getCesta($id){
         $con = DataBase::connect();
         
-        // Consulta para obtener los datos de la tabla cesta con los detalles del producto
         $sql = "
             SELECT 
                 c.id_fila_cesta,

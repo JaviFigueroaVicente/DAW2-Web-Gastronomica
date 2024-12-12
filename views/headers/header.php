@@ -48,7 +48,7 @@
                                 <li>
                                     <p class="dropdown-item btn-nuevo-cliente"><strong>¿Nuevo cliente?</strong><a href="?url=registro"> Crea tu cuenta</a></p>
                                 </li>
-                            </ul>';
+                            </ul>
                         <?php
                         }else{?>                           
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -75,7 +75,7 @@
                                     <a class="a-log" href="?url=logout">Cerrar sesión</a>
                                 </li>
                             </ul>
-                        <?php ; } ?>
+                        <?php } ?>
                 </div>
             </div>
         </div>

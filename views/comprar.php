@@ -17,7 +17,7 @@
         ?>
     </header>
     <main>
-        <form action="">
+        <form action="?url=comprar/tramitar-pedido" method="POST">
             <section class="comprar row">
                 <div class="tramitar col-8">
                     <h1>Tramita tu pedido</h1>                
@@ -36,27 +36,27 @@
                                 </div>
                                 <div class="direction-recogida" id="collapseDomicilio">
                                     <div class="direction-tienda">                                
-                                        <input id="direction-radio" type="radio" name="deliveryOption" value="1" class="direction-radio">
+                                        <input id="direction-radio" type="radio" name="deliveryOption" value="tienda" class="direction-radio" checked>
                                         <label for="direction-radio">Recoger en tienda</label>
                                         <p>Gratis</p>                             
                                     </div>
                                     <div class="direction-domicilio">
                                         <div class="domicilio-button">
                                             <button class= "btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDomicilioDetails" aria-expanded="false" aria-controls="collapseDomicilioDetails">
-                                                <input id="radio-domicilio" type="radio" name="deliveryOption" value="2" class="direction-radio">
+                                                <input id="radio-domicilio" type="radio" name="deliveryOption" value="<?= $_SESSION['user_direction']?>" class="direction-radio">
                                             </button> 
-                                            <label for="radio-domiciilo"><strong>Enviar a domicilio</strong></label>
+                                            <label for="radio-domicilio"><strong>Enviar a domicilio</strong></label>
                                             <p><strong> 4,99 €</strong> con envío estándar</p> 
                                         </div>                                                          
                                         <div class="collapse" id="collapseDomicilioDetails">
                                             <div class="card card-body">                                            
                                                 <div class="form-group">
-                                                    <input name="login-email" type="text" id="input1" value="<?= $_SESSION['user_direction'] ;?>" placeholder=" " required>
+                                                    <input name="login-email" type="text" id="domicilio" value="<?= $_SESSION['user_direction'] ;?>" placeholder=" " required>
                                                     <label for="login-email">Dirección</label>
                                                 </div>
                                                 <div class="actualizar-direction">
                                                     <div class="custom-checkbox-container">
-                                                        <input type="checkbox" id="custom-checkbox" class="custom-checkbox">
+                                                        <input type="checkbox" id="custom-checkbox" class="custom-checkbox" value="Tienda" name="deliveryOption">
                                                         <label for="custom-checkbox"></label>                                                    
                                                     </div>
                                                     <p>Actualizar mi dirección</p>
@@ -90,7 +90,7 @@
                             <article>
                                 <div class="opcion-pago">
                                     <div>
-                                        <input id="radio-domicilio" type="radio" name="PayOption" value="Card" class="direction-radio">
+                                        <input id="radio-domicilio" type="radio" name="PayOption" value="Card" class="direction-radio" checked>
                                         <p><strong>Tarjeta</strong></p>
                                     </div>
                                     <img src="views/img/icons/tarjeta-visa-master-card.webp" alt="">
@@ -152,7 +152,7 @@
                                 <div class="revisar-bottom">
                                     <p>Elige una opción de envío para estos productos</p>
                                     <div>
-                                        <input id="radio-domicilio" type="radio" name="PayOption" value="Transfer" class="direction-radio">
+                                        <input id="radio-domicilio" type="radio" name="envioEstandar" value="envioEstandar" class="direction-radio" checked>
                                         <p>Envío Estandar - GRATIS</p>
                                         <p class="green">Entrega estimada <strong>16/12/2024</strong></p>
                                     </div>
@@ -193,6 +193,7 @@
                                     }
                                     echo number_format($total, 2, ',', '.');
                                     ?> €</p>
+                                    <input name="precio_total_pedido" type="text" value="<?= $total ?>" hidden>
                                 </div>
                                 <div class="ahorrado">
                                     <p class="ahorrado-verde">Has ahorrado 5,75€</p>
@@ -204,7 +205,7 @@
                             <div class="tramitar-total tramitar-checkbox">
                                 <div class="total direction-body terminos">
                                     <div class="custom-checkbox-container">
-                                        <input type="checkbox" id="checkbox-terminos" class="custom-checkbox" required>
+                                        <input type="checkbox" id="checkbox-terminos" class="custom-checkbox" required checked>
                                         <label for="checkbox-terminos"></label>           
                                     </div>
                                     <p><strong>He leído y acepto </strong> las <a href="">Condiciones de compra</a> de www.mammothskitchen.com</p>
