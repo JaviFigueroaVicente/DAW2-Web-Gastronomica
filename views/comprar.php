@@ -36,14 +36,14 @@
                                 </div>
                                 <div class="direction-recogida" id="collapseDomicilio">
                                     <div class="direction-tienda">                                
-                                        <input id="direction-radio" type="radio" name="deliveryOption" value="tienda" class="direction-radio" checked>
+                                        <input require id="direction-radio" type="radio" name="deliveryOption" value="tienda" class="direction-radio" checked>
                                         <label for="direction-radio">Recoger en tienda</label>
                                         <p>Gratis</p>                             
                                     </div>
                                     <div class="direction-domicilio">
                                         <div class="domicilio-button">
                                             <button class= "btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDomicilioDetails" aria-expanded="false" aria-controls="collapseDomicilioDetails">
-                                                <input id="radio-domicilio" type="radio" name="deliveryOption" value="<?= $_SESSION['user_direction']?>" class="direction-radio">
+                                                <input require id="radio-domicilio" type="radio" name="deliveryOption" value="<?= $_SESSION['user_direction']?>" class="direction-radio">
                                             </button> 
                                             <label for="radio-domicilio"><strong>Enviar a domicilio</strong></label>
                                             <p><strong> 4,99 €</strong> con envío estándar</p> 

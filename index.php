@@ -69,7 +69,17 @@ switch ($url) {
         $controller->crearPedido();
         break;
 
-    
+    case 'cuenta/mis-pedidos':
+        include_once "controllers/misPedidosController.php";
+        $controller = new MisPedidosController();
+        $controller-> misPedidos();
+        break;
+
+    case 'cuenta/mis-pedidos/detalles-pedido':
+        include_once "controllers/pedidoIndividualController.php";
+        $controller = new PedidoIndividualController();
+        $controller-> pedidoInidividual();
+        break;
     
     case 'login':
         include_once "controllers/loginController.php";

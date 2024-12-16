@@ -2609,6 +2609,55 @@ ul{
     line-height: 1.5;
 }
 
+/* Mis pedidos */
+
+
+/* Producto individual  */
+.tabla-productos-pedido thead th{
+    font-size: 14px;
+}
+
+.producto-pedido-foto .card{
+    background-color: transparent;
+}
+
+.producto-pedido-foto .card-finalizar{
+    padding: 0;
+    align-items: center;
+}
+
+.producto-pedido-foto .card-finalizar h5 a{
+    color: #888888;  
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.producto-pedido-foto .card-finalizar h5 a:hover{
+    color: #1a1a1a;
+    transition: all 0.3 ease;
+}
+
+.producto-pedido-foto .card-finalizar .producto-borrar p{
+    font-weight: 400;
+}
+
+.tabla-productos-pedido tbody tr td, th{
+    font-size: 14px;
+}
+
+.tabla-productos-pedido tbody tr td a{
+    color: #888888;
+    text-decoration: none;
+}
+
+.tabla-productos-pedido tbody tr td a:hover{
+    color: #1a1a1a
+}
+
+
+
+
+
 /* Footer */
 footer {
     background-color: #101a25;

@@ -6,7 +6,7 @@ class Pedido{
     public $id_user_pedido;
     public $precio_pedido;
     public $direccion_pedido;
-    public $metodo_pago_pedido;
+    public $metodo_pago;
 
     public function __construct()
     {
@@ -85,6 +85,17 @@ class Pedido{
     public function setDireccion_pedido($direccion_pedido)
     {
         $this->direccion_pedido = $direccion_pedido;
+
+        return $this;
+    }
+
+    public function getMetodo_pago()
+    {
+        return $this->metodo_pago;
+    }
+    public function setMetodo_pago_pedido($metodo_pago)
+    {
+        $this->metodo_pago = $metodo_pago;
 
         return $this;
     }

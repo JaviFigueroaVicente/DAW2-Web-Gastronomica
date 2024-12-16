@@ -64,7 +64,7 @@
                                             <a class="a-log" href="?url=cuenta">Mi cuenta</a>
                                         </li>
                                         <li>
-                                            <a class="a-log" href="">Mis pedidos</a>
+                                            <a class="a-log" href="?url=cuenta/mis-pedidos">Mis pedidos</a>
                                         </li>
                                         <li>
                                             <a class="a-log" href="">Atención al cliente</a>

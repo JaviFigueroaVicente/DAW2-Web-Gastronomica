@@ -48,7 +48,7 @@ class UserController{
                 echo "El email coincide.<br>";
                 
                 
-                if (!password_verify($loginContra, $user->getPassword_user())) {
+                if (password_verify($loginContra, $user->getPassword_user())) {
                     echo "La contraseña también coincide.<br>";
                     
                     session_start();
@@ -120,7 +120,7 @@ class UserController{
         session_start();
         $idUsuario = $_SESSION['user_id'];
     
-        $resultado = UserDAO::updateContra($idUsuario, $nuevaContrasena);
+        $resultado = UserDAO::updateContra($idUsuario, $contraHashed);
     
         if ($resultado) {
             echo "Contraseña actualizada correctamente.";

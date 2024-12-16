@@ -24,7 +24,7 @@
                     <div class="col">
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
-                                <a href="">
+                                <a href="?url=cuenta/mis-pedidos">
                                     <div class="col-md-3">
                                         <img src="views/img/icons/cart.svg" class="img-fluid rounded-start" alt="...">
                                     </div>
