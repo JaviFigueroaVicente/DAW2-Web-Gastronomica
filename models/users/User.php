@@ -14,7 +14,6 @@
         
         }
 
-        
         public function getId_user()
         {
                 return $this->id_user;

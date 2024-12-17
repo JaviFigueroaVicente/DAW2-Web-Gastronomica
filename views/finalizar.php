@@ -66,7 +66,11 @@
                             <img src="views/img/icons/etiqueta.svg" alt="">
                             <div>
                                 <p class="cupon">¿Tienes un cupón?</p>
-                                <p>Para usar un cupón debes <a href="">identificarte</a></p>
+                                <form action="?url=finalizar/cupon" method="post">
+                                    <label for="cupon_nombre"></label>
+                                    <input name="cupon_nombre" type="text" placeholder="Código">
+                                    <button type="submit">Aplicar</button>
+                                </form>
                             </div>                        
                         </div>
                         <p class="iva">* En las ventas fuera de la UE no se repercutirá IVA (21%), no obstante el sistema aduanero aplicará las cargas impositivas correspondientes. En ningún caso podremos determinar el importe de los impuestos a pagar por el cliente al recibir su pedido ya que depende de la aduana del país de destino. En cualquier caso, el pago de dicho importe es a cargo del cliente final.</p>
@@ -132,6 +136,5 @@
         ?>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="views/js/modificar-cesta.js"></script>
 </body>
 </html>

@@ -57,6 +57,12 @@ switch ($url) {
         $controller->actualizarCantidadProductoCesta();
         break;
 
+    case 'finalizar/cupon':
+        include_once "controllers/cuponesController.php";
+        $controller = new CuponesController();
+        $controller->agregarCupon();
+        break;
+
     case 'comprar':
         include_once "controllers/comprarController.php";
         $controller = new ComprarController();
