@@ -6,7 +6,5 @@ class ComprarController{
         $cesta = CestaDAO::getCesta($_SESSION['user_id']);
         include_once "views/comprar.php";
     }    
-
-
 }
 ?>

@@ -60,5 +60,23 @@ class CestaController{
 
         header("Location: ?url=finalizar");
     }   
+
+    public static function agregarCupon(){
+        if (!isset($_POST['cupon_nombre']) || empty($_POST['cupon_nombre'])) {  
+            return null;
+        }
+    
+        $cupon_nombre = $_POST['cupon_nombre'];
+        $cupones = CestaDAO::getAllCupones();
+
+        foreach ($cupones as $cupon) {
+            if ($cupon->getNombre_oferta() === $cupon_nombre) {
+
+                $id_user = $_SESSION['user_id']; 
+                CestaDAO::updateCupon($cupon, $id_user);
+                return $cupon;
+            }
+        }        
+    }
 }
 ?>

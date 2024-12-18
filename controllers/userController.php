@@ -58,6 +58,7 @@ class UserController{
                     $_SESSION['user_apellidos'] = $user->getApellidos_user();
                     $_SESSION['user_direction'] = $user->getDirection_user();
                     $_SESSION['user_telefono'] = $user->getTelefono_user();
+                    $_SESSION['user_rol'] = $user->getAdmin_rol();
                     header("Location: ?url=index");
                     exit;
                 } else {

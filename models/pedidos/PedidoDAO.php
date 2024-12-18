@@ -39,6 +39,7 @@ class PedidoDAO{
                 pp.precio__producto,
                 p.nombre_producto,
                 p.foto_producto
+                
             FROM 
                 pedido_productos pp
             INNER JOIN 
@@ -72,25 +73,24 @@ class PedidoDAO{
     
     
     
-    public static function insertarPedido($idUser, $direccion, $metodoPago) {
+    public static function insertarPedido($idUser, $direccion, $metodoPago, $id_oferta_cesta) {
         $con = DataBase::connect();
-
-        $con->begin_transaction();
         $productos = CestaDAO::getCesta($idUser); 
-
+        
         $precioTotal = 0;
         foreach ($productos as $producto) {
-            $precioTotal += $producto['precio_producto'] * $producto['cantidad'];
+            $descuento = $producto['id__oferta'] ? (1 - ($producto['descuento_oferta'] / 100)) : 1;
+            $precioTotal += $producto['precio_producto'] * $producto['cantidad'] * $descuento;
         }
 
         $sqlInsertPedido = "
             INSERT INTO pedidos 
-            (fecha_pedido, estado_pedido, id_user_pedido, precio_pedido, direccion_pedido, metodo_pago) 
+            (fecha_pedido, estado_pedido, id_user_pedido, precio_pedido, direccion_pedido, metodo_pago, id_oferta_) 
             VALUES 
-            (NOW(), 'Pendiente', ?, ?, ?, ?)
+            (NOW(), 'Pendiente', ?, ?, ?, ?, ?)
         ";
         $stmtPedido = $con->prepare($sqlInsertPedido);
-        $stmtPedido->bind_param("idss", $idUser, $precioTotal, $direccion, $metodoPago);
+        $stmtPedido->bind_param("idssi", $idUser, $precioTotal, $direccion, $metodoPago, $id_oferta_cesta);
         $stmtPedido->execute();
 
         $idPedido = $con->insert_id;
@@ -104,16 +104,18 @@ class PedidoDAO{
         $stmtProductos = $con->prepare($sqlInsertProductos);
 
         foreach ($productos as $producto) {
+            $precioFinalProducto = $producto['precio_producto'] * (1 - ($producto['descuento_oferta'] / 100));
             $stmtProductos->bind_param(
                 "iiisd",
                 $idPedido,
                 $producto['id_producto'],
                 $producto['cantidad'],
                 $producto['tamaño'],
-                $producto['precio_producto']
+                $precioFinalProducto
             );
             $stmtProductos->execute();
         }
+
         $sqlVaciarCesta = "DELETE FROM cesta WHERE id__user = ?";
         $stmtVaciarCesta = $con->prepare($sqlVaciarCesta);
         $stmtVaciarCesta->bind_param("i", $idUser);
@@ -126,8 +128,10 @@ class PedidoDAO{
             "id_pedido" => $idPedido,
             "message" => "Pedido creado correctamente."
         ];
-        $con->close();
     
+        $con->close();
+        
     }
+    
 }
 ?>

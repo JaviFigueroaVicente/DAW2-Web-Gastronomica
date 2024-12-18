@@ -140,6 +140,29 @@
                             </div>
                         </div>
                     </div>
+                    <?php
+                        if($_SESSION['user_rol'] == '1'){
+                    ?>
+                    <div class="col">
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row g-0">
+                                <a href="?url=admin">
+                                    <div class="col-md-3">
+                                        <img src="views/img/icons/build.svg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h2 class="card-title">Administrar web</h2>
+                                            <p class="card-text">Gestionar los productos, usuarios, pedidos, etc.</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <?php
+                        }
+                    ?>
                 </div>
             </div>
         </section>

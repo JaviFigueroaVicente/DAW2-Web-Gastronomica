@@ -4,6 +4,7 @@ class Cesta{
     public $id_producto;
     public $cantidad;
     public $tamaño;
+    public $id__oferta;
 
     public function __construct(){
         
@@ -37,6 +38,12 @@ class Cesta{
     }
     public function setTamaño($tamaño){
         $this->tamaño = $tamaño;
+    }
+    public function getIdOferta(){
+        return $this->id__oferta;
+    }
+    public function setIdOferta($id__oferta){
+        $this->id__oferta = $id__oferta;
     }
 }
 ?>

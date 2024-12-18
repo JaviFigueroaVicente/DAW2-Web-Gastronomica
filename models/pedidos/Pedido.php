@@ -7,6 +7,7 @@ class Pedido{
     public $precio_pedido;
     public $direccion_pedido;
     public $metodo_pago;
+    public $id_oferta_pedido;
 
     public function __construct()
     {
@@ -96,6 +97,16 @@ class Pedido{
     public function setMetodo_pago_pedido($metodo_pago)
     {
         $this->metodo_pago = $metodo_pago;
+
+        return $this;
+    }
+    public function getId_oferta_pedido()
+    {
+        return $this->id_oferta_pedido;
+    }
+    public function setId_oferta_pedido($id_oferta_pedido)
+    {
+        $this->id_oferta_pedido = $id_oferta_pedido;
 
         return $this;
     }

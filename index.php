@@ -9,7 +9,7 @@ $url = $_GET['url'] ?? 'index';
 
 
 if (in_array($url, $protectedRoutes) && !isset($_SESSION['user_id'])) {
-    echo "No has iniciado sesión. <a href='?url=login'>Inicia sesión</a>";
+    header("Location ?url=login");
     exit; 
 }
 
@@ -55,12 +55,6 @@ switch ($url) {
         include_once "controllers/cestaController.php";
         $controller = new CestaController();
         $controller->actualizarCantidadProductoCesta();
-        break;
-
-    case 'finalizar/cupon':
-        include_once "controllers/cuponesController.php";
-        $controller = new CuponesController();
-        $controller->agregarCupon();
         break;
 
     case 'comprar':

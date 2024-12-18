@@ -1,6 +1,7 @@
 <?php
 include_once "config/dataBase.php";
 include_once "models/cesta/Cesta.php";
+include_once "models/cesta/Cupon.php";
 
 class CestaDAO{   
     public static function countTotal($id){
@@ -40,26 +41,32 @@ class CestaDAO{
                 c.id__user,
                 c.id__producto,            
                 c.cantidad,    
-                c.tamaño,        
+                c.tamaño, 
+                c.id__oferta,       
                 p.nombre_producto,           
                 p.precio_producto,
                 p.foto_producto,
-                p.stock_producto            
+                p.stock_producto,
+                o.descuento_oferta                           
             FROM 
                 cesta c
             INNER JOIN 
                 productos p 
             ON 
                 c.id__producto = p.id_producto
+            LEFT JOIN 
+                ofertas o
+            ON 
+                c.id__oferta = o.id_oferta
             WHERE 
                 c.id__user = ?
         ";
-
+    
         $stmt = $con->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
-
+    
         $cesta = [];
         while ($row = $result->fetch_assoc()) {
             $cesta[] = [
@@ -71,13 +78,16 @@ class CestaDAO{
                 'nombre_producto' => $row['nombre_producto'],            
                 'precio_producto' => $row['precio_producto'],
                 'foto_producto' => $row['foto_producto'],
-                'stock_producto' => $row['stock_producto']
+                'stock_producto' => $row['stock_producto'],
+                'id__oferta' => $row['id__oferta'],
+                'descuento_oferta' => $row['descuento_oferta'] ?? null
             ];
         }
-
+    
         $con->close();
         return $cesta;
     }
+    
     
     public static function insertarCesta($cesta){
         $con = DataBase::connect();
@@ -133,6 +143,44 @@ class CestaDAO{
 
         $stmt->execute();
         $con->close();
+    }
+
+    public static function getAllCupones(){
+        $con = DataBase::connect();
+        $stmt = $con->prepare("SELECT * FROM ofertas");
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $ofertas = [];
+        while($data = $result->fetch_object()){
+            $oferta = new Cupon();
+            $oferta->setId_oferta($data->id_oferta);
+            $oferta->setNombre_oferta($data->nombre_oferta);
+            $oferta->setDescripcion_oferta($data->descripcion_oferta);
+            $oferta->setDescuento_oferta($data->descuento_oferta);
+            $oferta->setFecha_inicio_oferta($data->fecha_inicio_oferta);
+            $oferta->setFecha_fin_oferta($data->fecha_fin_oferta);
+            
+            $ofertas[] = $oferta;
+        }
+
+        $con->close();
+        return $ofertas;
+    }
+
+    public static function updateCupon($cupon, $id_user) {
+        $con = DataBase::connect();
+        $stmt = $con->prepare("UPDATE cesta SET id__oferta = ? WHERE id__user = ?");
+        
+        $id_cupon = $cupon->getId_oferta(); 
+    
+        $stmt->bind_param("ii", $id_cupon, $id_user);
+        $stmt->execute();
+    
+        $con->close();
+    
+        return true; 
     }
 }
 ?>

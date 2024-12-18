@@ -69,6 +69,15 @@
                                         <li>
                                             <a class="a-log" href="">Atención al cliente</a>
                                         </li>
+                                        <?php
+                                            if($_SESSION['user_rol'] == '1'){
+                                        ?>
+                                                <li>
+                                                    <a class="a-log" href="?url=admin">Administración</a>
+                                                </li>
+                                                <?php
+                                            }
+                                        ?>
                                     </ul>
                                 </li>
                                 <li>

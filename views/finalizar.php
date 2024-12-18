@@ -33,7 +33,7 @@
                         foreach ($cesta as $producto):  
                         ?>
                         <div class="card card-finalizar">
-                            <a href="?url=productos/producto-individual&id=<?=$producto['id_producto']?>"><img src="data:image/webp;base64,<?= base64_encode($producto['foto_producto']) ?>" class="card-img-top"  class="card-img-top" alt="..."></a>
+                            <a href="?url=productos/producto-individual&id= <?=$producto['id_producto']?>"><img src="data:image/webp;base64,<?= base64_encode($producto['foto_producto']) ?>" class="card-img-top"  class="card-img-top" alt="..."></a>
                             <div class="card-body"><?=$producto['nombre_producto']?></h5>
                                 <p class="card-text texto-tamaño">Tamaño: <?= $producto['tamaño']?></p>
                                 <p class="card-text texto-entrega">Entrega estimada, 21:30h 25 oct. 2024</p>                            
@@ -46,15 +46,23 @@
                                         <input name="cantidad" type="text" class="cantidad-producto" value="<?=$producto['cantidad']?>">
                                         <button type="submit" name="modificar" value="aumentar" class="btn-aumentar" <?php if($producto['cantidad'] == $producto['stock_producto']){echo 'disabled';}?>>+</button>
                                     </div>
-                                </form>                            
-                                <p class="card-text texto-descuento"><img src="views/img/icons/check-verde.svg" alt="">50% de descuento</p>
+                                </form>       
+                                <?php if (!empty($producto['descuento_oferta'])){ ?>
+                                    <p class="card-text texto-descuento">
+                                        <img src="views/img/icons/check-verde.svg" alt="">
+                                        <?= htmlspecialchars($producto['descuento_oferta']) ?>% de descuento
+                                    </p>
+                                <?php } ?>                                                     
                             </div>
                             <div class="producto-borrar">
                                 <form action="?url=finalizar/eliminar-producto-cesta" method="POST">
                                     <input type="text" name="producto_id" value="<?=$producto['id_producto']?>" hidden>
                                     <button type="submit" class="btn-close" aria-label="Close"></button>
-                                </form>                            
-                                <p><?=number_format($producto['precio_producto']*$producto['cantidad'], 2, ',', '.')?>€</p>
+                                </form>              
+                                <div>
+                                    <p <?php if (!empty($producto['descuento_oferta'])){ ?> class="precio-descuento"> <?=number_format($producto['precio_producto']*$producto['cantidad']*(1-$producto['descuento_oferta']/100), 2, ',', '.')?>€ <?php } ?> </p>
+                                    <p <?php if (!empty($producto['descuento_oferta'])){ ?> class="precio-tachado" <?php } ?> > <?=number_format($producto['precio_producto']*$producto['cantidad'], 2, ',', '.')?>€</p>
+                                </div>                                              
                             </div>
                         </div> 
                         <?php
@@ -66,7 +74,7 @@
                             <img src="views/img/icons/etiqueta.svg" alt="">
                             <div>
                                 <p class="cupon">¿Tienes un cupón?</p>
-                                <form action="?url=finalizar/cupon" method="post">
+                                <form action="?url=finalizar" method="post">
                                     <label for="cupon_nombre"></label>
                                     <input name="cupon_nombre" type="text" placeholder="Código">
                                     <button type="submit">Aplicar</button>
@@ -86,6 +94,9 @@
                                 foreach ($cesta as $producto) {
                                     $subtotal += $producto['precio_producto']*$producto['cantidad'];
                                 }
+                                if (!empty($producto['descuento_oferta'])){
+                                    $subtotal = $subtotal*(1-$producto['descuento_oferta']/100);
+                                }
                                 echo number_format($subtotal, 2, ',', '.');
                                 ?> €</p>
                             </div>
@@ -103,13 +114,24 @@
                                 <p class="precio-total"><?php
                                 $total = 0;
                                 foreach ($cesta as $producto) {
-                                    $total += $producto['precio_producto']*$producto['cantidad'];
+                                    $total += $producto['precio_producto']*$producto['cantidad'] ;
                                 }
-                                echo number_format($total, 2, ',', '.');
+                                if (!empty($producto['descuento_oferta'])){
+                                    $totalRebajado = $total*(1-$producto['descuento_oferta']/100);
+                                }
+                                if (!empty($producto['descuento_oferta'])){
+                                    echo number_format($totalRebajado, 2, ',', '.');
+                                }else{
+                                    echo number_format($total, 2, ',', '.');
+                                }
                                 ?> €</p>
                             </div>
                             <div class="ahorrado">
-                                <p class="ahorrado-verde">Has ahorrado 5,75€</p>
+                            <?php if ($producto['descuento_oferta']): ?>
+                                <p class="ahorrado-verde">
+                                    <?= 'Has ahorrado ' . number_format($total - $totalRebajado, 2, ',', '.') . '€' ?>
+                                </p>
+                            <?php endif; ?>
                                 <p>* IVA incluido</p>
                             </div>
                         </div>

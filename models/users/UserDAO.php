@@ -20,6 +20,7 @@ class UserDAO{
             $user->setApellidos_user($data['apellidos'] ?? null);
             $user->setTelefono_user($data['telefono'] ?? null);
             $user->setDirection_user($data['direction'] ?? null);
+            $user->setAdmin_rol($data['admin']);
 
             $users[] = $user; 
         }
@@ -38,7 +39,7 @@ class UserDAO{
         $apellidos = $user->getApellidos_user();
         $telefono = $user->getTelefono_user();
         $direction= $user->getDirection_user();
-        
+
         $stmt->bind_param("ssssis", $email, $contra, $nombre, $apellidos, $telefono, $direction);
 
         $stmt->execute();

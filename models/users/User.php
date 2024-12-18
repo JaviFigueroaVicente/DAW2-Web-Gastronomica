@@ -7,6 +7,7 @@
         public $direction_user;
         public $telefono_user;
         public $email_user;
+        public $admin_rol;
         
 
         public function __construct()
@@ -100,6 +101,16 @@
         public function setEmail_user($email_user)
         {
                 $this->email_user = $email_user;
+
+                return $this;
+        }
+        public function getAdmin_rol()
+        {
+                return $this->admin_rol;
+        }
+        public function setAdmin_rol($admin_rol)
+        {
+                $this->admin_rol = $admin_rol;
 
                 return $this;
         }
