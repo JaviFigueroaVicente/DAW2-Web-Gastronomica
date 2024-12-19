@@ -3,6 +3,31 @@ include_once "models/users/User.php";
 include_once "models/users/UserDAO.php";
 
 class UserController{
+    public function login(){
+        include_once "views/login.php";
+    }
+
+    public function registro(){
+        include_once "views/registro.php";
+    }
+
+    public function datosAcceso(){
+        include_once 'views/perfil/datos-acceso.php';
+    }
+
+    public function cambiarContra(){
+        include_once 'views/perfil/datos-cambiar-contra.php';
+    }
+
+    public function cuenta(){
+        include_once "views/cuenta.php";
+    }
+
+    public function datosPersonales(){
+        include_once "views/perfil/datos-personales.php";
+    }
+
+
     public function create(){
         $email = $_POST['email'];
         $contra = $_POST['contra'];

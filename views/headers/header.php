@@ -114,7 +114,7 @@
     <nav>                
         <ul class="nav justify-content-between">
             <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="../views/productos.php">RECETAS</a>
+                <a class="nav-link" aria-current="page" href="views/productos.php">RECETAS</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="views/productos.php">MENÚ DEL DÍA</a>

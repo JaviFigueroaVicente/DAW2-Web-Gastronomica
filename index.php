@@ -28,14 +28,14 @@ switch ($url) {
         break;  
 
     case 'productos/producto-individual':
-        include_once "controllers/productoIndividualController.php";
-        $controller = new ProductoIndividualController();
+        include_once "controllers/productoController.php";
+        $controller = new ProductoController();
         $controller->productoIndividual();
         break;
     
     case 'finalizar':
-        include_once "controllers/finalizarController.php";
-        $controller = new FinalizarController();
+        include_once "controllers/cestaController.php";
+        $controller = new CestaController();
         $controller->finalizar();  
         break; 
 
@@ -58,32 +58,32 @@ switch ($url) {
         break;
 
     case 'comprar':
-        include_once "controllers/comprarController.php";
-        $controller = new ComprarController();
+        include_once "controllers/pedidoController.php";
+        $controller = new PedidoController();
         $controller->comprar();
         break;
 
     case 'comprar/tramitar-pedido':
-        include_once "controllers/tramitarPedidoController.php";
-        $controller = new TramitarPedidoController();
+        include_once "controllers/pedidoController.php";
+        $controller = new PedidoController();
         $controller->crearPedido();
         break;
 
     case 'cuenta/mis-pedidos':
-        include_once "controllers/misPedidosController.php";
-        $controller = new MisPedidosController();
+        include_once "controllers/pedidoController.php";
+        $controller = new PedidoController();
         $controller-> misPedidos();
         break;
 
     case 'cuenta/mis-pedidos/detalles-pedido':
-        include_once "controllers/pedidoIndividualController.php";
-        $controller = new PedidoIndividualController();
+        include_once "controllers/pedidoController.php";
+        $controller = new PedidoController();
         $controller-> pedidoInidividual();
         break;
     
     case 'login':
-        include_once "controllers/loginController.php";
-        $controller = new LoginController();
+        include_once "controllers/userController.php";
+        $controller = new UserController();
         $controller -> login();
         break;
     
@@ -100,8 +100,8 @@ switch ($url) {
         break;
 
     case 'registro':
-        include_once "controllers/registroController.php";
-        $controller = new RegistroController();
+        include_once "controllers/userController.php";
+        $controller = new UserController();
         $controller -> registro();
         break;
 
@@ -112,14 +112,14 @@ switch ($url) {
         break;
     
     case 'cuenta':
-        include_once "controllers/cuentaController.php";
-        $controller = new CuentaController();
+        include_once "controllers/userController.php";
+        $controller = new UserController();
         $controller -> cuenta();
         break;
     
     case 'datos-personales':
-        include_once "controllers/datosPersonalesController.php";
-        $controller = new DatosPersonalesController();
+        include_once "controllers/userController.php";
+        $controller = new UserController();
         $controller->datosPersonales();
         break;
         
@@ -130,14 +130,14 @@ switch ($url) {
         break;
     
     case 'datos-acceso':
-        include_once "controllers/datosAccesoController.php";
-        $controller = new DatosAccesoController();
+        include_once "controllers/userController.php";
+        $controller = new UserController();
         $controller->datosAcceso();
         break;
 
     case 'datos-acceso/update-password':
-        include_once "controllers/datosCambiarContraController.php";
-        $controller = new DatosCambiarContraController();
+        include_once "controllers/userController.php";
+        $controller = new UserController();
         $controller->cambiarContra();
         break;
 

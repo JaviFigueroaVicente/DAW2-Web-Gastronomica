@@ -32,9 +32,9 @@ class CestaDAO{
     }
 
 
-    public static function getCesta($id){
+    public static function getCesta($id) {
         $con = DataBase::connect();
-        
+    
         $sql = "
             SELECT 
                 c.id_fila_cesta,
@@ -88,17 +88,33 @@ class CestaDAO{
         return $cesta;
     }
     
+    public static function getOfertaPorProductoYCesta($idUser) {
+        $con = DataBase::connect();
+    
+        $sql = "SELECT id__oferta FROM cesta WHERE id__user = ? LIMIT 1";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("i", $idUser);
+        $stmt->execute();
+    
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+    
+        $con->close();
+    
+        return $row['id__oferta'] ?? 0;
+    }
     
     public static function insertarCesta($cesta){
         $con = DataBase::connect();
-        $stmt = $con->prepare("INSERT INTO cesta(id__user, id__producto, cantidad, tamaño) VALUES (?,?,?,?)");
+        $stmt = $con->prepare("INSERT INTO cesta(id__user, id__producto, cantidad, tamaño, id__oferta) VALUES (?,?,?,?,?)");
 
         $user_id = $cesta -> getIdUser();
         $producto_id = $cesta -> getIdProducto();
         $cantidad = $cesta -> getCantidad();
         $tamaño = $cesta -> getTamaño();
+        $id_oferta = $cesta -> getIdOferta();
         
-        $stmt->bind_param("iiis", $user_id, $producto_id, $cantidad, $tamaño);
+        $stmt->bind_param("iiisi", $user_id, $producto_id, $cantidad, $tamaño, $id_oferta);
 
         $stmt->execute();
         $con->close();

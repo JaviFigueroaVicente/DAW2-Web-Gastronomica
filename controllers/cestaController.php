@@ -2,18 +2,30 @@
 include_once 'models/cesta/Cesta.php';
 include_once 'models/cesta/CestaDAO.php';
 
-class CestaController{    
+class CestaController{   
+    public function finalizar(){ 
+    $cupon = CestaController::agregarCupon();
+    $cesta = CestaDAO::getCesta($_SESSION['user_id']);
+    $totalCesta = CestaDAO::countTotal($_SESSION['user_id']);        
+    include_once "views/finalizar.php";
+    }
+
+
+
     public function añadirCesta(){
         $user_id = $_SESSION['user_id'];
         $producto_id = $_POST['producto_id'];
         $cantidad = $_POST['cantidad'];
         $tamaño = $_POST['tamaño'];
 
+        $id_oferta = CestaDAO::getOfertaPorProductoYCesta($user_id);
+
         $cesta = new Cesta();
         $cesta -> setIdUser($user_id);
         $cesta -> setIdProducto($producto_id);
         $cesta -> setCantidad($cantidad);
         $cesta -> setTamaño($tamaño);
+        $cesta -> setIdOferta($id_oferta);
 
         if(CestaDAO::existeProductoCesta($cesta) === false){
             CestaDAO::insertarCesta($cesta);
@@ -78,5 +90,7 @@ class CestaController{
             }
         }        
     }
+
+   
 }
 ?>

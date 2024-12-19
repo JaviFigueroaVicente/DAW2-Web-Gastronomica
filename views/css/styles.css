@@ -1495,6 +1495,12 @@ ul{
     border-radius: 5px;
     font-weight: 500;
     margin-left: 10px;
+    transition: all 0.2s;
+   
+}
+
+.cesta-bottom button:hover{
+    background-color: #1e2a36;
 }
 
 
@@ -1589,6 +1595,7 @@ ul{
     border-radius: 5px;
     margin-top: 25px;
     height: 50px;
+    transition: all 0.2s;
 }
 
 .tramitar-menu button:hover{
@@ -2040,6 +2047,11 @@ ul{
 }
 .comprar .sticky-top{
     padding-top: 15px;
+}
+
+.sticky-top{
+    margin-bottom: 100px;
+    z-index: 0;
 }
 
 .comprar aside h2{

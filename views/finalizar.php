@@ -84,64 +84,66 @@
                         <p class="iva">* En las ventas fuera de la UE no se repercutirá IVA (21%), no obstante el sistema aduanero aplicará las cargas impositivas correspondientes. En ningún caso podremos determinar el importe de los impuestos a pagar por el cliente al recibir su pedido ya que depende de la aduana del país de destino. En cualquier caso, el pago de dicho importe es a cargo del cliente final.</p>
                     </div>
                 </div>   
-                <div class="tramitar-pedido">
-                    <div class="tramitar-menu">
-                        <div class="tramitar-subtotal">
-                            <div>
-                                <p>Subtotal</p>
-                                <p class="precio-subtotal"><?php
-                                $subtotal = 0;
-                                foreach ($cesta as $producto) {
-                                    $subtotal += $producto['precio_producto']*$producto['cantidad'];
-                                }
-                                if (!empty($producto['descuento_oferta'])){
-                                    $subtotal = $subtotal*(1-$producto['descuento_oferta']/100);
-                                }
-                                echo number_format($subtotal, 2, ',', '.');
-                                ?> €</p>
+                <div class="tramitar-pedido ">
+                    <aside class="sticky-top">
+                        <div class="tramitar-menu">
+                            <div class="tramitar-subtotal">
+                                <div>
+                                    <p>Subtotal</p>
+                                    <p class="precio-subtotal"><?php
+                                    $subtotal = 0;
+                                    foreach ($cesta as $producto) {
+                                        $subtotal += $producto['precio_producto']*$producto['cantidad'];
+                                    }
+                                    if (!empty($producto['descuento_oferta'])){
+                                        $subtotal = $subtotal*(1-$producto['descuento_oferta']/100);
+                                    }
+                                    echo number_format($subtotal, 2, ',', '.');
+                                    ?> €</p>
+                                </div>
+                                <div>
+                                    <div class="div-gastos-envio">
+                                        <p>Gastos de envío GRATIS</p>
+                                        <a href=""><img class="subtotal-icon" src="views/img/icons/pregunta.webp" alt=""></a>
+                                    </div>                            
+                                    <p class="gastos-envio">0,00 €</p>
+                                </div>
                             </div>
-                            <div>
-                                <div class="div-gastos-envio">
-                                    <p>Gastos de envío GRATIS</p>
-                                    <a href=""><img class="subtotal-icon" src="views/img/icons/pregunta.webp" alt=""></a>
-                                </div>                            
-                                <p class="gastos-envio">0,00 €</p>
+                            <div class="tramitar-total">                                
+                                <div class="total">
+                                    <p>Total</p>
+                                    <p class="precio-total"><?php
+                                    $total = 0;
+                                    foreach ($cesta as $producto) {
+                                        $total += $producto['precio_producto']*$producto['cantidad'] ;
+                                    }
+                                    if (!empty($producto['descuento_oferta'])){
+                                        $totalRebajado = $total*(1-$producto['descuento_oferta']/100);
+                                    }
+                                    if (!empty($producto['descuento_oferta'])){
+                                        echo number_format($totalRebajado, 2, ',', '.');
+                                    }else{
+                                        echo number_format($total, 2, ',', '.');
+                                    }
+                                    ?> €</p>
+                                </div>
+                                <div class="ahorrado">
+                                <?php if ($producto['descuento_oferta']): ?>
+                                    <p class="ahorrado-verde">
+                                        <?= 'Has ahorrado ' . number_format($total - $totalRebajado, 2, ',', '.') . '€' ?>
+                                    </p>
+                                <?php endif; ?>
+                                    <p>* IVA incluido</p>
+                                </div>
                             </div>
+                            <a href="?url=comprar"><button type="submit">Tramitar pedido</button></a>                                    
                         </div>
-                        <div class="tramitar-total">
-                            <div class="total">
-                                <p>Total</p>
-                                <p class="precio-total"><?php
-                                $total = 0;
-                                foreach ($cesta as $producto) {
-                                    $total += $producto['precio_producto']*$producto['cantidad'] ;
-                                }
-                                if (!empty($producto['descuento_oferta'])){
-                                    $totalRebajado = $total*(1-$producto['descuento_oferta']/100);
-                                }
-                                if (!empty($producto['descuento_oferta'])){
-                                    echo number_format($totalRebajado, 2, ',', '.');
-                                }else{
-                                    echo number_format($total, 2, ',', '.');
-                                }
-                                ?> €</p>
-                            </div>
-                            <div class="ahorrado">
-                            <?php if ($producto['descuento_oferta']): ?>
-                                <p class="ahorrado-verde">
-                                    <?= 'Has ahorrado ' . number_format($total - $totalRebajado, 2, ',', '.') . '€' ?>
-                                </p>
-                            <?php endif; ?>
-                                <p>* IVA incluido</p>
-                            </div>
+                        <div class="tramitar-metodos">
+                            <img class="excelente" src="views/img/icons/excelente.webp" alt="">
+                            <p>Aceptamos diversos métodos de pago</p>
+                            <img class="pagos" src="views/img/icons/metodos-pago.webp" alt="">
                         </div>
-                        <a href="?url=comprar"><button type="submit">Tramitar pedido</button></a>                    
-                    </div>
-                    <div class="tramitar-metodos">
-                        <img class="excelente" src="views/img/icons/excelente.webp" alt="">
-                        <p>Aceptamos diversos métodos de pago</p>
-                        <img class="pagos" src="views/img/icons/metodos-pago.webp" alt="">
-                    </div>
+                    </aside>
                 </div>
             <?php
             }else{?>

@@ -192,25 +192,30 @@
                                     <p>Total</p>
                                     <p class="precio-total"><?php
                                         $total = 0;
+                                        $totalRebajado = 0;
                                         foreach ($cesta as $producto) {
-                                            $total += $producto['precio_producto']*$producto['cantidad'] ;
+                                            $precioSinDescuento = $producto['precio_producto'] * $producto['cantidad'];
+                                            $total += $precioSinDescuento;
+                                
+                                            if (!empty($producto['descuento_oferta'])) {
+                                                $precioConDescuento = $precioSinDescuento * (1 - $producto['descuento_oferta'] / 100);
+                                                $totalRebajado += $precioConDescuento;
+                                            } else {
+                                                $totalRebajado += $precioSinDescuento;
+                                            }
                                         }
-                                        if (!empty($producto['descuento_oferta'])){
-                                            $totalRebajado = $total*(1-$producto['descuento_oferta']/100);
-                                        }
-                                        if (!empty($producto['descuento_oferta'])){
+                                
+                                        if ($total !== $totalRebajado) {
                                             echo number_format($totalRebajado, 2, ',', '.');
-                                        }else{
+                                        } else {
                                             echo number_format($total, 2, ',', '.');
                                         }
                                         ?> €
                                     </p>
-                                    <input name="precio_total_pedido" type="text" value="<?php if (!empty($producto['descuento_oferta'])){
-                                            echo number_format($totalRebajado, 2, ',', '.');
-                                        }else{
-                                            echo number_format($total, 2, ',', '.');
-                                        } ?>" hidden>
-                                    <input type="text" name="id_oferta" value="<?php echo $producto['id__oferta'] ?>" hidden>
+                                
+                                    <!-- Inputs ocultos para enviar el total al servidor -->
+                                    <input name="precio_total_pedido" type="text" value="<?php echo number_format($totalRebajado, 2, ',', '.'); ?>" hidden>
+                                    <input type="text" name="id_oferta" value="<?php echo !empty($producto['id__oferta']) ? $producto['id__oferta'] : ''; ?>" hidden>
                                 </div>
                                 <div class="ahorrado">
                                     <?php if ($producto['descuento_oferta']): ?>
