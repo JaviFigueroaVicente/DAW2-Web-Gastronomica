@@ -3,6 +3,30 @@ include_once "config/dataBase.php";
 include_once "models/pedidos/Pedido.php";
 
 class PedidoDAO{
+    public static function getAllPedidos() {
+        $con = DataBase::connect();
+
+        $sql = "SELECT * FROM pedidos";
+        $result = $con->query($sql);
+
+        $pedidos = [];
+        while ($row = $result->fetch_assoc()) {
+            $pedidos[] = [
+                'id_pedido' => $row['id_pedido'],
+                'fecha_pedido' => $row['fecha_pedido'],
+                'estado_pedido' => $row['estado_pedido'],
+                'id_user__pedido' => $row['id_user_pedido'],
+                'precio_pedido' => $row['precio_pedido'],
+                'direccion_pedido' => $row['direccion_pedido'],
+                'metodo_pago' => $row['metodo_pago'],
+                'id_oferta_' => $row['id_oferta_']
+            ];
+        }
+
+        $con->close();
+        return $pedidos;
+    }
+
     public static function getPedidos($idUser) {
         $con = DataBase::connect();
 

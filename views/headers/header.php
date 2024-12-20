@@ -93,7 +93,6 @@
                 <div>
                     <img class="icon" src="views/img/icons/favourite.svg" alt="">
                 </div>
-                <span></span>
             </a>
         </div>
         <div class="carrito-icon"> 
@@ -111,8 +110,11 @@
     </div>
 </div>
 <div id="header-nav">
-    <nav>                
-        <ul class="nav justify-content-between">
+    <nav class="navbar navbar-expand-lg"> 
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerMenu" aria-controls="navbarTogglerMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>               
+        <ul class="nav justify-content-between collapse navbar-collapse me-auto" id="navbarTogglerMenu">
             <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="views/productos.php">RECETAS</a>
             </li>

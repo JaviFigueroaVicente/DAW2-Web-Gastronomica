@@ -21,6 +21,30 @@ switch ($url) {
         $controller->index();  
         break;
 
+    case 'admin':
+        include_once "controllers/apiController.php";
+        $controller = new ApiController();
+        $controller->admin();
+        break;
+    
+    case 'admin/users':
+        include_once "controllers/apiController.php";
+        $controller = new ApiController();
+        $controller->usersAPI();
+        break;
+
+    case 'admin/productos':
+        include_once "controllers/apiController.php";
+        $controller = new ApiController();
+        $controller->productosAPI();
+        break;
+
+    case 'admin/pedidos':
+        include_once "controllers/apiController.php";
+        $controller = new ApiController();
+        $controller->pedidosAPI();
+        break;
+
     case 'productos':
         include_once "controllers/productoController.php";
         $controller = new ProductoController();

@@ -16,8 +16,8 @@
             include_once "views/headers/header.php";
         ?>
     </header>
-    <main class= "datos-personales">
-        <section class="datos-personales-section">
+    <main class= "cuenta">
+        <section class="cuenta-section">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="?url=cuenta">Mi cuenta</a></li>

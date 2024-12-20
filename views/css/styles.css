@@ -16,6 +16,26 @@ main{
     border-top: 1px solid #888888;
 }
 
+/* ADMIN */
+.admin-main .row{
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+.table-admin{
+    padding-right: 10%;
+}
+
+.admin-lateral nav{
+    border-top: none;
+    gap: 15px;
+}
+
+.admin-lateral nav a:hover{
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s;
+}
+
 /* INDEX */
 /* Header_top */
 
