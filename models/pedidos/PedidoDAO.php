@@ -15,7 +15,7 @@ class PedidoDAO{
                 'id_pedido' => $row['id_pedido'],
                 'fecha_pedido' => $row['fecha_pedido'],
                 'estado_pedido' => $row['estado_pedido'],
-                'id_user__pedido' => $row['id_user_pedido'],
+                'id_user_pedido' => $row['id_user_pedido'],
                 'precio_pedido' => $row['precio_pedido'],
                 'direccion_pedido' => $row['direccion_pedido'],
                 'metodo_pago' => $row['metodo_pago'],

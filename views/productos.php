@@ -82,28 +82,31 @@
                     <div class="row">
                         <?php
                         $count = 0;
-                        foreach ($productos as $producto): 
-                            if ($count > 0 && $count % 3 === 0):
-                        ?>
-                            </div>
-                            <div class="row">
-                        <?php endif; ?>
-                        <div class="col"> 
-                            <div class="card mb-3">
-                                <div class="card-img-container">
-                                    <a href="?url=productos/producto-individual&id=<?=$producto->getId_producto()?>">                                        
-                                        <img src="data:image/webp;base64,<?= base64_encode($producto->getFoto_producto()) ?>" class="card-img-top" alt="<?= htmlspecialchars($producto->getNombre_producto()) ?>">
-                                    </a>
+                        foreach ($productos as $producto):
+                            if ($count > 0 && $count % 3 === 0): ?>
                                 </div>
-                                <div class="card-body">
-                                    <a href="#" class="card-title"><?= htmlspecialchars($producto->getNombre_producto()) ?></a>                                    
-                                    <p class="card-text"><?= number_format($producto->getPrecio_producto(), 2, ',', '.') ?>€</p>
+                                <div class="row">
+                            <?php endif; ?>
+                            <div class="col">
+                                <div class="card mb-3">
+                                    <div class="card-img-container">
+                                        <a href="?url=productos/producto-individual&id=<?= htmlspecialchars($producto['id_producto']) ?>">
+                                            <?php if ($producto['foto_producto']): ?>
+                                                <img src="<?= $producto['foto_producto'] ?>" class="card-img-top" alt="<?= htmlspecialchars($producto['nombre_producto']) ?>">
+                                            <?php else: ?>
+                                                <img src="default-image.webp" class="card-img-top" alt="Producto sin imagen">
+                                            <?php endif; ?>
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="#" class="card-title"><?= htmlspecialchars($producto['nombre_producto']) ?></a>
+                                        <p class="card-text"><?= number_format($producto['precio_producto'], 2, ',', '.') ?>€</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <?php
-                        $count++; 
-                        endforeach; 
+                            $count++;
+                        endforeach;
                         ?>
                     </div>
                 <?php else: ?>

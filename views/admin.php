@@ -11,6 +11,7 @@
     <title>Mammoth's Kitchen</title>  
     <script src="api/userAPI.js" defer></script>
     <script src="api/pedidosAPI.js" defer></script>
+    <script src="api/productosAPI.js"></script>
 </head>
 <body>
     <header>
@@ -25,12 +26,14 @@
         <section class="row">     
             <aside class="menu-lateral admin-lateral col-lg-2">
                 <nav class="nav flex-column">
-                    <a class="nav-link active" aria-current="page" data-section="productos" href="">Productos</a>
+                    <a class="nav-link active" data-section="productos" href="">Productos</a>
                     <a class="nav-link" href="" data-section="pedidos">Pedidos</a>
                     <a class="nav-link" href="" data-section="usuarios">Usuarios</a>
                 </nav>
             </aside>
-            <div id="content-container"></div>
+            <div id="content-container" class="col-lg-7">
+
+            </div>
 
             
         </section>  

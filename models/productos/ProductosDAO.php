@@ -12,8 +12,14 @@ class ProductosDAO{
 
         $productos = [];
         while($producto = $result->fetch_object("Productos")){
-            $productos[] = $producto;
-        }
+            $productos[] = [
+                'id_producto' => $producto->getId_producto(),
+                'nombre_producto' => $producto->getNombre_producto(),
+                'descripcion_producto' => $producto->getDescripcion_producto(),
+                'precio_producto' => $producto->getPrecio_producto(),
+                'stock_producto' => $producto->getStock_producto(),
+                'foto_producto' => $producto->getFoto_producto() ? 'data:image/webp;base64,' . base64_encode($producto->getFoto_producto()) : null
+            ];}
 
         $con->close();
         return $productos;

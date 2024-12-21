@@ -6,7 +6,6 @@ class PedidosAPI {
         this.init();
     }
 
-    // Inicializa el evento de clic para los enlaces de navegación
     init() {
         this.navLinks.forEach(link => {
             link.addEventListener("click", async (event) => {
@@ -26,7 +25,6 @@ class PedidosAPI {
         });
     }
 
-    // Hace la solicitud a la API para obtener los pedidos
     async fetchPedidos() {
         const response = await fetch("?url=admin/pedidos");
         if (!response.ok) {
@@ -35,7 +33,6 @@ class PedidosAPI {
         return await response.json();
     }
 
-    // Renderiza la tabla de pedidos
     renderPedidosTable(pedidos) {
         if (!Array.isArray(pedidos) || pedidos.length === 0) {
             this.contentContainer.innerHTML = "<p>No hay pedidos disponibles</p>";
@@ -86,7 +83,6 @@ class PedidosAPI {
     }
 }
 
-// Inicializa la clase cuando el DOM esté listo
 document.addEventListener("DOMContentLoaded", () => {
     new PedidosAPI(".nav-link", "#content-container");
 });
