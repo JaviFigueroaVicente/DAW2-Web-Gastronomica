@@ -26,6 +26,7 @@ switch ($url) {
         $controller = new ApiController();
         $controller->admin();
         break;
+
     
     case 'admin/users':
         include_once "controllers/apiController.php";
@@ -45,11 +46,24 @@ switch ($url) {
         $controller->pedidosAPI();
         break;
 
+    case 'admin/ofertas':
+        include_once "controllers/apiController.php";
+        $controller = new ApiController();
+        $controller->ofertasAPI();
+        break;
+
     case 'productos':
         include_once "controllers/productoController.php";
         $controller = new ProductoController();
-        $controller->productos();  
-        break;  
+    
+        if (isset($_GET['categoria'])) {
+            $controller->productosByCategoria();
+        } elseif (isset($_GET['oferta'])) {
+            $controller->productosByOferta();
+        } else {
+            $controller->productos();
+        }
+        break;
 
     case 'productos/producto-individual':
         include_once "controllers/productoController.php";

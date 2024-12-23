@@ -116,22 +116,22 @@
         </button>               
         <ul class="nav justify-content-between collapse navbar-collapse me-auto" id="navbarTogglerMenu">
             <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="views/productos.php">RECETAS</a>
+                <a class="nav-link" aria-current="page" href="?url=productos">RECETAS</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="views/productos.php">MENÚ DEL DÍA</a>
+                <a class="nav-link" href="?url=productos">MENÚ DEL DÍA</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="views/productos.php">FIT FOOD</a>
+                <a class="nav-link" href="?url=productos&categoria=2">FIT FOOD</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="views/productos.php">PLATOS COMBINADOS</a>
+                <a class="nav-link" href="?url=productos">PLATOS COMBINADOS</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="views/productos.php">CREACIÓN DE PLATOS</a>
+                <a class="nav-link" href="?url=productos">CREACIÓN DE PLATOS</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="views/productos.php">INGREDIENTES</a>
+                <a class="nav-link" href="?url=productos">INGREDIENTES</a>
             </li>
         </ul>          
     </nav>            

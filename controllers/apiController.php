@@ -3,17 +3,20 @@ include_once "config/dataBase.php";
 include_once "models/users/UserDAO.php";
 include_once "models/productos/ProductosDAO.php";
 include_once "models/pedidos/PedidoDAO.php";
+include_once "models/cesta/CestaDAO.php";
 
 class ApiController{
     public function admin(){
         include_once "views/admin.php";
     }
 
+    
     public function productosAPI(){
         $productos = ProductosDAO::getAll();
         header('Content-Type: application/json');
         echo json_encode($productos, JSON_UNESCAPED_UNICODE);
     }
+    
 
     public function usersAPI(){        
         $users = UserDAO::getAllUsers(true);
@@ -25,6 +28,12 @@ class ApiController{
         $pedidos = PedidoDAO::getAllPedidos();
         header('Content-Type: application/json');
         echo json_encode($pedidos, JSON_UNESCAPED_UNICODE);
+    }
+
+    public function ofertasAPI(){
+        $ofertas = CestaDAO::getAllCupones();
+        header('Content-Type: application/json');
+        echo json_encode($ofertas, JSON_UNESCAPED_UNICODE);
     }
 }
 

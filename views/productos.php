@@ -24,11 +24,12 @@
                         + Categorías
                     </button>
                     <ul id="categorias" class="menu-subitems collapse">
-                        <li>Comida baja en hidratos</li>
-                        <li>Comida alta en proteínas</li>
-                        <li>Comida sin calorías</li>
-                        <li>Comida tipo Fitfood</li>
-                        <li>Comida sin grasas</li>
+                        <li><a href="?url=productos">Todas las categorías</a></li>
+                        <?php
+                        foreach ($categoriasProducto as $categoria) {
+                            echo '<li><a href="?url=productos&categoria='.$categoria['id_categoria_producto'].'">' . ucfirst($categoria['nombre_categoria_producto']) . '</a></li>';
+                        }
+                        ?>
                     </ul>
                 </li>
                 <li class="menu-item">
@@ -51,8 +52,12 @@
                         + Ofertas
                     </button>
                     <ul id="ofertas" class="menu-subitems collapse">
-                        <li>Descuentos del día</li>
-                        <li>Promociones especiales</li>
+                        <li><a href="?url=productos">Todas las ofertas</a></li>
+                        <?php
+                            foreach ($ofertas as $oferta) {
+                                echo '<li><a href="?url=productos&oferta=' . $oferta->getId_oferta() . '">' . ucfirst($oferta->getNombre_oferta()) . '</a></li>';
+                            }
+                        ?>
                     </ul>
                 </li>
             </ul>
@@ -60,20 +65,35 @@
         <section class="lista-productos">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page"><a href="">Library</a></li>
+                    <li class="breadcrumb-item"><a href="?url=productos">Productos</a></li>
+                    <?php if (isset($_GET['categoria'])) {
+                        echo '<li class="breadcrumb-item active" aria-current="page">' . ucfirst($categoriaId->getNombre_categoria_producto()) . '</li>';
+                    } elseif (isset($_GET['oferta'])) {
+                        echo '<li class="breadcrumb-item active" aria-current="page">' . ucfirst($oferta->getNombre_oferta()) . '</li>'; 
+                    }?>
                 </ol>
             </nav>
-            <h1>Todas las recetas</h1>
+                <h1>
+                    <?php 
+                    if (isset($_GET['categoria'])) {
+                        echo ucfirst($categoriaId->getNombre_categoria_producto());
+                    } elseif (isset($_GET['oferta'])) {
+                        echo ucfirst($oferta->getNombre_oferta());
+                    } else {
+                        echo "Todos los productos";
+                    }
+                    ?>
+                </h1>
             <div class="productos-list">
                 <div class="productos-ordenar">
                     <p>
                         <?= $total_productos ?> productos</p>
                     <select>
                         <option selected>Ordenar</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="1">Más caros</option>
+                        <option value="2">Más baratos</option>
+                        <option value="3">A-Z</option>
+                        <option value="4">Z-A</option>
                     </select>
                 </div>
             </div>  
@@ -99,7 +119,7 @@
                                         </a>
                                     </div>
                                     <div class="card-body">
-                                        <a href="#" class="card-title"><?= htmlspecialchars($producto['nombre_producto']) ?></a>
+                                        <a href="?url=productos/producto-individual&id=<?= htmlspecialchars($producto['id_producto']) ?>" class="card-title"><?= htmlspecialchars($producto['nombre_producto']) ?></a>
                                         <p class="card-text"><?= number_format($producto['precio_producto'], 2, ',', '.') ?>€</p>
                                     </div>
                                 </div>

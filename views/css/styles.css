@@ -1118,6 +1118,11 @@ ul{
     margin-bottom: 0;
 }
 
+.menu-subitems a{
+    color: #1a1a1a;
+    text-decoration: none;
+}
+
 .menu-item:not(:last-child):after {
     content: '';
     display: block;
@@ -1244,7 +1249,7 @@ ul{
     transform: scale(1.1);
 }
 
-.card-productos :hover .card-body a{
+.card-productos .card:hover .card-body a{
     text-decoration: underline;
 }
 

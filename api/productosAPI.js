@@ -1,87 +1,62 @@
-class ProductosAPI {
-    constructor(navLinksSelector, contentContainerSelector) {
-        this.navLinks = document.querySelectorAll(navLinksSelector);
-        this.contentContainer = document.querySelector(contentContainerSelector);
-
-        this.init();
+export class ProductosAPI {
+    constructor(contentContainer) {
+        this.contentContainer = contentContainer;
     }
 
-    init() {
-        this.navLinks.forEach(link => {
-            link.addEventListener("click", async (event) => {
-                event.preventDefault();
+    async load() {
+        const response = await fetch("?url=admin/productos"); 
+        if (!response.ok) throw new Error("Error al obtener productos");
 
-                const section = link.getAttribute("data-section");
-                if (section === "productos") {
-                    try {
-                        const productos = await this.fetchProductos();
-                        this.renderProductosTable(productos);
-                    } catch (error) {
-                        console.error("Error al obtener los productos:", error);
-                        this.contentContainer.innerHTML = "<p>Error al cargar los productos</p>";
-                    }
-                }
-            });
-        });
+        const productos = await response.json();
+        this.render(productos);
     }
 
-    async fetchProductos() {
-        const response = await fetch("?url=admin/productos");
-        if (!response.ok) {
-            throw new Error("Error al obtener los productos");
-        }
-        return await response.json();
-    }
-
-    renderProductosTable(productos) {
-        if (!Array.isArray(productos) || productos.length === 0) {
+    render(productos) {
+        if (productos.length === 0) {
             this.contentContainer.innerHTML = "<p>No hay productos disponibles</p>";
             return;
         }
-    
-        const table = document.createElement("table");
-        table.classList.add("table", "table-striped");
-    
-        const thead = document.createElement("thead");
-        thead.innerHTML = `
-            <tr>
-                <th>ID</th>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Stock</th>                
-            </tr>
-        `;
-    
-        const tbody = document.createElement("tbody");
-    
-        productos.forEach(producto => {
-            const row = document.createElement("tr");
-    
-            row.innerHTML = `
-                <td>${producto.id_producto || ""}</td>
-                <td>
-                    ${producto.foto_producto ? `<img src="${producto.foto_producto}" alt="${producto.nombre_producto}" style="width: 50px; height: 50px;">` : "N/A"}
-                </td>
-                <td>${producto.nombre_producto || ""}</td>
-                <td>${producto.descripcion_producto || ""}</td>
-                <td>${producto.precio_producto || ""}</td>
-                <td>${producto.stock_producto || ""}</td>   
-            `;
-    
-            tbody.appendChild(row);
-        });
-    
-        table.appendChild(thead);
-        table.appendChild(tbody);
-    
-        this.contentContainer.innerHTML = "";
-        this.contentContainer.appendChild(table);
-    }    
-}
 
-// Inicializa la clase cuando el DOM esté listo
-document.addEventListener("DOMContentLoaded", () => {
-    new ProductosAPI(".nav-link", "#content-container");
-});
+        const table = `
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${productos.map(producto => `
+                        <tr>
+                            <td>${producto.id_producto}</td>
+                            <td>${producto.foto_producto ? `<img src="${producto.foto_producto}" style="width:50px;height:50px;">` : "N/A"}</td>
+                            <td>${producto.nombre_producto}</td>
+                            <td>${producto.descripcion_producto}</td>
+                            <td>${producto.precio_producto} €</td>
+                            <td>${producto.stock_producto}</td>
+                            <td>
+                            <button class="btn btn-primary btn-edit" data-id="${producto.id_producto}" data-bs-toggle="modal" data-bs-target="#editModal">
+                                Editar
+                            </button>
+                            </td>
+                        </tr>`).join('')}
+                </tbody>
+            </table>
+        `;
+
+        this.contentContainer.innerHTML = table;
+
+        const editButtons = document.querySelectorAll('.btn-edit');
+        editButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const productId = e.target.dataset.id;
+                this.loadEditModal(productId);
+            });
+        });
+    }
+}

@@ -1,11 +1,10 @@
 <?php
-    abstract class CategoriaProducto{
-        protected $id_categoria_producto;
-        protected $nombre_categoria_producto;
+    class CategoriaProducto{
+        public $id_categoria_producto;
+        public $nombre_categoria_producto;
 
-        public function __construct($id_categoria_producto,$nombre_categoria_producto)        {
-            $this -> id_categoria_producto = $id_categoria_producto;
-            $this -> nombre_categoria_producto = $nombre_categoria_producto;
+        public function __construct(){
+
         }
       
         public function getId_categoria_producto()

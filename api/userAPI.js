@@ -1,89 +1,55 @@
-class UserAPI {
-    constructor(navLinksSelector, contentContainerSelector) {
-        this.navLinks = document.querySelectorAll(navLinksSelector);
-        this.contentContainer = document.querySelector(contentContainerSelector);
-
-        this.init();
+export class UserAPI {
+    constructor(contentContainer) {
+        this.contentContainer = contentContainer;
     }
 
-    // Inicializa los eventos de los enlaces
-    init() {
-        this.navLinks.forEach(link => {
-            link.addEventListener("click", async (event) => {
-                event.preventDefault();
+    async load() {
+        const response = await fetch("?url=admin/users"); 
+        if (!response.ok) throw new Error("Error al obtener usuarios");
 
-                const section = link.getAttribute("data-section");
-                if (section === "usuarios") {
-                    try {
-                        const users = await this.fetchUsers();
-                        this.renderUserTable(users);
-                    } catch (error) {
-                        console.error("Error al obtener los usuarios:", error);
-                        this.contentContainer.innerHTML = "<p>Error al cargar usuarios</p>";
-                    }
-                }
-            });
-        });
+        const users = await response.json();
+        this.render(users);
     }
 
-    // Realiza una petición para obtener los usuarios
-    async fetchUsers() {
-        const response = await fetch("?url=admin/users");
-        if (!response.ok) {
-            throw new Error("Error al obtener los usuarios");
-        }
-        return await response.json();
-    }
-
-    // Renderiza la tabla de usuarios
-    renderUserTable(users) {
-        if (!Array.isArray(users) || users.length === 0) {
+    render(users) {
+        if (users.length === 0) {
             this.contentContainer.innerHTML = "<p>No hay usuarios disponibles</p>";
             return;
         }
 
-        const table = document.createElement("table");
-        table.classList.add("table", "table-striped");
-
-        const thead = document.createElement("thead");
-        thead.innerHTML = `
-            <tr>
-                <th>ID</th>
-                <th>Email</th>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>Teléfono</th>
-                <th>Dirección</th>
-                <th>Rol de Admin</th>
-            </tr>
+        const table = `
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Dirección</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${users.map(user => `
+                        <tr>
+                            <td>${user.id_user}</td>
+                            <td>${user.nombre}</td>
+                            <td>${user.apellidos}</td>
+                            <td>${user.email}</td>
+                            <td>${user.telefono}</td>
+                            <td>${user.direction}</td>
+                            <td>${user.admin}</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">Editar</button>
+                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                            </td>
+                        </tr>`).join('')}
+                </tbody>
+            </table>
         `;
 
-        const tbody = document.createElement("tbody");
-
-        users.forEach(user => {
-            const row = document.createElement("tr");
-
-            row.innerHTML = `
-                <td>${user.id_user || ""}</td>
-                <td>${user.email || ""}</td>
-                <td>${user.nombre || ""}</td>
-                <td>${user.apellidos || "N/A"}</td>
-                <td>${user.telefono || "N/A"}</td>
-                <td>${user.direction || "N/A"}</td>
-                <td>${user.admin || ""}</td>
-            `;
-
-            tbody.appendChild(row);
-        });
-
-        table.appendChild(thead);
-        table.appendChild(tbody);
-
-        this.contentContainer.innerHTML = "";
-        this.contentContainer.appendChild(table);
+        this.contentContainer.innerHTML = table;
     }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-    new UserAPI(".nav-link", "#content-container");
-});

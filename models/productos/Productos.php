@@ -1,5 +1,6 @@
 <?php
-    class Productos {
+include_once "models/categorias/CategoriaProducto.php";
+    class Productos extends CategoriaProducto {
         public $id_producto;
         public $nombre_producto;
         public $descripcion_producto;
@@ -10,7 +11,7 @@
 
         public function __construct()
         {
-        
+               parent::__construct(); 
         }
         public function getId_producto()
         {

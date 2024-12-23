@@ -1,7 +1,7 @@
 <?php
-    abstract class CategoriaIngrediente{
-        protected $id_categoria_ingrediente;
-        protected $nombre_categoria_ingrediente;
+    class CategoriaIngrediente{
+        public $id_categoria_ingrediente;
+        public $nombre_categoria_ingrediente;
 
         public function __construct($id_categoria_ingrediente,$nombre_categoria_ingrediente){
             $this -> id_categoria_ingrediente = $id_categoria_ingrediente;
