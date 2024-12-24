@@ -52,4 +52,5 @@ export class UserAPI {
 
         this.contentContainer.innerHTML = table;
     }
+
 }

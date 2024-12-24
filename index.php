@@ -1,7 +1,7 @@
 <?php
 session_start(); 
 
-
+header('Content-Type: text/html; charset=UTF-8');
 $protectedRoutes = ['productos', 'finalizar'];
 
 
@@ -27,29 +27,26 @@ switch ($url) {
         $controller->admin();
         break;
 
-    
-    case 'admin/users':
+    case 'api':
         include_once "controllers/apiController.php";
         $controller = new ApiController();
-        $controller->usersAPI();
-        break;
 
-    case 'admin/productos':
-        include_once "controllers/apiController.php";
-        $controller = new ApiController();
-        $controller->productosAPI();
-        break;
+        $action = $_GET['action'] ?? '';
 
-    case 'admin/pedidos':
-        include_once "controllers/apiController.php";
-        $controller = new ApiController();
-        $controller->pedidosAPI();
-        break;
+        switch ($action) {
+            case 'productos':
+                $controller->getProductos();
+                break;
 
-    case 'admin/ofertas':
-        include_once "controllers/apiController.php";
-        $controller = new ApiController();
-        $controller->ofertasAPI();
+            case 'producto_individual':
+                $controller->getProductoIndividual();
+                break;
+
+            default:
+                http_response_code(400);
+                echo json_encode(['error' => 'Acción no válida']);
+                break;
+        }
         break;
 
     case 'productos':

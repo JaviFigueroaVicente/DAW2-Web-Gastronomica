@@ -38,19 +38,53 @@ class ProductosDAO{
         return $total['total_productos'];
     }
 
-    public static function getProductoIndividual($id){
+    public static function getProductoIndividual($id) {
         $con = DataBase::connect();
+        
+        if (!$con) {
+            error_log("Error de conexión a la base de datos.");
+            return null;
+        }
+        
         $stmt = $con->prepare("SELECT * FROM productos WHERE id_producto = ?");
-
+        if (!$stmt) {
+            error_log("Error al preparar la consulta.");
+            return null;
+        }
+    
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
-
-        $producto = $result->fetch_object("Productos");
-
+    
+        if ($result->num_rows > 0) {
+            $producto = $result->fetch_object("Productos");
+    
+            // Registra el producto encontrado en formato JSON para debugging
+            error_log("Producto encontrado: " . json_encode($producto));
+    
+            // Retorna los datos del producto de la misma manera que en la función getAll()
+            $productoDetalle = [
+                'id_producto' => $producto->getId_producto(),
+                'nombre_producto' => $producto->getNombre_producto(),
+                'descripcion_producto' => $producto->getDescripcion_producto(),
+                'precio_producto' => $producto->getPrecio_producto(),
+                'stock_producto' => $producto->getStock_producto(),
+                'foto_producto' => $producto->getFoto_producto() ? 'data:image/webp;base64,' . base64_encode($producto->getFoto_producto()) : null,
+                'id_categoria_producto' => $producto->getId_categoria_producto()
+            ];
+    
+        } else {
+            error_log("No se encontró producto con ID: " . $id);
+            $productoDetalle = null;  // Si no se encuentra el producto, retornamos null
+        }
+    
         $con->close();
-        return $producto;
+        return $productoDetalle;
     }
+    
+    
+    
+    
 
     public static function getProductosByCategoria($id_categoria){
         $con = DataBase::connect();
@@ -101,6 +135,14 @@ class ProductosDAO{
 
     public static function getProductosOrdenados(){
 
+    }
+
+    public static function deleteProducto($id){
+        $con = DataBase::connect();
+        $stmt = $con->prepare("DELETE FROM productos WHERE id_producto = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $con->close();
     }
 }
 ?>

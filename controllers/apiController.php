@@ -1,40 +1,39 @@
 <?php
 include_once "config/dataBase.php";
-include_once "models/users/UserDAO.php";
-include_once "models/productos/ProductosDAO.php";
-include_once "models/pedidos/PedidoDAO.php";
-include_once "models/cesta/CestaDAO.php";
 
-class ApiController{
-    public function admin(){
+
+
+class ApiController {
+    public function admin() {
         include_once "views/admin.php";
     }
 
-    
-    public function productosAPI(){
+    public function getProductos() {
+        include_once 'models/productos/ProductosDAO.php';
         $productos = ProductosDAO::getAll();
         header('Content-Type: application/json');
-        echo json_encode($productos, JSON_UNESCAPED_UNICODE);
+        echo json_encode($productos);
+    }
+
+    public function getProductoIndividual() {
+        include_once 'models/productos/ProductosDAO.php';
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $producto = ProductosDAO::getProductoIndividual($id);
+            
+            if ($producto) {
+                echo json_encode($producto);
+            } else {
+                echo json_encode(['error' => 'Producto no encontrado']);
+            }
+        } else {
+            echo json_encode(['error' => 'ID de producto no proporcionado']);
+        }
     }
     
 
-    public function usersAPI(){        
-        $users = UserDAO::getAllUsers(true);
-        header('Content-Type: application/json');
-        echo json_encode($users, JSON_UNESCAPED_UNICODE);   
-    }
 
-    public function pedidosAPI(){
-        $pedidos = PedidoDAO::getAllPedidos();
-        header('Content-Type: application/json');
-        echo json_encode($pedidos, JSON_UNESCAPED_UNICODE);
-    }
-
-    public function ofertasAPI(){
-        $ofertas = CestaDAO::getAllCupones();
-        header('Content-Type: application/json');
-        echo json_encode($ofertas, JSON_UNESCAPED_UNICODE);
-    }
 }
+
 
 ?>

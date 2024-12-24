@@ -1,62 +1,38 @@
 export class ProductosAPI {
-    constructor(contentContainer) {
-        this.contentContainer = contentContainer;
+    constructor(baseUrl) {
+        this.baseUrl = baseUrl;
     }
 
-    async load() {
-        const response = await fetch("?url=admin/productos"); 
-        if (!response.ok) throw new Error("Error al obtener productos");
-
-        const productos = await response.json();
-        this.render(productos);
-    }
-
-    render(productos) {
-        if (productos.length === 0) {
-            this.contentContainer.innerHTML = "<p>No hay productos disponibles</p>";
-            return;
+    async getProductos() {
+        try {
+            const response = await fetch(`${this.baseUrl}&action=productos`);
+            if (!response.ok) {
+                throw new Error('No se pudieron obtener los productos');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error(error);
+            return [];
         }
+    }
 
-        const table = `
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Imagen</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${productos.map(producto => `
-                        <tr>
-                            <td>${producto.id_producto}</td>
-                            <td>${producto.foto_producto ? `<img src="${producto.foto_producto}" style="width:50px;height:50px;">` : "N/A"}</td>
-                            <td>${producto.nombre_producto}</td>
-                            <td>${producto.descripcion_producto}</td>
-                            <td>${producto.precio_producto} €</td>
-                            <td>${producto.stock_producto}</td>
-                            <td>
-                            <button class="btn btn-primary btn-edit" data-id="${producto.id_producto}" data-bs-toggle="modal" data-bs-target="#editModal">
-                                Editar
-                            </button>
-                            </td>
-                        </tr>`).join('')}
-                </tbody>
-            </table>
-        `;
+    async getProductoIndividual(id) {
+        try {
+            const response = await fetch(`${this.baseUrl}&action=producto_individual&id=${id}`);
+            if (!response.ok) {
+                throw new Error('Error al obtener el producto');
+            }
 
-        this.contentContainer.innerHTML = table;
+            const data = await response.json();
+            if (!data) {
+                throw new Error('Producto no encontrado');
+            }
 
-        const editButtons = document.querySelectorAll('.btn-edit');
-        editButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const productId = e.target.dataset.id;
-                this.loadEditModal(productId);
-            });
-        });
+            return data;
+        } catch (error) {
+            console.error("Error al obtener el producto:", error);
+            return null;
+        }
     }
 }
