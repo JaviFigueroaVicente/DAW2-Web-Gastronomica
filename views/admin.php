@@ -24,15 +24,20 @@
         <section class="row">     
             <aside class="menu-lateral admin-lateral col-lg-2">
                 <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
-                    <input type="radio" class="btn-check" data-section="productos" name="vbtn-radio" id="vbtn-radio1" autocomplete="off">
+                    <input type="radio" class="btn-check" data-section="productos" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked>
                     <label class="btn btn-outline-danger" for="vbtn-radio1">Productos</label>
                      
                 </div>
             </aside>
-            <div id="tabla-mostrar" class="col-lg-7">
-                
+            <div id="tabla-mostrar" class="col-lg-7"> 
             </div>
-            
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    
+                    </div>
+                </div>
+            </div>
 
         </section>  
     </main>

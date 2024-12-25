@@ -38,8 +38,15 @@ switch ($url) {
                 $controller->getProductos();
                 break;
 
-            case 'producto_individual':
+            case 'producto-individual':
                 $controller->getProductoIndividual();
+                break;
+
+            case 'update-producto':
+                $controller->updateProducto();
+                break;
+            case 'delete-producto':
+                $controller->deleteProducto();
                 break;
 
             default:
@@ -60,6 +67,7 @@ switch ($url) {
         } else {
             $controller->productos();
         }
+        
         break;
 
     case 'productos/producto-individual':

@@ -23,27 +23,27 @@
                     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="?url=productos">Productos</a></li>
-                            <li class="breadcrumb-item active" aria-current="page"><?= $productoIndividual->getNombre_producto() ?></li>
+                            <li class="breadcrumb-item active" aria-current="page"><?= $productoIndividual['nombre_producto'] ?></li>
                         </ol>
                     </nav>               
                     <div class="gallery-container">
                         <div class="thumbnails">
-                            <div class="thumbnail active"><img src="data:image/webp;base64,<?=base64_encode($productoIndividual->getFoto_producto())?>" alt=""></div>                        
+                            <div class="thumbnail active"><img src="<?=$productoIndividual['foto_producto']?>" alt=""></div>                        
                         </div>
                         <div class="main-image">
                             <span class="discount-badge">-50%</span>
-                            <img src="data:image/webp;base64,<?=base64_encode($productoIndividual->getFoto_producto())?>" alt="Imagen Principal">
+                            <img src="<?=$productoIndividual['foto_producto']?>" alt="Imagen Principal">
                         </div>                    
                     </div>                 
                 </div>
                 <div class="col-lg-4">                    
                     <div class="header-producto">
-                        <strong><a href="">Hamburguesa</a></strong>
-                        <h1><?=$productoIndividual->getNombre_producto()?></h1>
+                        <strong><a href="?url=productos&categoria=<?= number_format($categoriaId['id_categoria_producto']) ?>"><?= $categoriaId['nombre_categoria_producto'] ?></a></strong>
+                        <h1><?=$productoIndividual['nombre_producto']?></h1>
                     </div>
                     <div>
                         <div class="header-precios">
-                            <span class="rebajado" data-precio="<?=number_format($productoIndividual->getPrecio_producto(), 2, ',', '.')?>">€</span>
+                            <span class="rebajado" data-precio="<?=number_format($productoIndividual['precio_producto'], 2, ',', '.')?>">€</span>
                             <span class="precio-antiguo" data-precio="230.00">€</span>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                         <div class="cantidad">
                             <p>Cantidad:</p>
                             <div class="modify">
-                                <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual->getStock_producto(), 2, ',', '.')?>">
+                                <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual['stock_producto'], 2, ',', '.')?>">
                                 <div class="modificar-producto">
                                     <button type="button" class="btn-reducir">-</button>
                                     <input type="text" value="1" class="cantidad-productos">
@@ -105,21 +105,21 @@
                     </div>
                     <div class="offcanvas-body">                            
                         <div class="card card-finalizar">                       
-                            <a href=""><img src="data:image/webp;base64,<?=base64_encode($productoIndividual->getFoto_producto())?>" alt="..." class="card-img-top"></a>
+                            <a href=""><img src="<?=$productoIndividual['foto_producto']?>" alt="..." class="card-img-top"></a>
                             <div class="card-body">
-                                <h5 class="card-title"><?=$productoIndividual->getNombre_producto()?></h5>
+                                <h5 class="card-title"><?=$productoIndividual['nombre_producto']?></h5>
                                 <p class="card-text texto-tamaño">Tamaño: normal</p>
                                 <p class="card-text texto-entrega">Entrega estimada 21:30h 25 oct</p>
                                 <div class="modificar-producto">
-                                    <input name="producto_id" type="text" hidden value="<?=number_format($productoIndividual->getId_producto(), 2, ',', '.')?>">
-                                    <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual->getStock_producto(), 2, ',', '.')?>">
+                                    <input name="producto_id" type="text" hidden value="<?=number_format($productoIndividual['id_producto'], 2, ',', '.')?>">
+                                    <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual['stock_producto'], 2, ',', '.')?>">
                                     <button type="button" class="btn-reducir">-</button>
                                     <input name="cantidad" type="text" value="1" class="cantidad-productos">
                                     <button type="button" class="btn-aumentar">+</button>
                                 </div>                            
                             </div>
                             <div class="producto-borrar header-precios">     
-                                <span class="rebajado" data-precio="<?=number_format($productoIndividual->getPrecio_producto(), 2, ',', '.')?>">€</span>                       
+                                <span class="rebajado" data-precio="<?=number_format($productoIndividual['precio_producto'], 2, ',', '.')?>">€</span>                       
                                 <span class="precio-antiguo" data-precio="230.00">€</span>
                             </div>                        
                         </div>
@@ -137,8 +137,8 @@
         </form>
         <section class="footer-productos-section col-6">
             <div class="descripcion-producto">
-                <h2>Características <?=$productoIndividual->getNombre_producto()?></h2>
-                <p class="caracteristicas-producto"><?=$productoIndividual->getDescripcion_producto()?></p>
+                <h2>Características <?=$productoIndividual['nombre_producto']?></h2>
+                <p class="caracteristicas-producto"><?=$productoIndividual['descripcion_producto']?></p>
             </div>
             <div class="ingredientes-producto">
                 <strong>Ingredientes:</strong>

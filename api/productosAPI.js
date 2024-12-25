@@ -19,7 +19,7 @@ export class ProductosAPI {
 
     async getProductoIndividual(id) {
         try {
-            const response = await fetch(`${this.baseUrl}&action=producto_individual&id=${id}`);
+            const response = await fetch(`${this.baseUrl}&action=producto-individual&id=${id}`);
             if (!response.ok) {
                 throw new Error('Error al obtener el producto');
             }
@@ -35,4 +35,49 @@ export class ProductosAPI {
             return null;
         }
     }
+
+    async updateProducto(producto) {
+        try {
+            const response = await fetch(`${this.baseUrl}&action=update-producto`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(producto)
+            });
+    
+            if (!response.ok) {
+                throw new Error('Error al actualizar el producto');
+            }
+    
+            return await response.json();
+        } catch (error) {
+            console.error("Error al actualizar el producto:", error);
+            throw error;
+        }
+    }
+
+    async deleteProducto(producto) {
+        try {
+            const response = await fetch(`${this.baseUrl}&action=delete-producto`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id_producto: producto }) // Enviar como objeto con id_producto
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Error al eliminar el producto');
+            }
+    
+            return await response.json();
+        } catch (error) {
+            console.error("Error al eliminar el producto:", error);
+            throw error;
+        }
+    }
+    
+    
 }

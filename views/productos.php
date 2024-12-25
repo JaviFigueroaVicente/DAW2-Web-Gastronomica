@@ -67,7 +67,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="?url=productos">Productos</a></li>
                     <?php if (isset($_GET['categoria'])) {
-                        echo '<li class="breadcrumb-item active" aria-current="page">' . ucfirst($categoriaId->getNombre_categoria_producto()) . '</li>';
+                        echo '<li class="breadcrumb-item active" aria-current="page">' . ucfirst($categoriaId['id_categoria_producto']) . '</li>';
                     } elseif (isset($_GET['oferta'])) {
                         echo '<li class="breadcrumb-item active" aria-current="page">' . ucfirst($oferta->getNombre_oferta()) . '</li>'; 
                     }?>
@@ -76,7 +76,7 @@
                 <h1>
                     <?php 
                     if (isset($_GET['categoria'])) {
-                        echo ucfirst($categoriaId->getNombre_categoria_producto());
+                        echo ucfirst($categoriaId['nombre_categoria_producto']);
                     } elseif (isset($_GET['oferta'])) {
                         echo ucfirst($oferta->getNombre_oferta());
                     } else {

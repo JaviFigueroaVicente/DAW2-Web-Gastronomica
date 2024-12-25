@@ -28,12 +28,17 @@ class CategoriaProductoDAO {
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
-        
-        $categoriaId = $result->fetch_object('CategoriaProducto');
-
+    
+        $categoria = [];
+        if ($row = $result->fetch_assoc()) { // Fetch como array asociativo
+            $categoria = [
+                'id_categoria_producto' => $row['id_categoria_producto'],
+                'nombre_categoria_producto' => $row['nombre_categoria_producto'],
+            ];
+        }
+    
         $con->close();
-        return $categoriaId;
+        return $categoria; // Devuelve el array asociativo
     }
-
 }
 ?>

@@ -137,12 +137,25 @@ class ProductosDAO{
 
     }
 
-    public static function deleteProducto($id){
+    public static function updateProducto($id, $nombre, $descripcion, $precio, $stock) {
+        $con = DataBase::connect();
+        $stmt = $con->prepare("UPDATE productos SET nombre_producto = ?, descripcion_producto = ?, precio_producto = ?, stock_producto = ? WHERE id_producto = ?");
+        $stmt->bind_param("ssdii", $nombre, $descripcion, $precio, $stock, $id);
+        $resultado = $stmt->execute();
+        $con->close();
+        return $resultado;
+    }
+
+    public static function deleteProducto($id) {
         $con = DataBase::connect();
         $stmt = $con->prepare("DELETE FROM productos WHERE id_producto = ?");
         $stmt->bind_param("i", $id);
-        $stmt->execute();
+        $resultado = $stmt->execute();
+        $stmt->close();
         $con->close();
+        return $resultado;
     }
+    
+    
 }
 ?>
