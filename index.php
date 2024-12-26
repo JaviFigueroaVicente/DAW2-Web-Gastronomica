@@ -49,6 +49,10 @@ switch ($url) {
                 $controller->deleteProducto();
                 break;
 
+            case 'create-producto':
+                $controller->createProducto();
+                break;
+
             default:
                 http_response_code(400);
                 echo json_encode(['error' => 'Acción no válida']);

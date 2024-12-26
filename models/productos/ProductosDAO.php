@@ -151,11 +151,19 @@ class ProductosDAO{
         $stmt = $con->prepare("DELETE FROM productos WHERE id_producto = ?");
         $stmt->bind_param("i", $id);
         $resultado = $stmt->execute();
-        $stmt->close();
         $con->close();
         return $resultado;
     }
     
+
+    public static function createProducto($nombre, $descripcion, $precio, $stock, $id_categoria_producto) {
+        $con = DataBase::connect();
+        $stmt = $con->prepare("INSERT INTO productos (nombre_producto, descripcion_producto, precio_producto, stock_producto, id_categoria_producto) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssdii", $nombre, $descripcion, $precio, $stock, $id_categoria_producto);
+        $resultado = $stmt->execute();
+        $con->close();
+        return $resultado;
+    }
     
 }
 ?>

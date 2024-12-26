@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +31,7 @@
                 </div>
             </aside>
             <div id="tabla-mostrar" class="col-lg-7"> 
+
             </div>
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -38,6 +40,7 @@
                     </div>
                 </div>
             </div>
+            
 
         </section>  
     </main>

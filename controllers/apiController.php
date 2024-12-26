@@ -86,7 +86,35 @@ class ApiController {
             http_response_code(405); // Método no permitido
             echo json_encode(['error' => 'Método no permitido']);
         }
-    }    
+    }
+    
+    public function createProducto() {
+        include_once 'models/productos/ProductosDAO.php';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Leer el cuerpo de la solicitud
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            // Validar y extraer datos
+            $nombre = $data['nombre_producto'];
+            $descripcion = $data['descripcion_producto'];
+            $precio = $data['precio_producto'];
+            $stock = $data['stock_producto'];
+            $id_categoria_producto = $data['id_categoria_producto'];
+
+            // Crear producto en la base de datos
+            $resultado = ProductosDAO::createProducto($nombre, $descripcion, $precio, $stock, $id_categoria_producto);
+
+            // Responder al cliente
+            if ($resultado) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'No se pudo crear el producto.']);
+            }
+        } else {
+            echo json_encode(['error' => 'Método no permitido']);
+        }
+    }
     
 }
 

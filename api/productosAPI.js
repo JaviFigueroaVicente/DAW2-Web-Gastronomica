@@ -79,5 +79,26 @@ export class ProductosAPI {
         }
     }
     
+    async createProducto(producto) {
+        try {
+            const response = await fetch(`${this.baseUrl}&action=create-producto`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(producto)
+            });
+    
+            if (!response.ok) {
+                throw new Error('Error al crear el producto');
+            }
+    
+            return await response.json();
+        } catch (error) {
+            console.error("Error al crear el producto:", error);
+            throw error;
+        }
+    }
+    
     
 }

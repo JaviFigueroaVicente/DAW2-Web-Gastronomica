@@ -3,7 +3,8 @@ import { ProductosAPI } from "./productosAPI.js";
 document.addEventListener("DOMContentLoaded", () => {
     const productosAPI = new ProductosAPI('?url=api'); // Define la URL base de tu API
     const radioProductos = document.getElementById("vbtn-radio1");
-    const tablaMostrar = document.getElementById("tabla-mostrar"); // Contenedor donde mostrar la tabla
+    const tablaMostrar = document.getElementById("tabla-mostrar");
+    
 
     radioProductos.addEventListener("change", async () => {
         if (radioProductos.checked) {
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Construir la tabla con los datos
             let tablaHTML = `
+                <button class="btn btn-primary btn-sm create-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Crear Producto</button>
                 <table class="table">
                     <thead>
                         <tr>
@@ -64,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Agregar eventos de clic a los botones "Editar"
             agregarEventosEditar();
             agregarEventosEliminar();
+            agregarEventosCreate();
 
         } catch (error) {
             // Mostrar mensaje de error
@@ -72,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function editarProducto(id) {
-        const productosAPI = new ProductosAPI('?url=api'); // URL base de la API
         const modalMostrar = document.querySelector(".modal-content"); // Contenedor de la tabla
 
         try {
@@ -169,13 +171,16 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
+    function agregarEventosCreate(){
+        const botonCreate = document.querySelector('.create-btn');
+        botonCreate.addEventListener('click', (e) => {
+            createProducto();
+        });
+    }
     
 
     async function deleteProducto(id) {
-        const productosAPI = new ProductosAPI('?url=api'); // URL base de la API
-    
-        // Confirmar si el usuario realmente desea eliminar el producto
-    
         try {
             // Llamada a la API para eliminar el producto
             await productosAPI.deleteProducto(id);
@@ -188,6 +193,83 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Error al eliminar el producto. Inténtalo de nuevo.");
         }
     }
+
+   
+
+    async function createProducto() {
+        const modalMostrar = document.querySelector(".modal-content"); // Contenedor del modal
+    
+        try {
+            // Construir el contenido del modal para la creación del producto
+            let createProductoModalHTML = `
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Crear Producto</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="crearProductoForm">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" required>
+    
+                        <label for="descripcion">Descripción</label>
+                        <input type="text" id="descripcion" name="descripcion" required>
+    
+                        <label for="precio">Precio</label>
+                        <input type="number" id="precio" name="precio" step="0.01" required>
+    
+                        <label for="stock">Stock</label>
+                        <input type="number" id="stock" name="stock" min="0" required>
+
+                        <label for="id_categoria_producto">ID Categoría</label>
+                        <input type="number" id="id_categoria_producto" name="id_categoria_producto" min="1" required>
+    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+    
+            modalMostrar.innerHTML = createProductoModalHTML;
+    
+            // Manejar el envío del formulario
+            const form = document.getElementById("crearProductoForm");
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+    
+                // Obtener los datos del formulario
+                const nuevoProducto = {
+                    nombre_producto: form.nombre.value,
+                    descripcion_producto: form.descripcion.value,
+                    precio_producto: parseFloat(form.precio.value),
+                    stock_producto: parseInt(form.stock.value, 10),
+                    id_categoria_producto: parseInt(form.id_categoria_producto.value)
+                };
+    
+                try {
+                    // Llamada a la API para crear el producto
+                    await productosAPI.createProducto(nuevoProducto);
+                    alert("Producto creado correctamente.");
+    
+                    // Cerrar el modal
+                    const modalElement = document.querySelector("#staticBackdrop");
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    modalInstance.hide();
+    
+                    // Recargar la tabla de productos
+                    cargarProductos();
+    
+                } catch (error) {
+                    alert("Error al crear el producto. Inténtalo de nuevo.");
+                }
+            });
+    
+        } catch (error) {
+            alert("Error al cargar el formulario de creación de producto. Inténtalo de nuevo.");
+        }
+    }
+    
     // Cargar productos al iniciar
     cargarProductos();
 });
