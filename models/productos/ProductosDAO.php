@@ -133,18 +133,40 @@ class ProductosDAO{
         $productos = [];
     }
 
-    public static function getProductosOrdenados(){
 
-    }
-
-    public static function updateProducto($id, $nombre, $descripcion, $precio, $stock) {
+    public static function updateProducto($id, $nombre, $descripcion, $precio, $stock, $foto_producto) {
         $con = DataBase::connect();
-        $stmt = $con->prepare("UPDATE productos SET nombre_producto = ?, descripcion_producto = ?, precio_producto = ?, stock_producto = ? WHERE id_producto = ?");
-        $stmt->bind_param("ssdii", $nombre, $descripcion, $precio, $stock, $id);
+    
+        // Consulta SQL con o sin imagen
+        if ($foto_producto !== null) {
+            $sql = "UPDATE productos SET 
+                        nombre_producto = ?, 
+                        descripcion_producto = ?, 
+                        precio_producto = ?, 
+                        stock_producto = ?, 
+                        foto_producto = ? 
+                    WHERE id_producto = ?";
+            $stmt = $con->prepare($sql);
+            $stmt->bind_param("ssdisi", $nombre, $descripcion, $precio, $stock, $foto_producto, $id);
+        } else {
+            $sql = "UPDATE productos SET 
+                        nombre_producto = ?, 
+                        descripcion_producto = ?, 
+                        precio_producto = ?, 
+                        stock_producto = ? 
+                    WHERE id_producto = ?";
+            $stmt = $con->prepare($sql);
+            $stmt->bind_param("ssdii", $nombre, $descripcion, $precio, $stock, $id);
+        }
+    
         $resultado = $stmt->execute();
+        $stmt->close();
         $con->close();
+    
         return $resultado;
     }
+    
+    
 
     public static function deleteProducto($id) {
         $con = DataBase::connect();
@@ -156,14 +178,16 @@ class ProductosDAO{
     }
     
 
-    public static function createProducto($nombre, $descripcion, $precio, $stock, $id_categoria_producto) {
+    public static function createProducto($nombre, $descripcion, $precio, $stock, $id_categoria_producto, $foto_producto) {
         $con = DataBase::connect();
-        $stmt = $con->prepare("INSERT INTO productos (nombre_producto, descripcion_producto, precio_producto, stock_producto, id_categoria_producto) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssdii", $nombre, $descripcion, $precio, $stock, $id_categoria_producto);
+        $stmt = $con->prepare("INSERT INTO productos (nombre_producto, descripcion_producto, precio_producto, stock_producto, id_categoria_producto, foto_producto) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssdiis", $nombre, $descripcion, $precio, $stock, $id_categoria_producto, $foto_producto);
         $resultado = $stmt->execute();
+        $stmt->close();
         $con->close();
         return $resultado;
     }
+    
     
 }
 ?>

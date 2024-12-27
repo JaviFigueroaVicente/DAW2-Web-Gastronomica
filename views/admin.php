@@ -27,6 +27,8 @@
                 <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
                     <input type="radio" class="btn-check" data-section="productos" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked>
                     <label class="btn btn-outline-danger" for="vbtn-radio1">Productos</label>
+                    <input type="radio" class="btn-check" data-section="pedidos" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+                    <label class="btn btn-outline-danger" for="vbtn-radio2">Pedidos</label>
                      
                 </div>
             </aside>

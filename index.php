@@ -45,12 +45,33 @@ switch ($url) {
             case 'update-producto':
                 $controller->updateProducto();
                 break;
+                
             case 'delete-producto':
                 $controller->deleteProducto();
                 break;
 
             case 'create-producto':
                 $controller->createProducto();
+                break;
+            
+            case 'pedidos':
+                $controller->getPedidos();
+                break;
+            
+            case 'pedido-individual':
+                $controller->getPedidoIndividual();
+                break;
+            
+            case 'update-pedido':
+                $controller->updatePedido();
+                break;
+            
+            case 'delete-pedido':
+                $controller->deletePedido();
+                break;
+            
+            case 'create-pedido':
+                $controller->createPedido();
                 break;
 
             default:

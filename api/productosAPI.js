@@ -38,12 +38,22 @@ export class ProductosAPI {
 
     async updateProducto(producto) {
         try {
+            let body;
+    
+            // Si el producto incluye un archivo, utiliza FormData
+            if (producto instanceof FormData) {
+                body = producto;
+            } else {
+                // Si no es FormData, convierte a JSON
+                body = JSON.stringify(producto);
+            }
+    
             const response = await fetch(`${this.baseUrl}&action=update-producto`, {
-                method: 'PUT',
-                headers: {
+                method: 'POST', // Cambiado a POST para admitir multipart/form-data
+                body: body,
+                headers: producto instanceof FormData ? undefined : {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(producto)
+                }
             });
     
             if (!response.ok) {
@@ -56,6 +66,7 @@ export class ProductosAPI {
             throw error;
         }
     }
+    
 
     async deleteProducto(producto) {
         try {
@@ -79,14 +90,11 @@ export class ProductosAPI {
         }
     }
     
-    async createProducto(producto) {
+    async createProducto(formData) {
         try {
             const response = await fetch(`${this.baseUrl}&action=create-producto`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(producto)
+                body: formData // FormData incluye automáticamente los encabezados necesarios
             });
     
             if (!response.ok) {
@@ -99,6 +107,7 @@ export class ProductosAPI {
             throw error;
         }
     }
+    
     
     
 }

@@ -5,21 +5,21 @@ include_once "models/pedidos/Pedido.php";
 class PedidoDAO{
     public static function getAllPedidos() {
         $con = DataBase::connect();
-
-        $sql = "SELECT * FROM pedidos";
-        $result = $con->query($sql);
+        $stmt = $con->prepare("SELECT * FROM pedidos");
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         $pedidos = [];
-        while ($row = $result->fetch_assoc()) {
+        while ($pedido = $result->fetch_object("Pedido")) {
             $pedidos[] = [
-                'id_pedido' => $row['id_pedido'],
-                'fecha_pedido' => $row['fecha_pedido'],
-                'estado_pedido' => $row['estado_pedido'],
-                'id_user_pedido' => $row['id_user_pedido'],
-                'precio_pedido' => $row['precio_pedido'],
-                'direccion_pedido' => $row['direccion_pedido'],
-                'metodo_pago' => $row['metodo_pago'],
-                'id_oferta_' => $row['id_oferta_']
+                'id_pedido' => $pedido->getId_pedido(),
+                'fecha_pedido' => $pedido ->getFecha_Pedido(),
+                'estado_pedido' => $pedido->getEstado_pedido(),
+                'id_user_pedido' => $pedido->getId_user_pedido(),
+                'precio_pedido' => $pedido->getPrecio_pedido(),
+                'direccion_pedido' => $pedido->getDireccion_pedido(),
+                'metodo_pago' => $pedido->getMetodo_pago(),
+                'id_oferta_' => $pedido->getId_oferta_pedido()
             ];
         }
 
@@ -155,6 +155,39 @@ class PedidoDAO{
     
         $con->close();
         
+    }
+
+    public static function updatePedido($idPedido, $estadoPedido){
+        $con = DataBase::connect();
+
+        $sql = "UPDATE pedidos SET estado_pedido = ? WHERE id_pedido = ?";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("si", $estadoPedido, $idPedido);
+        $stmt->execute();
+
+        $con->close();
+    }
+
+    public static function deletePedido($idPedido){
+        $con = DataBase::connect();
+
+        $sql = "DELETE FROM pedidos WHERE id_pedido = ?";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("i", $idPedido);
+        $stmt->execute();
+
+        $con->close();
+    }
+    
+    public static function createPedido($pedido){
+        $con = DataBase::connect();
+
+        $sql = "INSERT INTO pedidos (fecha_pedido, estado_pedido, id_user_pedido, precio_pedido, direccion_pedido, metodo_pago) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("ssids", $pedido->fecha_pedido, $pedido->estado_pedido, $pedido->id_user_pedido, $pedido->precio_pedido, $pedido->direccion_pedido, $pedido->metodo_pago);
+        $stmt->execute();
+
+        $con->close();
     }
     
 }
