@@ -26,9 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             // Llamada a la API para obtener productos
             const productos = await productosAPI.getProductos();
-
+    
             // Construir la tabla con los datos
-            let tablaHTML = `
+            const tablaHTML = `
                 <button class="btn btn-primary btn-sm create-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Crear Producto</button>
                 <table class="table">
                     <thead>
@@ -43,41 +43,38 @@ document.addEventListener("DOMContentLoaded", () => {
                         </tr>
                     </thead>
                     <tbody>
+                        ${productos.map(producto => `
+                            <tr>
+                                <td>${producto.id_producto}</td>
+                                <td>
+                                    ${
+                                        producto.foto_producto
+                                            ? `<img src="${producto.foto_producto}" alt="Imagen de ${producto.nombre_producto}" style="width: 50px; height: 50px; object-fit: cover;">`
+                                            : "Sin imagen"
+                                    }
+                                </td>
+                                <td>${producto.nombre_producto}</td>
+                                <td>${producto.descripcion_producto}</td>
+                                <td>${producto.precio_producto}</td>
+                                <td>${producto.stock_producto}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm editar-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${producto.id_producto}">Editar</button>
+                                    <button class="btn btn-danger btn-sm eliminar-btn" data-id="${producto.id_producto}">Eliminar</button>    
+                                </td>
+                            </tr>
+                        `).join("")}
+                    </tbody>
+                </table>
             `;
-
-            productos.forEach(producto => {
-                tablaHTML += `
-                    <tr>
-                        <td>${producto.id_producto}</td>
-                        <td>
-                            ${
-                                producto.foto_producto
-                                    ? `<img src="${producto.foto_producto}" alt="Imagen de ${producto.nombre_producto}" style="width: 50px; height: 50px; object-fit: cover;">`
-                                    : "Sin imagen"
-                            }
-                        </td>
-                        <td>${producto.nombre_producto}</td>
-                        <td>${producto.descripcion_producto}</td>
-                        <td>${producto.precio_producto}</td>
-                        <td>${producto.stock_producto}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm editar-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${producto.id_producto}">Editar</button>
-                            <button class="btn btn-danger btn-sm eliminar-btn" data-id="${producto.id_producto}">Eliminar</button>    
-                        </td>
-                    </tr>
-                `;
-            });
-
-            tablaHTML += `</tbody></table>`;
-
+    
             // Insertar la tabla en el contenedor
             tablaMostrar.innerHTML = tablaHTML;
-
+    
             // Agregar eventos de clic a los botones "Editar"
             agregarEventosEditar();
             agregarEventosEliminar();
             agregarEventosCreate();
-
+    
         } catch (error) {
             // Mostrar mensaje de error
             tablaMostrar.innerHTML = "<p>Error al cargar productos. Inténtalo de nuevo más tarde.</p>";
@@ -297,56 +294,55 @@ document.addEventListener("DOMContentLoaded", () => {
     async function cargarPedidos() {
         try {
             const pedidos = await pedidosAPI.getPedidos();
-
+    
+            // Definir las columnas de forma dinámica
+            const columnas = [
+                { key: "id_pedido", label: "ID Pedido" },
+                { key: "fecha_pedido", label: "Fecha Pedido" },
+                { key: "estado_pedido", label: "Estado" },
+                { key: "id_user_pedido", label: "Cliente" },
+                { key: "precio_pedido", label: "Precio" },
+                { key: "direccion_pedido", label: "Dirección" },
+                { key: "metodo_pago", label: "Método de Pago" },
+            ];
+    
+            // Construir la tabla HTML
             let tablaHTML = `
                 <button class="btn btn-primary btn-sm create-pedido-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Crear Pedido</button>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>ID Pedido</th>
-                            <th>Fecha Pedido</th>
-                            <th>Estado</th>
-                            <th>Cliente</th>
-                            <th>Precio</th>
-                            <th>Dirección</th>
-                            <th>Método de Pago</th>
-                            <th>Id Oferta</th>
+                            ${columnas.map(col => `<th>${col.label}</th>`).join('')}
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
             `;
-
+    
             pedidos.forEach(pedido => {
                 tablaHTML += `
                     <tr>
-                        <td>${pedido.id_pedido}</td>
-                        <td>${pedido.fecha_pedido}</td>
-                        <td>${pedido.estado_pedido}</td>
-                        <td>${pedido.id_user_pedido}</td>
-                        <td>${pedido.precio_pedido}</td>
-                        <td>${pedido.direccion_pedido}</td>
-                        <td>${pedido.metodo_pago}</td>
-                        <td>${pedido.id_oferta_}</td>
+                        ${columnas.map(col => `<td>${pedido[col.key] ?? (col.key === "id_oferta_" ? 0 : "")}</td>`).join('')}
                         <td>
                             <button class="btn btn-warning btn-sm editar-pedido-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${pedido.id_pedido}">Editar</button>
-                            <button class="btn btn-danger btn-sm eliminar-pedido-btn" data-id="${pedido.id_pedido}">Eliminar</button>    
+                            <button class="btn btn-danger btn-sm eliminar-pedido-btn" data-id="${pedido.id_pedido}">Eliminar</button>
                         </td>
                     </tr>
                 `;
             });
-
+    
             tablaHTML += `</tbody></table>`;
             tablaMostrar.innerHTML = tablaHTML;
-
+    
             agregarEventosEditarPedidos();
             agregarEventosEliminarPedidos();
             agregarEventosCreatePedidos();
-
+    
         } catch (error) {
             tablaMostrar.innerHTML = "<p>Error al cargar pedidos. Inténtalo de nuevo más tarde.</p>";
         }
     }
-
+    
 
     function agregarEventosEditarPedidos() {
         const botonesEditar = document.querySelectorAll('.editar-pedido-btn');
@@ -380,21 +376,179 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Define funciones para editar, eliminar y crear pedidos
     async function editarPedido(id) {
-        // Implementar edición de pedido similar a editarProducto
+        const modalMostrar = document.querySelector(".modal-content"); // Contenedor del modal
+    
+        try {
+            // Obtener los detalles del pedido
+            const pedido = await pedidosAPI.getPedidoIndividual(id);
+    
+            // Construir el contenido del modal
+            const modalHTML = `
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Pedido</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editarPedidoForm">
+                        
+                        <label for="fecha_pedido">Fecha del Pedido</label>
+                        <input type="datetime-local" id="fecha_pedido" name="fecha_pedido" 
+                            value="${new Date(pedido.fecha_pedido).toISOString().slice(0, 16)}" required>
+                        
+                        <label for="estado_pedido">Estado</label>
+                        <select id="estado_pedido" name="estado_pedido" required>
+                            <option value="Pendiente" ${pedido.estado_pedido === "Pendiente" ? "selected" : ""}>Pendiente</option>
+                            <option value="En Proceso" ${pedido.estado_pedido === "En Proceso" ? "selected" : ""}>En Proceso</option>
+                            <option value="Completado" ${pedido.estado_pedido === "Completado" ? "selected" : ""}>Completado</option>
+                            <option value="Cancelado" ${pedido.estado_pedido === "Cancelado" ? "selected" : ""}>Cancelado</option>
+                        </select>
+    
+                        <label for="id_user_pedido">Usuario ID</label>
+                        <input type="number" id="id_user_pedido" name="id_user_pedido" 
+                            value="${pedido.id_user_pedido}" required>
+                        
+                        <label for="precio_pedido">Precio</label>
+                        <input type="number" id="precio_pedido" name="precio_pedido" 
+                            value="${pedido.precio_pedido}" step="0.01" required>
+                        
+                        <label for="direccion_pedido">Dirección</label>
+                        <input type="text" id="direccion_pedido" name="direccion_pedido" 
+                            value="${pedido.direccion_pedido}" required>
+                        
+                        <label for="metodo_pago">Método de Pago</label>
+                        <select id="metodo_pago" name="metodo_pago" required>
+                            <option value="Tarjeta" ${pedido.metodo_pago === "Tarjeta" ? "selected" : ""}>Tarjeta</option>
+                            <option value="Efectivo" ${pedido.metodo_pago === "Efectivo" ? "selected" : ""}>Efectivo</option>
+                            <option value="Transferencia" ${pedido.metodo_pago === "Transferencia" ? "selected" : ""}>Transferencia</option>
+                        </select>
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+    
+            // Mostrar el formulario
+            modalMostrar.innerHTML = modalHTML;
+    
+            // Manejar el envío del formulario
+            const form = document.getElementById("editarPedidoForm");
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+    
+                // Construir el formulario de datos
+                const formData = new FormData();
+                formData.append("id_pedido", id);
+                formData.append("fecha_pedido", form.fecha_pedido.value);
+                formData.append("estado_pedido", form.estado_pedido.value);
+                formData.append("id_user_pedido", form.id_user_pedido.value);
+                formData.append("precio_pedido", parseFloat(form.precio_pedido.value));
+                formData.append("direccion_pedido", form.direccion_pedido.value);
+                formData.append("metodo_pago", form.metodo_pago.value);
+    
+                try {
+                    const response = await pedidosAPI.updatePedido(formData);
+                    if (response.success) {
+                        alert("Pedido actualizado correctamente.");
+                    } else {
+                        alert(response.error || "Error al actualizar el pedido.");
+                    }
+    
+                    // Cerrar el modal
+                    const modalElement = document.querySelector("#staticBackdrop");
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    modalInstance.hide();
+    
+                    // Recargar la tabla de pedidos
+                    cargarPedidos();
+                } catch (error) {
+                    console.error("Error al actualizar el pedido:", error);
+                    alert("Error al actualizar el pedido. Inténtalo de nuevo.");
+                }
+            });
+    
+        } catch (error) {
+            console.error("Error al cargar el pedido:", error);
+            modalMostrar.innerHTML = "<p>Error al cargar el pedido. Inténtalo de nuevo más tarde.</p>";
+        }
     }
+    
 
     async function deletePedido(id) {
         try {
+            // Llamada a la API para eliminar el producto
             await pedidosAPI.deletePedido(id);
-            alert("Pedido eliminado correctamente.");
-            cargarPedidos();
+            alert("Producto eliminado correctamente.");
+            
+            cargarPedidos()
+    
         } catch (error) {
-            alert("Error al eliminar el pedido. Inténtalo de nuevo.");
+            alert("Error al eliminar el producto. Inténtalo de nuevo.");
+
+            cargarPedidos();
         }
     }
 
+
     async function createPedido() {
-        // Implementar creación de pedido similar a createProducto
+        const modalMostrar = document.querySelector(".modal-content");
+
+        try{
+
+            let createPedidoModalHTML = `
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Crear Pedido</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="crearPedidoForm">
+
+                        <label for="fecha_pedido">Fecha del Pedido</label>
+                        <input type="datetime-local" id="fecha_pedido" name="fecha_pedido" required>
+
+                        <label for="estado_pedido">Estado</label>
+                        <select id="estado_pedido" name="estado_pedido" required>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En Proceso">En Proceso</option>
+                            <option value="Completado">Completado</option>
+                            <option value="Cancelado">Cancelado</option>
+                        </select>
+
+                        <label for="id_user_pedido">Usuario ID</label>
+                        <input type="number" id="id_user_pedido" name="id_user_pedido" required>
+
+                        <label for="precio_pedido">Precio</label>
+                        <input type="number" id="precio_pedido" name="precio_pedido" step="0.01" required>
+
+                        <label for="direccion_pedido">Dirección</label>
+                        <input type="text" id="direccion_pedido" name="direccion_pedido" required>
+
+                        <label for="metodo_pago">Método de Pago</label>
+                        <select id="metodo_pago" name="metodo_pago" required>
+                            <option value="Tarjeta">Tarjeta</option>
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Transferencia">Transferencia</option>
+                        </select>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            modalMostrar.innerHTML = createPedidoModalHTML;
+
+            const form = document.getElementById("crearPedidoForm");
+            
+        }
+        catch(error){
+            console.error("Error al crear el pedido:", error);
+            modalMostrar.innerHTML = "<p>Error al crear el pedido. Inténtalo de nuevo más tarde.</p>";
+        }
     }
 
     

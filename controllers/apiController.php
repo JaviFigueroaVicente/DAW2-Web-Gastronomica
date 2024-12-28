@@ -140,7 +140,7 @@ class ApiController {
         include_once 'models/pedidos/PedidoDAO.php';
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $pedido = PedidoDAO::getPedidoIndividual($id);
+            $pedido = PedidoDAO::getPedidoById($id);
 
             if ($pedido) {
                 echo json_encode($pedido);
@@ -153,19 +153,21 @@ class ApiController {
     }
     public function updatePedido() {
         include_once 'models/pedidos/PedidoDAO.php';
-
+    
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Validar y extraer datos enviados
-            $id = $_POST['id_pedido'];
-            $id_usuario = $_POST['id_usuario'];
-            $id_producto = $_POST['id_producto'];
-            $cantidad = $_POST['cantidad'];
-            $fecha_pedido = $_POST['fecha_pedido'];
-            $estado_pedido = $_POST['estado_pedido'];
-
+            $idPedido = $_POST['id_pedido'];
+            $fechaPedido = $_POST['fecha_pedido'];
+            $estadoPedido = $_POST['estado_pedido'];
+            $idUserPedido = $_POST['id_user_pedido'];
+            $precioPedido = $_POST['precio_pedido'];
+            $direccionPedido = $_POST['direccion_pedido'];
+            $metodoPago = $_POST['metodo_pago'];
+        
+    
             // Llamar al modelo para actualizar los datos
-            $resultado = PedidoDAO::updatePedido($id, $id_usuario, $id_producto, $cantidad, $fecha_pedido, $estado_pedido);
-
+            $resultado = PedidoDAO::updatePedido($idPedido, $fechaPedido, $estadoPedido, $idUserPedido, $precioPedido, $direccionPedido, $metodoPago);
+    
             // Responder al cliente
             if ($resultado) {
                 echo json_encode(['success' => true]);
@@ -176,29 +178,31 @@ class ApiController {
             echo json_encode(['error' => 'Método no permitido']);
         }
     }
+    
+    
     public function deletePedido() {
         include_once 'models/pedidos/PedidoDAO.php';
-
+    
         if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
             // Leer el cuerpo de la solicitud
             $data = json_decode(file_get_contents("php://input"), true);
-
+    
             if (isset($data['id_pedido'])) {
                 $id = $data['id_pedido'];
-
-                // Eliminar pedido en la base de datos
+    
+                // Eliminar producto en la base de datos
                 $resultado = PedidoDAO::deletePedido($id);
-
+    
                 // Responder al cliente
                 if ($resultado) {
                     echo json_encode(['success' => true]);
                 } else {
                     http_response_code(500); // Indicar error interno
-                    echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el pedido.']);
+                    echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el producto.']);
                 }
             } else {
                 http_response_code(400); // Solicitud incorrecta
-                echo json_encode(['success' => false, 'error' => 'ID de pedido no proporcionado.']);
+                echo json_encode(['success' => false, 'error' => 'ID de producto no proporcionado.']);
             }
         } else {
             http_response_code(405); // Método no permitido

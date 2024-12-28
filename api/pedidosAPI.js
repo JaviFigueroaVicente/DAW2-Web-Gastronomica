@@ -37,12 +37,20 @@ export class PedidosAPI {
     
     async updatePedido(pedido) {
         try {
+            let body;
+
+            if(pedido instanceof FormData) {
+                body = pedido;
+            } else {
+                body = JSON.stringify(pedido);
+            }
+        
             const response = await fetch(`${this.baseUrl}&action=update-pedido`, {
                 method: 'POST',
-                headers: {
+                body: body,
+                headers: pedido instanceof FormData ? undefined : {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(pedido)
             });
 
             if (!response.ok) {

@@ -19,7 +19,7 @@ class PedidoDAO{
                 'precio_pedido' => $pedido->getPrecio_pedido(),
                 'direccion_pedido' => $pedido->getDireccion_pedido(),
                 'metodo_pago' => $pedido->getMetodo_pago(),
-                'id_oferta_' => $pedido->getId_oferta_pedido()
+                'id_oferta_' => $pedido->getId_oferta_pedido() ?? 0
             ];
         }
 
@@ -43,7 +43,8 @@ class PedidoDAO{
                 'estado_pedido' => $row['estado_pedido'],
                 'precio_pedido' => $row['precio_pedido'],
                 'direccion_pedido' => $row['direccion_pedido'],
-                'metodo_pago' => $row['metodo_pago']
+                'metodo_pago' => $row['metodo_pago'],
+                'id_oferta_' => $row['id_oferta_']
             ];
         }
 
@@ -157,16 +158,52 @@ class PedidoDAO{
         
     }
 
-    public static function updatePedido($idPedido, $estadoPedido){
+    public static function getPedidoById($idPedido){
         $con = DataBase::connect();
 
-        $sql = "UPDATE pedidos SET estado_pedido = ? WHERE id_pedido = ?";
+        $sql = "SELECT * FROM pedidos WHERE id_pedido = ?";
         $stmt = $con->prepare($sql);
-        $stmt->bind_param("si", $estadoPedido, $idPedido);
+        $stmt->bind_param("i", $idPedido);
         $stmt->execute();
+        $result = $stmt->get_result();
+        $pedido = $result->fetch_object("Pedido");
 
         $con->close();
+        return $pedido;
     }
+
+    public static function updatePedido($idPedido, $fechaPedido, $estadoPedido, $idUserPedido, $precioPedido, $direccionPedido, $metodoPago) {
+        $con = DataBase::connect();
+    
+        $sql = "UPDATE pedidos 
+                SET fecha_pedido = ?, 
+                    estado_pedido = ?, 
+                    id_user_pedido = ?, 
+                    precio_pedido = ?, 
+                    direccion_pedido = ?, 
+                    metodo_pago = ?
+                    
+                WHERE id_pedido = ?";
+        
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("ssidssi", 
+            $fechaPedido, 
+            $estadoPedido, 
+            $idUserPedido, 
+            $precioPedido, 
+            $direccionPedido, 
+            $metodoPago, 
+            $idPedido
+        );
+    
+        $resultado = $stmt->execute();
+        $stmt->close();
+        $con->close();
+    
+        return $resultado;
+    }
+    
+    
 
     public static function deletePedido($idPedido){
         $con = DataBase::connect();
