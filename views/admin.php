@@ -29,7 +29,8 @@
                     <label class="btn btn-outline-danger" for="vbtn-radio1">Productos</label>
                     <input type="radio" class="btn-check" data-section="pedidos" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
                     <label class="btn btn-outline-danger" for="vbtn-radio2">Pedidos</label>
-                     
+                    <input type="radio" class="btn-check" data-section="usuarios" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
+                    <label class="btn btn-outline-danger" for="vbtn-radio3">Usuarios</label> 
                 </div>
             </aside>
             <div id="tabla-mostrar" class="col-lg-7"> 

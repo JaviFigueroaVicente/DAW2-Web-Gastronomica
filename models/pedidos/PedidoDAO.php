@@ -207,24 +207,22 @@ class PedidoDAO{
 
     public static function deletePedido($idPedido){
         $con = DataBase::connect();
-
-        $sql = "DELETE FROM pedidos WHERE id_pedido = ?";
-        $stmt = $con->prepare($sql);
+        $stmt = $con->prepare("DELETE FROM pedidos WHERE id_pedido = ?");
         $stmt->bind_param("i", $idPedido);
-        $stmt->execute();
-
+        $resultado = $stmt->execute();
         $con->close();
+        return $resultado;
     }
     
-    public static function createPedido($pedido){
+    public static function createPedido($estadoPedido, $id_user_pedido, $precio_pedido, $direccion_pedido, $metodo_pago){
         $con = DataBase::connect();
-
-        $sql = "INSERT INTO pedidos (fecha_pedido, estado_pedido, id_user_pedido, precio_pedido, direccion_pedido, metodo_pago) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $con->prepare($sql);
-        $stmt->bind_param("ssids", $pedido->fecha_pedido, $pedido->estado_pedido, $pedido->id_user_pedido, $pedido->precio_pedido, $pedido->direccion_pedido, $pedido->metodo_pago);
-        $stmt->execute();
-
+        $stmt = $con->prepare("INSERT INTO pedidos (fecha_pedido, estado_pedido, id_user_pedido, precio_pedido, direccion_pedido, metodo_pago) VALUES (NOW(), ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssdss", $estadoPedido, $id_user_pedido, $precio_pedido, $direccion_pedido, $metodo_pago);
+        $resultado = $stmt->execute();
+        $stmt->close();
         $con->close();
+
+        return $resultado;
     }
     
 }

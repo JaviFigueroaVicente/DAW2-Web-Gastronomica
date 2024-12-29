@@ -96,5 +96,65 @@ class UserDAO{
         return $resultado;
     }
     
+
+    public static function getUserById($id){
+        $con = DataBase::connect();
+        $stmt = $con->prepare("SELECT * FROM users WHERE id_user = ?");
+
+        $stmt->bind_param("i", $id);
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $user = null;
+        if ($data = $result->fetch_assoc()) {
+            $user = new User();
+            $user->setId_user($data['id_user']);
+            $user->setPassword_user($data['contra']);
+            $user->setEmail_user($data['email']);
+            $user->setNombre_user($data['nombre']);
+            $user->setApellidos_user($data['apellidos'] ?? null);
+            $user->setTelefono_user($data['telefono'] ?? 0);
+            $user->setDirection_user($data['direction'] ?? null);
+            $user->setAdmin_rol($data['admin']);
+        }
+
+        $con->close();
+        return $user;
+    }
+
+    public static function updateUser($id, $contra, $nombre, $apellidos, $email, $telefono, $direction, $rol ){
+        $con = DataBase::connect();
+        
+        if($contra === null){
+            $stmt = $con->prepare("UPDATE users SET nombre = ?, apellidos = ?, email = ?, telefono = ?, direction = ?, admin = ? WHERE id_user = ?");
+            $stmt->bind_param("sssisii", $nombre, $apellidos, $email, $telefono, $direction, $rol, $id);
+        }else{
+            $stmt = $con->prepare("UPDATE users SET contra = ?, nombre = ?, apellidos = ?, email = ?, telefono = ?, direction = ?, admin = ? WHERE id_user = ?");
+            $stmt->bind_param("ssssssii", $contra, $nombre, $apellidos, $email, $telefono, $direction, $rol, $id);
+        }
+        
+        $resultado = $stmt->execute();
+        $con->close();
+        return $resultado;
+    }
+
+    public static function createUser($email, $contra, $nombre, $apellidos, $telefono, $direction, $rol){
+        $con = DataBase::connect();
+        $stmt = $con->prepare("INSERT INTO users(email, contra, nombre, apellidos, telefono, direction, admin) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssisi", $email, $contra, $nombre, $apellidos, $telefono, $direction, $rol);
+        $resultado = $stmt->execute();
+        $con->close();
+        return $resultado;
+    }
+
+    public static function deleteUser($id){
+        $con = DataBase::connect();
+        $stmt = $con->prepare("DELETE FROM users WHERE id_user = ?");
+        $stmt->bind_param("i", $id);
+        $resultado = $stmt->execute();
+        $con->close();
+        return $resultado;
+    }
 }
 ?>

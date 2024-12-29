@@ -1,11 +1,14 @@
 import { ProductosAPI } from "./productosAPI.js";
 import { PedidosAPI } from "./pedidosAPI.js";
+import { UserAPI } from "./userAPI.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const productosAPI = new ProductosAPI('?url=api');
-    const pedidosAPI = new PedidosAPI('?url=api'); // Define la URL base de tu API
+    const pedidosAPI = new PedidosAPI('?url=api'); 
+    const userAPI = new UserAPI('?url=api');// Define la URL base de tu API
     const radioProductos = document.getElementById("vbtn-radio1");
     const radioPedidos= document.getElementById("vbtn-radio2");
+    const radioUsuarios = document.getElementById("vbtn-radio3");
     const tablaMostrar = document.getElementById("tabla-mostrar");
     
 
@@ -22,6 +25,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    radioUsuarios.addEventListener("change", async () => {
+        if (radioUsuarios.checked) {
+            cargarUsuarios();
+        }
+    });
+
+  
     async function cargarProductos() {
         try {
             // Llamada a la API para obtener productos
@@ -480,14 +490,12 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             // Llamada a la API para eliminar el producto
             await pedidosAPI.deletePedido(id);
-            alert("Producto eliminado correctamente.");
+            alert("Pedido eliminado correctamente.");
             
             cargarPedidos()
     
         } catch (error) {
-            alert("Error al eliminar el producto. Inténtalo de nuevo.");
-
-            cargarPedidos();
+            alert("Error al eliminar el pedido. Inténtalo de nuevo.");
         }
     }
 
@@ -504,10 +512,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <div class="modal-body">
                     <form id="crearPedidoForm">
-
-                        <label for="fecha_pedido">Fecha del Pedido</label>
-                        <input type="datetime-local" id="fecha_pedido" name="fecha_pedido" required>
-
                         <label for="estado_pedido">Estado</label>
                         <select id="estado_pedido" name="estado_pedido" required>
                             <option value="Pendiente">Pendiente</option>
@@ -544,6 +548,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const form = document.getElementById("crearPedidoForm");
             
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const formData = new FormData();
+                formData.append("estado_pedido", form.estado_pedido.value);
+                formData.append("id_user_pedido", form.id_user_pedido.value);
+                formData.append("precio_pedido", parseFloat(form.precio_pedido.value));
+                formData.append("direccion_pedido", form.direccion_pedido.value);
+                formData.append("metodo_pago", form.metodo_pago.value);
+
+                try {
+                    const response = await pedidosAPI.createPedido(formData);
+                    if (response.success) {
+                        alert("Pedido creado correctamente.");
+                    } else {
+                        alert(response.error || "Error al crear el pedido.");
+                    }
+
+                    // Cerrar el modal
+                    const modalElement = document.querySelector("#staticBackdrop");
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    modalInstance.hide();
+
+                    // Recargar la tabla de pedidos
+                    cargarPedidos();
+                } catch (error) {
+                    console.error("Error al crear el pedido:", error);
+                    alert("Error al crear el pedido. Inténtalo de nuevo.");
+                }
+            });
         }
         catch(error){
             console.error("Error al crear el pedido:", error);
@@ -551,8 +585,291 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // USUARIOS
     
+    function agregarEventosEditarUser() {
+        const botonesEditar = document.querySelectorAll('.editar-user-btn');
+        botonesEditar.forEach(boton => {
+            boton.addEventListener('click', (e) => {
+                const idUser = e.currentTarget.getAttribute('data-id');
+                editarUser(idUser);
+            });
+        });
+    }
+
+    function agregarEventosEliminarUser() {
+        const botonesEliminar = document.querySelectorAll('.eliminar-user-btn');
+        botonesEliminar.forEach(boton => {
+            boton.addEventListener('click', (e) => {
+                const idUser = e.target.getAttribute('data-id');
+                const confirmar = confirm("¿Estás seguro de que deseas eliminar este usuario?");
+                if (confirmar) {
+                    deleteUser(idUser);
+                }
+            });
+        });
+    }
+
+    function agregarEventosCreateUser() {
+        const botonCreate = document.querySelector('.create-user-btn');
+        botonCreate.addEventListener('click', () => {
+            createUser();
+        });
+    }
+    async function cargarUsuarios() {
+        try {
+            // Llamada a la API para obtener usuarios
+            const usuarios = await userAPI.getUsers();
+
+            // Construir la tabla con los datos
+            const tablaHTML = `
+                <button class="btn btn-primary btn-sm create-user-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Crear Usuario</button>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Correo</th>
+                            <th>Telefono</th>
+                            <th>Direccion</th>
+                            <th>Rol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${usuarios.map(usuario => `
+                            <tr>
+                                <td>${usuario.id_user}</td>
+                                <td>${usuario.nombre_user}</td>
+                                <td>${usuario.apellidos_user}</td>
+                                <td>${usuario.email_user}</td>
+                                <td>${usuario.telefono_user}</td>
+                                <td>${usuario.direction_user}</td>
+                                <td>${usuario.admin_rol}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm editar-user-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${usuario.id_user}">Editar</button>
+                                    <button class="btn btn-danger btn-sm eliminar-user-btn" data-id="${usuario.id_user}">Eliminar</button>
+                                </td>
+                            </tr>
+                        `).join("")}
+                    </tbody>
+                </table>
+            `;
+
+            // Insertar la tabla en el contenedor
+            tablaMostrar.innerHTML = tablaHTML;
+
+            // Agregar eventos de clic a los botones "Editar"
+            agregarEventosEditarUser();
+            agregarEventosEliminarUser();
+            agregarEventosCreateUser();
+
+
+        } catch (error) {
+            // Mostrar mensaje de error
+            tablaMostrar.innerHTML = "<p>Error al cargar usuarios. Inténtalo de nuevo más tarde.</p>";
+        }
+    }
+
+    async function editarUser(id){
+        const modalMostrar = document.querySelector(".modal-content"); // Contenedor del modal
     
+        try {
+            // Obtener los detalles del usuario
+            const user = await userAPI.getUserIndividual(id);
+    
+            // Construir el contenido del modal
+            const modalHTML = `
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Usuario</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editarUserForm">
+                        <label for="nombre_user">Nombre</label>
+                        <input type="text" id="nombre_user" name="nombre_user" value="${user.nombre_user}" required>
+    
+                        <label for="apellidos_user">Apellidos</label>
+                        <input type="text" id="apellidos_user" name="apellidos_user" value="${user.apellidos_user}" required>
+    
+                        <label for="contra_user">Nueva Contraseña (Opcional)</label>
+                        <input type="password" id="contra_user" name="contra_user" placeholder="Dejar en blanco para no cambiar">
+    
+                        <label for="email_user">Correo</label>
+                        <input type="email" id="email_user" name="email_user" value="${user.email_user}" required>
+    
+                        <label for="telefono_user">Teléfono</label>
+                        <input type="text" id="telefono_user" name="telefono_user" value="${user.telefono_user}" required>
+    
+                        <label for="direction_user">Dirección</label>
+                        <input type="text" id="direction_user" name="direction_user" value="${user.direction_user}" required>
+    
+                        <label for="admin_rol">Rol</label>
+                        <select id="admin_rol" name="admin_rol" required>
+                            <option value="0" ${user.admin_rol === 0 ? "selected" : ""}>Usuario</option>
+                            <option value="1" ${user.admin_rol === 1 ? "selected" : ""}>Administrador</option>
+                        </select>
+    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+    
+            // Mostrar el formulario
+            modalMostrar.innerHTML = modalHTML;
+    
+            // Manejar el envío del formulario
+            const form = document.getElementById("editarUserForm");
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+    
+                // Construir el formulario de datos
+                const formData = new FormData();
+                formData.append("id_user", id);
+                formData.append("nombre_user", form.nombre_user.value);
+                formData.append("apellidos_user", form.apellidos_user.value);
+                formData.append("email_user", form.email_user.value);
+                formData.append("telefono_user", form.telefono_user.value);
+                formData.append("direction_user", form.direction_user.value);
+                formData.append("admin_rol", form.admin_rol.value);
+    
+                if (form.contra_user.value.trim() !== "") {
+                    formData.append("contra_user", form.contra_user.value); // Enviar la contraseña directamente
+                }
+    
+                try {
+                    // Llamar a la API para editar el usuario
+                    const response = await userAPI.updateUser(formData);
+    
+                    if (response.success) {
+                        alert("Usuario editado correctamente.");
+                    } else {
+                        alert(response.error || "Error al editar el usuario.");
+                    }
+    
+                    // Cerrar el modal
+                    const modalElement = document.querySelector("#staticBackdrop");
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    modalInstance.hide();
+    
+                    // Recargar la tabla de usuarios
+                    cargarUsuarios();
+                } catch (error) {
+                    console.error("Error al editar el usuario:", error);
+                    alert("Error al editar el usuario. Inténtalo de nuevo.");
+                }
+            });
+    
+        } catch (error) {
+            console.error("Error al cargar el usuario:", error);
+            modalMostrar.innerHTML = "<p>Error al cargar el usuario. Inténtalo de nuevo más tarde.</p>";
+        }
+    }
+    
+
+
+    async function createUser(){
+        const modalMostrar = document.querySelector(".modal-content");
+
+        try{
+
+            let createUserModalHTML = `
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Crear Usuario</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="crearUserForm">
+                        <label for="nombre_user">Nombre</label>
+                        <input type="text" id="nombre_user" name="nombre_user" required>
+
+                        <label for="apellidos_user">Apellidos</label>
+                        <input type="text" id="apellidos_user" name="apellidos_user" required>
+
+                        <label for="contra_user">Contraseña</label>
+                        <input type="password" id="contra_user" name="contra_user" required>
+
+                        <label for="email_user">Correo</label>
+                        <input type="email" id="email_user" name="email_user" required>
+
+                        <label for="telefono_user">Teléfono</label>
+                        <input type="text" id="telefono_user" name="telefono_user" required>
+
+                        <label for="direction_user">Dirección</label>
+                        <input type="text" id="direction_user" name="direction_user" required>
+
+                        <label for="admin_rol">Rol</label>
+                        <select id="admin_rol" name="admin_rol" required>
+                            <option value="0">Usuario</option>
+                            <option value="1">Administrador</option>
+                        </select>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            modalMostrar.innerHTML = createUserModalHTML;
+
+            const form = document.getElementById("crearUserForm");
+            
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const formData = new FormData();
+                formData.append("contra_user", form.contra_user.value);
+                formData.append("nombre_user", form.nombre_user.value);
+                formData.append("apellidos_user", form.apellidos_user.value);
+                formData.append("email_user", form.email_user.value);
+                formData.append("telefono_user", form.telefono_user.value);
+                formData.append("direction_user", form.direction_user.value);
+                formData.append("admin_rol", form.admin_rol.value);
+                try {
+                    const response = await userAPI.createUser(formData);
+                    if (response.success) {
+                        alert("Usuario creado correctamente.");
+                    } else {
+                        alert(response.error || "Error al crear el usuario.");
+                    }
+
+                    // Cerrar el modal
+                    const modalElement = document.querySelector("#staticBackdrop");
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    modalInstance.hide();
+
+                    // Recargar la tabla de usuario
+                    cargarUsuarios();
+                } catch (error) {
+                    console.error("Error al crear el usuario:", error);
+                    alert("Error al crear el usuario. Inténtalo de nuevo.");
+                }
+            });
+        }
+        catch(error){
+            console.error("Error al crear el usuario:", error);
+            modalMostrar.innerHTML = "<p>Error al crear el usuario. Inténtalo de nuevo más tarde.</p>";
+        }
+    }
+
+    async function deleteUser(id) {
+        try {
+            // Llamada a la API para eliminar el usuario
+            await userAPI.deleteUser(id);
+            alert("Usuario eliminado correctamente.");
+    
+            // Recargar la tabla de usuarios
+            cargarUsuarios();
+    
+        } catch (error) {
+            alert("Error al eliminar el usuario. Inténtalo de nuevo.");
+        }
+    }
+
     // Cargar productos al iniciar
     cargarProductos();
 });

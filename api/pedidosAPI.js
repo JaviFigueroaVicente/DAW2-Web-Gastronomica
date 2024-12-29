@@ -90,10 +90,7 @@ export class PedidosAPI {
         try {
             const response = await fetch(`${this.baseUrl}&action=create-pedido`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(pedido)
+                body: pedido
             });
 
             if (!response.ok) {

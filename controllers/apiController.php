@@ -198,11 +198,11 @@ class ApiController {
                     echo json_encode(['success' => true]);
                 } else {
                     http_response_code(500); // Indicar error interno
-                    echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el producto.']);
+                    echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el pedido.']);
                 }
             } else {
                 http_response_code(400); // Solicitud incorrecta
-                echo json_encode(['success' => false, 'error' => 'ID de producto no proporcionado.']);
+                echo json_encode(['success' => false, 'error' => 'ID de pedido no proporcionado.']);
             }
         } else {
             http_response_code(405); // Método no permitido
@@ -214,15 +214,13 @@ class ApiController {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Validar y extraer datos
-            $id_usuario = $_POST['id_usuario'];
-            $id_producto = $_POST['id_producto'];
-            $cantidad = $_POST['cantidad'];
-            $fecha_pedido = $_POST['fecha_pedido'];
-            $estado_pedido = $_POST['estado_pedido'];
+            $estadoPedido = $_POST['estado_pedido'];
+            $idUserPedido = $_POST['id_user_pedido'];
+            $precioPedido = $_POST['precio_pedido'];
+            $direccionPedido = $_POST['direccion_pedido'];
+            $metodoPago = $_POST['metodo_pago'];
 
-            // Crear pedido en la base de datos
-            $resultado = PedidoDAO::createPedido($id_usuario, $id_producto, $cantidad, $fecha_pedido, $estado_pedido);
-
+            $resultado = PedidoDAO::createPedido($estadoPedido, $idUserPedido, $precioPedido, $direccionPedido, $metodoPago);
             // Responder al cliente
             if ($resultado) {
                 echo json_encode(['success' => true]);
@@ -235,6 +233,136 @@ class ApiController {
     }
 
     
+    // Usuarios
+
+    public function getUsers() {
+        include_once 'models/users/UserDAO.php';
+        $usuarios = UserDAO::getAllUsers();
+        header('Content-Type: application/json');
+        echo json_encode($usuarios);
+    }
+
+    public function getUserIndividual() {
+        include_once 'models/users/UserDAO.php';
+        if (isset($_GET['id'])) {
+            $id = intval($_GET['id']);
+            $usuario = UserDAO::getUserById($id);
+    
+            if ($usuario) {
+                // Solo devolver los datos del usuario sin la contraseña
+                $user_data = [
+                    'id_user' => $usuario->getId_user(),
+                    'nombre_user' => $usuario->getNombre_user(),
+                    'apellidos_user' => $usuario->getApellidos_user(),
+                    'email_user' => $usuario->getEmail_user(),
+                    'telefono_user' => $usuario->getTelefono_user(),
+                    'direction_user' => $usuario->getDirection_user(),
+                    'admin_rol' => $usuario->getAdmin_rol()
+                ];
+                echo json_encode($user_data);
+            } else {
+                echo json_encode(['error' => 'Usuario no encontrado']);
+            }
+        } else {
+            echo json_encode(['error' => 'ID de usuario no proporcionado']);
+        }
+    }
+    
+    public function updateUser() {
+        include_once 'models/users/UserDAO.php';
+    
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Validar y extraer datos enviados
+            $id = $_POST['id_user'];
+            $nombre = $_POST['nombre_user'];
+            $apellidos = $_POST['apellidos_user'];
+            $email = $_POST['email_user'];
+            $telefono = $_POST['telefono_user'];
+            $direction = $_POST['direction_user'];
+            $rol = $_POST['admin_rol'];
+    
+            // Verificamos si la contraseña fue proporcionada
+            if (empty($_POST['contra_user'])) {
+                // Si la contraseña no se proporciona, utilizamos la contraseña actual del usuario
+                $usuario = UserDAO::getUserById($id);
+                $contra = $usuario->getPassword_user();  // Obtiene la contraseña actual
+            } else {
+                // Si la contraseña se proporciona, la hashamos
+                $contra = password_hash($_POST['contra_user'], PASSWORD_DEFAULT);
+            }
+    
+            // Llamar al modelo para actualizar los datos
+            $resultado = UserDAO::updateUser($id, $contra, $nombre, $apellidos, $email, $telefono, $direction, $rol);
+    
+            // Responder al cliente
+            if ($resultado) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'No se pudo actualizar el usuario.']);
+            }
+        } else {
+            echo json_encode(['error' => 'Método no permitido']);
+        }
+    }
+    
+    
+
+    public function createUser(){
+        include_once 'models/users/UserDAO.php';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Validar y extraer datos
+            $contra = $_POST['contra_user'];
+            $nombre = $_POST['nombre_user'];
+            $apellidos = $_POST['apellidos_user'];
+            $email = $_POST['email_user'];
+            $telefono = $_POST['telefono_user'];
+            $direction = $_POST['direction_user'];
+            $admin_rol = $_POST['admin_rol'];
+
+            $contraHash = password_hash($contra, PASSWORD_DEFAULT);
+
+            $resultado = UserDAO::createUser($email, $contraHash, $nombre, $apellidos, $telefono, $direction, $admin_rol);
+            // Responder al cliente
+            if ($resultado) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'No se pudo crear el pedido.']);
+            }
+        } else {
+            echo json_encode(['error' => 'Método no permitido']);
+        }
+    }
+
+    public function deleteUser() {
+        include_once 'models/users/UserDAO.php';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            // Leer el cuerpo de la solicitud
+            $data = json_decode(file_get_contents("php://input"), true);
+
+            if (isset($data['id_user'])) {
+                $id = $data['id_user'];
+
+                // Eliminar producto en la base de datos
+                $resultado = UserDAO::deleteUser($id);
+
+                // Responder al cliente
+                if ($resultado) {
+                    echo json_encode(['success' => true]);
+                } else {
+                    http_response_code(500); // Indicar error interno
+                    echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el usuario.']);
+                }
+            } else {
+                http_response_code(400); // Solicitud incorrecta
+                echo json_encode(['success' => false, 'error' => 'ID de usuario no proporcionado.']);
+            }
+        } else {
+            http_response_code(405); // Método no permitido
+            echo json_encode(['error' => 'Método no permitido']);
+        }
+    }
 }
 
 

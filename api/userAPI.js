@@ -1,56 +1,110 @@
 export class UserAPI {
-    constructor(contentContainer) {
-        this.contentContainer = contentContainer;
+    constructor(baseUrl) {
+        this.baseUrl = baseUrl;
     }
 
-    async load() {
-        const response = await fetch("?url=admin/users"); 
-        if (!response.ok) throw new Error("Error al obtener usuarios");
-
-        const users = await response.json();
-        this.render(users);
-    }
-
-    render(users) {
-        if (users.length === 0) {
-            this.contentContainer.innerHTML = "<p>No hay usuarios disponibles</p>";
-            return;
+    async getUsers(){
+        try {
+            const response = await fetch(`${this.baseUrl}&action=users`);
+            if (!response.ok) {
+                throw new Error('No se pudieron obtener los usuarios');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error(error);
+            return [];
         }
-
-        const table = `
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Email</th>
-                        <th>Teléfono</th>
-                        <th>Dirección</th>
-                        <th>Rol</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${users.map(user => `
-                        <tr>
-                            <td>${user.id_user}</td>
-                            <td>${user.nombre}</td>
-                            <td>${user.apellidos}</td>
-                            <td>${user.email}</td>
-                            <td>${user.telefono}</td>
-                            <td>${user.direction}</td>
-                            <td>${user.admin}</td>
-                            <td>
-                                <button class="btn btn-primary btn-sm">Editar</button>
-                                <button class="btn btn-danger btn-sm">Eliminar</button>
-                            </td>
-                        </tr>`).join('')}
-                </tbody>
-            </table>
-        `;
-
-        this.contentContainer.innerHTML = table;
     }
 
+    async getUserIndividual(id){
+        try {
+            const response = await fetch(`${this.baseUrl}&action=user-individual&id=${id}`);
+            if (!response.ok) {
+                throw new Error('Error al obtener el usuario');
+            }
+
+            const data = await response.json();
+            if (!data) {
+                throw new Error('Usuario no encontrado');
+            }
+
+            return data;
+        } catch (error) {
+            console.error("Error al obtener el usuario:", error);
+            return null;
+        }
+    }
+
+    async updateUser(user) {
+        try {
+            let body;
+    
+            // Si el producto incluye un archivo, utiliza FormData
+            if (user instanceof FormData) {
+                body = user;
+            } else {
+                // Si no es FormData, convierte a JSON
+                body = JSON.stringify(user);
+            }
+    
+            const response = await fetch(`${this.baseUrl}&action=update-user`, {
+                method: 'POST', // Cambiado a POST para admitir multipart/form-data
+                body: body,
+                headers: user instanceof FormData ? undefined : {
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (!response.ok) {
+                throw new Error('Error al actualizar el usuario');
+            }
+    
+            return await response.json();
+        } catch (error) {
+            console.error("Error al actualizar el usuario:", error);
+            throw error;
+        }
+    }
+    
+
+    async createUser(formData){
+        try {
+            const response = await fetch(`${this.baseUrl}&action=create-user`, {
+                method: 'POST',
+                body: formData // FormData incluye automáticamente los encabezados necesarios
+            });
+    
+            if (!response.ok) {
+                throw new Error('Error al crear el usuario');
+            }
+    
+            return await response.json();
+        } catch (error) {
+            console.error("Error al crear el usuario:", error);
+            throw error;
+        }
+    }
+
+    async deleteUser(user) {
+        try {
+            const response = await fetch(`${this.baseUrl}&action=delete-user`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id_user: user }) // Enviar como objeto con id_producto
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Error al eliminar el usuario');
+            }
+    
+            return await response.json();
+        } catch (error) {
+            console.error("Error al eliminar el usuario:", error);
+            throw error;
+        }
+    }
 }

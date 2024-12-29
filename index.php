@@ -74,6 +74,26 @@ switch ($url) {
                 $controller->createPedido();
                 break;
 
+            case 'users':
+                $controller->getUsers();
+                break;
+
+            case 'user-individual':
+                $controller->getUserIndividual();
+                break;
+            
+            case 'update-user':
+                $controller->updateUser();
+                break;
+
+            case 'create-user':
+                $controller->createUser();
+                break;
+
+            case 'delete-user':
+                $controller->deleteUser();
+                break;
+            
             default:
                 http_response_code(400);
                 echo json_encode(['error' => 'Acción no válida']);
