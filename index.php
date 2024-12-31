@@ -93,6 +93,14 @@ switch ($url) {
             case 'delete-user':
                 $controller->deleteUser();
                 break;
+
+            case 'tramitar-pedido':
+                $controller->tramitarPedido();
+                break;
+
+            case 'login':
+                $controller->login();
+                break;
             
             default:
                 http_response_code(400);

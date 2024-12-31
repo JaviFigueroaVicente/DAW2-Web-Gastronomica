@@ -156,5 +156,46 @@ class UserDAO{
         $con->close();
         return $resultado;
     }
+
+    public static function verifyUser($email, $password) {
+        $con = DataBase::connect();
+    
+        $sql = "SELECT id_user, nombre, contra FROM users WHERE email = ?";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+    
+            // Verifica la contraseña con hash
+            if (password_verify($password, $user['contra'])) {
+                return [
+                    'success' => true,
+                    'user' => [
+                        'id_user' => $user['id_user'],
+                        'nombre' => $user['nombre'],
+                        'admin_rol' => $user['admin']
+                    ],
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'message' => 'Credenciales incorrectas.',
+                ];
+            }
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Credenciales incorrectas.',
+            ];
+        }
+    
+        $stmt->close();
+        $con->close();
+    }
+    
+    
 }
 ?>

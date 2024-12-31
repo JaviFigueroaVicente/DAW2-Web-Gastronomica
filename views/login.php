@@ -33,16 +33,16 @@
                         </div>
                     </div>
                     <h5><strong>O inicia sesión con tu email</strong></h5>
-                    <form class="form-inicio" method="post" action="?url=login/entrar">
+                    <form class="form-inicio" id="loginForm">
                         <div class="form-group">
-                            <input name="login-email" type="text" id="input1" placeholder=" " required>
+                            <input name="login-email" type="text" id="loginEmail" placeholder=" " required>
                             <label for="login-email">E-Mail</label>
                         </div>
                         <div class="form-group">
-                            <input name="login-contra" type="password" id="input2" placeholder=" " required>
+                            <input name="login-contra" type="password" id="loginPassword" placeholder=" " required>
                             <label for="login-contra">Contraseña</label>
                         </div>
-                        <input class="login-submit" type="submit" value="Identificarme">
+                        <button type="button" id="loginSubmit" class="login-submit">Identificarme</button>
                         <a href="">¿Has olvidado tu contraseña?</a>
                     </form>
                 </div>
@@ -65,5 +65,6 @@
         ?>    
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="api/login.js"></script>
 </body>
 </html>

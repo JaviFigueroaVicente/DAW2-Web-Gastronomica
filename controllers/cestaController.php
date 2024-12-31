@@ -6,7 +6,10 @@ class CestaController{
     public function finalizar(){ 
     $cupon = CestaController::agregarCupon();
     $cesta = CestaDAO::getCesta($_SESSION['user_id']);
-    $totalCesta = CestaDAO::countTotal($_SESSION['user_id']);        
+    $totalCesta = CestaDAO::countTotal($_SESSION['user_id']);
+    
+    $cestajson = json_encode($cesta);
+    
     include_once "views/finalizar.php";
     }
 

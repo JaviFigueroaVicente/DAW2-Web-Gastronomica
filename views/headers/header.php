@@ -1,3 +1,4 @@
+<script src="api/headerCantidad.js"></script>
 <div class="header_top">
     <ul>
         <li>
@@ -96,15 +97,9 @@
             </a>
         </div>
         <div class="carrito-icon"> 
-            <a href="?url=finalizar">                
+            <a href="?url=finalizar" class="count-productos">                
                 <img class="icon" src="views/img/icons/cart.svg" alt="">
-                <?php
-                if(isset($_SESSION['user_id'])){
-                    include_once "models/cesta/CestaDAO.php";
-                    $totalCesta = CestaDAO::countTotal($_SESSION['user_id']);
-                    if($totalCesta > 0){ ?>
-                    <span><?php echo number_format($totalCesta);?></span>
-                <?php } } ?>                         
+                <span id="cantidad-productos" style="display: inline;"></span>
             </a>
         </div>
     </div>

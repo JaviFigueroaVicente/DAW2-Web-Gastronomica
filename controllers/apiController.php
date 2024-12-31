@@ -363,6 +363,97 @@ class ApiController {
             echo json_encode(['error' => 'Método no permitido']);
         }
     }
+
+    public function tramitarPedido() {
+        include_once 'models/pedidos/PedidoDAO.php'; // Incluye la clase PedidoDAO para manejar los pedidos.
+    
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents('php://input'), true);
+    
+            // Validación básica de datos
+            if (!isset($data['id_user'], $data['delivery_option'], $data['pay_option'], $data['products'])) {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Faltan datos necesarios para procesar el pedido."
+                ]);
+                return;
+            }
+    
+            $idUser = $data['id_user'];
+            $direccion = $data['delivery_option']; // Se asume que contiene la dirección de entrega o el tipo.
+            $metodoPago = $data['pay_option'];
+            $idOferta = $data['id_oferta'] ?? null; // Puede ser null si no hay oferta
+    
+            // Llamar a la función insertarPedido desde PedidoDAO
+            try {
+                $resultado = PedidoDAO::insertarPedido($idUser, $direccion, $metodoPago, $idOferta);
+    
+                if ($resultado['success']) {
+                    echo json_encode([
+                        "success" => true,
+                        "id_pedido" => $resultado['id_pedido'],
+                        "message" => $resultado['message']
+                    ]);
+                } else {
+                    echo json_encode([
+                        "success" => false,
+                        "message" => "Error al insertar el pedido."
+                    ]);
+                }
+            } catch (Exception $e) {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Ocurrió un error: " . $e->getMessage()
+                ]);
+            }
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "Método no permitido."
+            ]);
+        }
+    }
+    
+
+    public function login() {
+        include_once 'models/users/UserDAO.php';
+    
+        $data = json_decode(file_get_contents('php://input'), true);
+    
+        if (!$data || !isset($data['email'], $data['password'])) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Datos incompletos para iniciar sesión.'
+            ]);
+            exit;
+        }
+    
+        $email = $data['email'];
+        $password = $data['password'];
+    
+        try {
+            $resultado = UserDAO::verifyUser($email, $password);
+    
+            if ($resultado['success']) {
+                echo json_encode([
+                    'success' => true,
+                    'user' => $resultado['user']
+                ]);
+            } else {
+                echo json_encode([
+                    'success' => false,
+                    'message' => $resultado['message']
+                ]);
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error al iniciar sesión: ' . $e->getMessage()
+            ]);
+        }
+    }
+    
+    
 }
 
 

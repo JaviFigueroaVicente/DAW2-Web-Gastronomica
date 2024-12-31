@@ -128,7 +128,19 @@
                             <p>Subtotal:<strong><span class="subtotal">€</span></strong></p>                            
                         </div>
                         <div class="botones-cesta">
-                            <button class="cesta-compra" type="submit" >Ver mi cesta</button>
+                            <button 
+                                class="cesta-compra" 
+                                type="button" 
+                                data-id="<?=$productoIndividual['id_producto']?>" 
+                                data-nombre="<?=$productoIndividual['nombre_producto']?>" 
+                                data-precio="<?=number_format($productoIndividual['precio_producto'], 2, '.', '')?>" 
+                                data-foto="<?=$productoIndividual['foto_producto']?>"
+                                data-stock="<?=$productoIndividual['stock_producto']?>"
+                                data-bs-toggle="offcanvas" 
+                                data-bs-target="#offcanvasRight" 
+                                aria-controls="offcanvasRight">
+                                <img src="views/img/icons/cart_white.svg" alt="">Añadir a la cesta
+                            </button>
                             <button class="continuar-compra" type="button" data-bs-dismiss="offcanvas" aria-label="Close">Seguir comprando</button>
                         </div>                    
                     </div>                    
@@ -158,5 +170,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="views/js/galeria-producto.js" type="text/javascript"></script> 
     <script src="views/js/producto-individual.js"></script>
+    <script src="api/añadirCesta.js"></script>
 </body>
 </html>
