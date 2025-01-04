@@ -1,190 +1,177 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const productosLista = document.getElementById('productos-lista');
-    const subtotalEl = document.getElementById('subtotal');
-    const totalEl = document.getElementById('total');
-    const totalArticulosEl = document.getElementById('total-articulos');
-    const ahorroEl = document.getElementById('ahorro');
-    const cesta = JSON.parse(localStorage.getItem('cesta')) || [];
+    try {
+        const productosLista = document.getElementById('productos-lista');
+        const subtotalEl = document.getElementById('subtotal');
+        const totalEl = document.getElementById('total');
+        const totalArticulosEl = document.getElementById('total-articulos');
+        const ahorroEl = document.getElementById('ahorro');
+        const formCupon = document.getElementById('form-cupon');
+        const cestaKey = 'cartProducts';
 
-    // Si la cesta está vacía, mostrar mensaje
-    if (cesta.length === 0) {
-        productosLista.innerHTML = `
-            <div class="cesta-vacia">
-                <h2>Tu cesta está vacía</h2>
-                <p>Sigue comprando en <a href="?url=index">Mammoth's Kitchen</a> o visita tu <a href="">lista de favoritos</a>.</p>
-            </div>`;
-        return;
-    }
+        let cesta = JSON.parse(localStorage.getItem(cestaKey)) || [];
+        let cuponAplicado = null;
 
-    // Actualizar el número total de artículos en la página de finalizar compra
-    const totalArticulos = cesta.reduce((acc, producto) => acc + producto.cantidad, 0); // Cuenta la cantidad total de productos
-    totalArticulosEl.textContent = `(${totalArticulos} artículo${totalArticulos !== 1 ? 's' : ''})`; // Muestra el total de artículos
-
-    let subtotal = 0;
-    let total = 0;
-    let ahorro = 0;
-
-    // Generar HTML para cada producto
-    cesta.forEach(producto => {
-        const descuento = producto.descuento_oferta || 0;
-        const precioConDescuento = producto.precio_producto * producto.cantidad * (1 - descuento / 100);
-        const precioSinDescuento = producto.precio_producto * producto.cantidad;
-
-        subtotal += precioSinDescuento;
-        total += precioConDescuento;
-        ahorro += precioSinDescuento - precioConDescuento;
-
-        const cardHTML = `
-        <div class="card card-finalizar">
-            <a href="?url=productos/producto-individual&id=${producto.id_producto}">
-                <img src="${producto.foto_producto}" class="card-img-top" alt="${producto.nombre_producto}">
-            </a>
-            <div class="card-body">
-                <h5>${producto.nombre_producto}</h5>
-                <p class="card-text texto-tamaño">Tamaño: ${producto.tamaño}</p>
-                <p class="card-text texto-entrega">Entrega estimada, 21:30h 25 oct. 2024</p>                             
-                <div class="modificar-producto">  
-                    <button data-id="${producto.id_producto}" data-action="reducir" class="btn-reducir" ${producto.cantidad <= 1 ? 'disabled' : ''}>-</button>
-                    <input type="text" class="cantidad-producto" value="${producto.cantidad}" readonly>
-                    <button data-id="${producto.id_producto}" data-action="aumentar" class="btn-aumentar" ${producto.cantidad >= producto.stock_producto ? 'disabled' : ''}>+</button>
-                </div>
-                ${descuento ? `<p class="card-text texto-descuento">${descuento}% de descuento</p>` : ''}
-            </div>
-            <div class="producto-borrar">
-                <button data-id="${producto.id_producto}" class="btn-close" aria-label="Close"></button>
-                <div>
-                    <p class="precio-descuento">${precioConDescuento.toFixed(2).replace('.', ',')} €</p>
-                    ${descuento ? `<p class="precio-tachado">${precioSinDescuento.toFixed(2).replace('.', ',')} €</p>` : ''}
-                </div>                                              
-            </div>
-        </div>`;
-        productosLista.insertAdjacentHTML('beforeend', cardHTML);
-    });
-
-    // Actualizar subtotales y totales
-    subtotalEl.textContent = subtotal.toFixed(2).replace('.', ',') + ' €';
-    totalEl.textContent = total.toFixed(2).replace('.', ',') + ' €';
-
-    if (ahorro > 0) {
-        ahorroEl.innerHTML = `<p class="ahorrado-verde">Has ahorrado ${ahorro.toFixed(2).replace('.', ',')} €</p>`;
-    }
-
-    // Event Listeners para modificar cantidad o eliminar producto
-    productosLista.addEventListener('click', function (e) {
-        const target = e.target;
-        const idProducto = target.dataset.id;
-        const action = target.dataset.action;
-
-        if (action === 'reducir' || action === 'aumentar') {
-            modifyQuantity(idProducto, action);
+        if (cesta.length === 0) {
+            productosLista.innerHTML = `
+                <div class="cesta-vacia">
+                    <h2>Tu cesta está vacía</h2>
+                    <p>Sigue comprando en <a href="?url=index">Mammoth's Kitchen</a> o visita tu <a href="">lista de favoritos</a>.</p>
+                </div>`;
+            if (subtotalEl) subtotalEl.textContent = '0,00 €';
+            if (totalEl) totalEl.textContent = '0,00 €';
+            if (ahorroEl) ahorroEl.innerHTML = '* IVA incluido';
+            return;
         }
 
-        if (target.classList.contains('btn-close')) {
-            removeProduct(idProducto);
+        let subtotal = 0;
+        let total = 0;
+        let ahorro = 0;
+
+        function renderCesta() {
+            productosLista.innerHTML = '';
+            subtotal = 0;
+            total = 0;
+            ahorro = 0;
+
+            cesta.forEach(producto => {
+                if (!producto.id_producto || !producto.precio_producto || !producto.cantidad) {
+                    console.warn("Producto con datos incompletos:", producto);
+                    return;
+                }
+
+                const descuento = cuponAplicado ? cuponAplicado.discount : 0;
+                const precioConDescuento = producto.precio_producto * producto.cantidad * (1 - descuento / 100);
+                const precioSinDescuento = producto.precio_producto * producto.cantidad;
+
+                subtotal += precioSinDescuento;
+                total += precioConDescuento;
+                ahorro += precioSinDescuento - precioConDescuento;
+
+                const cardHTML = `
+                    <div class="card card-finalizar">
+                        <a href="?url=productos/producto-individual&id=${producto.id_producto}">
+                            <img src="${producto.foto_producto}" class="card-img-top" alt="${producto.nombre_producto}">
+                        </a>
+                        <div class="card-body">
+                            <h5>${producto.nombre_producto}</h5>
+                            <p class="card-text texto-tamaño">Tamaño: ${producto.tamaño}</p>
+                            <p class="card-text texto-entrega">Entrega estimada, 21:30h 25 oct. 2024</p>
+                            <div class="modificar-producto">
+                                <button data-id="${producto.id_producto}" data-action="reducir" class="btn-reducir" ${producto.cantidad <= 1 ? 'disabled' : ''}>-</button>
+                                <input type="text" class="cantidad-producto" value="${producto.cantidad}" readonly>
+                                <button data-id="${producto.id_producto}" data-action="aumentar" class="btn-aumentar" ${producto.cantidad >= producto.stock_producto ? 'disabled' : ''}>+</button>
+                            </div>
+                        </div>
+                        <div class="producto-borrar">
+                            <button data-id="${producto.id_producto}" class="btn-close" aria-label="Close"></button>
+                            <div>
+                                <p class="precio-descuento">${precioConDescuento.toFixed(2).replace('.', ',')} €</p>
+                                ${descuento ? `<p class="precio-tachado">${precioSinDescuento.toFixed(2).replace('.', ',')} €</p>` : ''}
+                            </div>
+                        </div>
+                    </div>`;
+                productosLista.insertAdjacentHTML('beforeend', cardHTML);
+            });
+
+            localStorage.setItem('subtotal', subtotal.toFixed(2));
+            localStorage.setItem('total', total.toFixed(2));
+            localStorage.setItem('ahorro', ahorro.toFixed(2));
+
+            if (subtotalEl) subtotalEl.textContent = subtotal.toFixed(2).replace('.', ',') + ' €';
+            if (totalEl) totalEl.textContent = total.toFixed(2).replace('.', ',') + ' €';
+            if (ahorro > 0 && ahorroEl) {
+                ahorroEl.innerHTML = `<p class="ahorrado-verde">Has ahorrado ${ahorro.toFixed(2).replace('.', ',')} €</p>`;
+            } else if (ahorroEl) {
+                ahorroEl.innerHTML = '* IVA incluido';
+            }
         }
-    });
 
-    // Actualizar carrito en el header
-    updateCartQuantity();
-
-    // Mostrar los productos en la cesta
-    const cestaContainer = document.querySelector('.actualizar-productos');
-    const subtotalContainer = document.querySelector('.precio-subtotal');
-    const totalContainer = document.querySelector('.precio-total');
-    const ahorroContainer = document.querySelector('.ahorrado-verde');
-    
-
-
-    // Limpiamos el contenedor para evitar duplicados
-    cestaContainer.innerHTML = '';
-
-    // Recorremos los productos y los mostramos
-    cesta.forEach((producto) => {
-        // Crear el HTML para cada producto
-        const productoDiv = document.createElement('div');
-        productoDiv.classList.add('card', 'card-finalizar');
-        productoDiv.innerHTML = `
-            <a href="?url=productos/producto-individual&id=${producto.id_producto}">
-                <img src="data:image/webp;base64,${producto.foto_producto}" class="card-img-top" alt="${producto.nombre_producto}">
-            </a>
-            <div class="card-body">
-                <h5><a href="?url=productos/producto-individual&id=${producto.id_producto}">${producto.nombre_producto}</a></h5>
-                <p class="card-text texto-tamaño comment">Tamaño: ${producto.tamaño}</p>
-                <div class="producto-borrar">
-                    <p class="card-text texto-cantidad comment">Cantidad: ${producto.cantidad}</p>
-                    <p>${(producto.precio_producto * producto.cantidad * (1 - producto.descuento_oferta / 100)).toFixed(2)}€</p>
-                </div>
-            </div>
-        `;
-
-        // Agregar el producto al contenedor de la cesta
-        cestaContainer.appendChild(productoDiv);
-
-        // Calcular el subtotal sin descuento y con descuento
-        const precioSinDescuento = producto.precio_producto * producto.cantidad;
-        subtotal += precioSinDescuento;
-        totalSinDescuento += precioSinDescuento;
-
-        if (producto.descuento_oferta) {
-            const precioConDescuento = precioSinDescuento * (1 - producto.descuento_oferta / 100);
-            totalConDescuento += precioConDescuento;
-        } else {
-            totalConDescuento += precioSinDescuento;
+        function actualizarTotalArticulos() {
+            const totalArticulos = cesta.reduce((total, producto) => total + producto.cantidad, 0);
+            totalArticulosEl.textContent = `(${totalArticulos} artículos)`;
         }
-    });
 
-    // Mostrar el subtotal
-    subtotalContainer.textContent = subtotal.toFixed(2).replace('.', ',') + ' €';
+        renderCesta();
+        actualizarTotalArticulos();
 
-    // Mostrar el total con descuento (si aplica)
-    totalContainer.textContent = totalConDescuento.toFixed(2).replace('.', ',') + ' €';
+        formCupon.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const cuponInput = formCupon.querySelector('input[name="cupon_code"]');
+            const cuponCode = cuponInput.value.trim();
 
-    // Calcular y mostrar el ahorro
-    if (totalSinDescuento !== totalConDescuento) {
-        const ahorro = totalSinDescuento - totalConDescuento;
-        ahorroContainer.textContent = `Has ahorrado ${ahorro.toFixed(2).replace('.', ',')}€`;
-    } else {
-        ahorroContainer.style.display = 'none';  // Si no hay ahorro, ocultamos el mensaje
+            if (!cuponCode) {
+                alert("Por favor, ingrese un código de cupón.");
+                return;
+            }
+
+            try {
+                const response = await fetch('?url=api&action=cupones', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cupon_code: cuponCode })
+                });
+
+                if (!response.ok) {
+                    throw new Error("Error en la comunicación con el servidor.");
+                }
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.message || "Error al aplicar el cupón.");
+                }
+
+                cuponAplicado = { discount: data.discount };
+                alert(`Cupón "${cuponCode}" aplicado con éxito. Descuento: ${data.discount}%`);
+                renderCesta();
+                actualizarTotalArticulos();
+            } catch (error) {
+                console.error('Error al aplicar el cupón:', error.message);
+                alert(`Error: ${error.message}`);
+            }
+        });
+
+        productosLista.addEventListener('click', function (e) {
+            const target = e.target;
+            const idProducto = target.dataset.id;
+            const action = target.dataset.action;
+
+            if (action === 'reducir' || action === 'aumentar') {
+                modifyQuantity(idProducto, action);
+                actualizarTotalArticulos();
+            }
+
+            if (target.classList.contains('btn-close')) {
+                removeProduct(idProducto);
+                actualizarTotalArticulos();
+            }
+        });
+
+        function modifyQuantity(idProducto, action) {
+            const producto = cesta.find(p => p.id_producto === idProducto);
+            if (!producto) return;
+
+            if (action === 'reducir' && producto.cantidad > 1) {
+                producto.cantidad -= 1;
+            } else if (action === 'aumentar' && producto.cantidad < producto.stock_producto) {
+                producto.cantidad += 1;
+            }
+
+            localStorage.setItem('cartProducts', JSON.stringify(cesta));
+            renderCesta();
+            actualizarTotalArticulos();
+        }
+
+        function removeProduct(idProducto) {
+            const index = cesta.findIndex(p => p.id_producto === idProducto);
+            if (index !== -1) {
+                cesta.splice(index, 1);
+                localStorage.setItem(cestaKey, JSON.stringify(cesta));
+                renderCesta();
+                actualizarTotalArticulos();
+            }
+        }
+    } catch (error) {
+        console.error("Error cargando la cesta:", error);
     }
 });
-
-// Modificar cantidad de productos
-function modifyQuantity(idProducto, action) {
-    const cesta = JSON.parse(localStorage.getItem('cesta')) || [];
-    const producto = cesta.find(item => item.id_producto === idProducto);
-
-    if (!producto) return;
-
-    if (action === 'reducir' && producto.cantidad > 1) {
-        producto.cantidad--;
-    } else if (action === 'aumentar' && producto.cantidad < producto.stock_producto) {
-        producto.cantidad++;
-    }
-
-    localStorage.setItem('cesta', JSON.stringify(cesta));
-    location.reload(); // Actualiza la vista
-}
-
-// Eliminar producto
-function removeProduct(idProducto) {
-    let cesta = JSON.parse(localStorage.getItem('cesta')) || [];
-    cesta = cesta.filter(item => item.id_producto !== idProducto);
-
-    localStorage.setItem('cesta', JSON.stringify(cesta));
-    location.reload(); // Actualiza la vista
-}
-
-// Función para actualizar la cantidad total de productos en el carrito (header)
-function updateCartQuantity() {
-    const cesta = JSON.parse(localStorage.getItem('cesta')) || [];
-    const totalProductos = cesta.reduce((acc, producto) => acc + producto.cantidad, 0); // Suma las cantidades de todos los productos
-    const cantidadProductosEl = document.getElementById('cantidad-productos');
-    
-    if (totalProductos === 0) {
-        cantidadProductosEl.textContent = ''; // Si es 0, no muestra nada
-        cantidadProductosEl.style.display = 'none'; // También puede esconder el contador si es 0
-    } else {
-        cantidadProductosEl.textContent = totalProductos; // Muestra la cantidad de productos
-        cantidadProductosEl.style.display = 'inline'; // Asegura que se vea si hay productos
-    }
-}

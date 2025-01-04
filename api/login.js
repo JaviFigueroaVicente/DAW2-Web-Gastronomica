@@ -24,6 +24,7 @@ document.getElementById('loginSubmit').addEventListener('click', async function 
             // Almacena los datos del usuario en sessionStorage.
             sessionStorage.setItem('id_user', user.id_user);
             sessionStorage.setItem('nombre', user.nombre);
+            sessionStorage.setItem('admin', user.admin);
 
             alert(`Bienvenido, ${user.nombre}`);
             window.location.href = '?url=index'; // Cambia esto por la URL de redirección deseada.
@@ -34,4 +35,5 @@ document.getElementById('loginSubmit').addEventListener('click', async function 
         console.error('Error al iniciar sesión:', error);
         alert('Hubo un problema con el inicio de sesión. Inténtalo más tarde.');
     }
+
 });

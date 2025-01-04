@@ -160,8 +160,16 @@ class UserDAO{
     public static function verifyUser($email, $password) {
         $con = DataBase::connect();
     
-        $sql = "SELECT id_user, nombre, contra FROM users WHERE email = ?";
+        $sql = "SELECT id_user, nombre, apellidos, contra, telefono, email, direction, admin FROM users WHERE email = ?";
         $stmt = $con->prepare($sql);
+    
+        if (!$stmt) {
+            return [
+                'success' => false,
+                'message' => 'Error preparando la consulta.'
+            ];
+        }
+    
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -171,31 +179,38 @@ class UserDAO{
     
             // Verifica la contraseña con hash
             if (password_verify($password, $user['contra'])) {
+                $stmt->close();
+                $con->close();
                 return [
                     'success' => true,
                     'user' => [
                         'id_user' => $user['id_user'],
                         'nombre' => $user['nombre'],
-                        'admin_rol' => $user['admin']
-                    ],
+                        'apellidos' => $user['apellidos'],
+                        'admin' => $user['admin'],
+                        'email' => $user['email'],
+                        'telefono' => $user['telefono'],
+                        'direction' => $user['direction']
+                    ]
                 ];
             } else {
+                $stmt->close();
+                $con->close();
                 return [
                     'success' => false,
                     'message' => 'Credenciales incorrectas.',
                 ];
             }
         } else {
+            $stmt->close();
+            $con->close();
             return [
                 'success' => false,
                 'message' => 'Credenciales incorrectas.',
             ];
         }
-    
-        $stmt->close();
-        $con->close();
     }
     
-    
+
 }
 ?>

@@ -33,8 +33,8 @@
                         <div>
                             <p class="cupon">¿Tienes un cupón?</p>
                             <form id="form-cupon">
-                                <label for="cupon_nombre"></label>
-                                <input name="cupon_nombre" type="text" placeholder="Código">
+                                <label for="cupon_code"></label>
+                                <input name="cupon_code" type="text" placeholder="Código">
                                 <button type="submit">Aplicar</button>
                             </form>
                         </div>

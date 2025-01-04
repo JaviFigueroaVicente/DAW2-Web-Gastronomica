@@ -363,7 +363,6 @@ class ApiController {
             echo json_encode(['error' => 'Método no permitido']);
         }
     }
-
     public function tramitarPedido() {
         include_once 'models/pedidos/PedidoDAO.php'; // Incluye la clase PedidoDAO para manejar los pedidos.
     
@@ -371,7 +370,7 @@ class ApiController {
             $data = json_decode(file_get_contents('php://input'), true);
     
             // Validación básica de datos
-            if (!isset($data['id_user'], $data['delivery_option'], $data['pay_option'], $data['products'])) {
+            if (!isset($_SESSION['user_id'], $data['delivery_option'], $data['pay_option'], $data['products']) || empty($data['products'])) {
                 echo json_encode([
                     "success" => false,
                     "message" => "Faltan datos necesarios para procesar el pedido."
@@ -379,14 +378,26 @@ class ApiController {
                 return;
             }
     
-            $idUser = $data['id_user'];
-            $direccion = $data['delivery_option']; // Se asume que contiene la dirección de entrega o el tipo.
-            $metodoPago = $data['pay_option'];
+            $idUser = $_SESSION['user_id']; // Obtener el ID del usuario desde la sesión
+            $direccion = $data['delivery_option']; // Dirección o tipo de entrega
+            $metodoPago = $data['pay_option']; // Método de pago
             $idOferta = $data['id_oferta'] ?? null; // Puede ser null si no hay oferta
+            $productos = $data['products']; // Array de productos enviados desde el frontend
+    
+            // Validar que los productos tengan la estructura esperada
+            foreach ($productos as $producto) {
+                if (!isset($producto['id_producto'], $producto['cantidad'], $producto['precio_producto'], $producto['tamaño'])) {
+                    echo json_encode([
+                        "success" => false,
+                        "message" => "La información de los productos no es válida."
+                    ]);
+                    return;
+                }
+            }
     
             // Llamar a la función insertarPedido desde PedidoDAO
             try {
-                $resultado = PedidoDAO::insertarPedido($idUser, $direccion, $metodoPago, $idOferta);
+                $resultado = PedidoDAO::insertarPedido($idUser, $direccion, $metodoPago, $idOferta, $productos);
     
                 if ($resultado['success']) {
                     echo json_encode([
@@ -414,47 +425,102 @@ class ApiController {
         }
     }
     
+    
+    
 
     public function login() {
-        include_once 'models/users/UserDAO.php';
+        // Inicia sesión si no está iniciada
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     
-        $data = json_decode(file_get_contents('php://input'), true);
-    
-        if (!$data || !isset($data['email'], $data['password'])) {
+        // Verifica que el método sea POST y la acción sea login
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_GET['action']) || $_GET['action'] !== 'login') {
             echo json_encode([
                 'success' => false,
-                'message' => 'Datos incompletos para iniciar sesión.'
+                'message' => 'Método no permitido o acción inválida.'
             ]);
             exit;
         }
     
-        $email = $data['email'];
-        $password = $data['password'];
+        include_once 'models/users/UserDAO.php';
+    
+        // Obtener datos enviados desde el cliente
+        $data = json_decode(file_get_contents('php://input'), true);
+        $email = $data['email'] ?? '';
+        $password = $data['password'] ?? '';
+    
+        // Validar datos obligatorios
+        if (empty($email) || empty($password)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Por favor, completa todos los campos.'
+            ]);
+            exit;
+        }
     
         try {
-            $resultado = UserDAO::verifyUser($email, $password);
+            // Llama al método verifyUser del DAO
+            $result = UserDAO::verifyUser($email, $password);
     
-            if ($resultado['success']) {
+            if ($result['success']) {
+                // Credenciales correctas: establece variables de sesión
+                $_SESSION['user_id'] = $result['user']['id_user'];
+                $_SESSION['user_name'] = $result['user']['nombre'];
+                $_SESSION['user_apellidos'] = $result['user']['apellidos'];
+                $_SESSION['user_rol'] = $result['user']['admin'];
+                $_SESSION['user_email'] = $result['user']['email'];
+                $_SESSION['user_telefono'] = $result['user']['telefono'];
+                $_SESSION['user_direction'] = $result['user']['direction'];
+    
                 echo json_encode([
                     'success' => true,
-                    'user' => $resultado['user']
+                    'user' => $result['user']
                 ]);
             } else {
+                // Credenciales incorrectas
                 echo json_encode([
                     'success' => false,
-                    'message' => $resultado['message']
+                    'message' => $result['message']
                 ]);
             }
         } catch (Exception $e) {
+            // Manejo de errores
+            error_log('Error en el login: ' . $e->getMessage()); // Log del error interno
             echo json_encode([
                 'success' => false,
-                'message' => 'Error al iniciar sesión: ' . $e->getMessage()
+                'message' => 'Hubo un problema con el inicio de sesión. Inténtalo más tarde.'
             ]);
         }
     }
+
+    public function aplicarCupon() {
+        include_once 'models/cesta/CestaDAO.php';
     
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = json_decode(file_get_contents('php://input'), true);
     
+            if (!isset($data['cupon_code'])) {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Falta el código del cupón."
+                ]);
+                return;
+            }
+    
+            $cuponCode = $data['cupon_code'];
+    
+            // Llamar a la función aplicarCupon desde CuponDAO
+            $resultado = CestaDAO::getCupon($cuponCode);
+    
+            echo json_encode($resultado);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "Método no permitido."
+            ]);
+        }
+    }
+     
 }
-
-
 ?>

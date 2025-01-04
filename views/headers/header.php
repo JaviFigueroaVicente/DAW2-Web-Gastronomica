@@ -35,57 +35,20 @@
         <div class="sesiones">
             <div class="inicio-sesion">
                 <img class="icon" src="views/img/icons/profile.svg" alt="">
-                <div class="btn-group">
-                    <?php
-                        if(empty($_SESSION['user_id'])){?>
-                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span>Hola, identifícate</span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
-                                    <a href="?url=login" class="dropdown-item btn-iniciar" type="button">Iniciar sesión</a>
-                                </li>
-                                <hr>
-                                <li>
-                                    <p class="dropdown-item btn-nuevo-cliente"><strong>¿Nuevo cliente?</strong><a href="?url=registro"> Crea tu cuenta</a></p>
-                                </li>
-                            </ul>
-                        <?php
-                        }else{?>                           
-                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span>Mi cuenta</span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-log">
-                                <li>
-                                    <p class="dropdown-item nombre-desplegable">Hola <a href="?url=cuenta" ><?php echo $_SESSION['user_name'] ?></a></p>
-                                </li>
-                                <li class="ul-dropdown">
-                                    <ul class="lista-dropdown">
-                                        <li>
-                                            <a class="a-log" href="?url=cuenta">Mi cuenta</a>
-                                        </li>
-                                        <li>
-                                            <a class="a-log" href="?url=cuenta/mis-pedidos">Mis pedidos</a>
-                                        </li>
-                                        <li>
-                                            <a class="a-log" href="">Atención al cliente</a>
-                                        </li>
-                                        <?php
-                                            if($_SESSION['user_rol'] == '1'){
-                                        ?>
-                                                <li>
-                                                    <a class="a-log" href="?url=admin">Administración</a>
-                                                </li>
-                                                <?php
-                                            }
-                                        ?>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a class="a-log" href="?url=logout">Cerrar sesión</a>
-                                </li>
-                            </ul>
-                        <?php } ?>
+                <div class="btn-group" id="userMenu">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="menuButton">
+                        <span id="menuText">Hola, identifícate</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="menuDropdown">
+                        <li id="loginMenu">
+                            <a href="?url=login" class="dropdown-item btn-iniciar" type="button">Iniciar sesión</a>
+                        </li>
+                        <hr id="divider">
+                        <li id="registerMenu">
+                            <p class="dropdown-item btn-nuevo-cliente"><strong>¿Nuevo cliente?</strong><a href="?url=registro"> Crea tu cuenta</a></p>
+                        </li>
+                        <!-- Aquí se agregarán dinámicamente los elementos del usuario logueado -->
+                    </ul>
                 </div>
             </div>
         </div>

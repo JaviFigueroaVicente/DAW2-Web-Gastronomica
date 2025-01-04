@@ -97,17 +97,22 @@ class PedidoDAO{
     }
     
     
-    
-    public static function insertarPedido($idUser, $direccion, $metodoPago, $id_oferta_cesta) {
+    public static function insertarPedido($idUser, $direccion, $metodoPago, $id_oferta_cesta, $productos) {
         $con = DataBase::connect();
-        $productos = CestaDAO::getCesta($idUser); 
         
+        // Calcular el precio total del pedido
         $precioTotal = 0;
         foreach ($productos as $producto) {
-            $descuento = $producto['id__oferta'] ? (1 - ($producto['descuento_oferta'] / 100)) : 1;
-            $precioTotal += $producto['precio_producto'] * $producto['cantidad'] * $descuento;
+            // Simplemente tomar el precio del producto tal cual viene, sin aplicar descuento
+            $precioTotal += $producto['precio_producto'] * $producto['cantidad'];
         }
-
+        
+        // Si no hay un id_oferta_cesta, se deja como NULL (es decir, no se aplica ninguna oferta)
+        if (!$id_oferta_cesta) {
+            $id_oferta_cesta = null;
+        }
+        
+        // Insertar el pedido en la tabla 'pedidos'
         $sqlInsertPedido = "
             INSERT INTO pedidos 
             (fecha_pedido, estado_pedido, id_user_pedido, precio_pedido, direccion_pedido, metodo_pago, id_oferta_) 
@@ -117,9 +122,11 @@ class PedidoDAO{
         $stmtPedido = $con->prepare($sqlInsertPedido);
         $stmtPedido->bind_param("idssi", $idUser, $precioTotal, $direccion, $metodoPago, $id_oferta_cesta);
         $stmtPedido->execute();
-
+        
+        // Obtener el ID del pedido insertado
         $idPedido = $con->insert_id;
-
+        
+        // Insertar los productos del pedido en la tabla 'pedido_productos'
         $sqlInsertProductos = "
             INSERT INTO pedido_productos 
             (id__pedido, id_producto_, cantidad_producto, tamaño_producto, precio__producto) 
@@ -127,9 +134,11 @@ class PedidoDAO{
             (?, ?, ?, ?, ?)
         ";
         $stmtProductos = $con->prepare($sqlInsertProductos);
-
+        
         foreach ($productos as $producto) {
-            $precioFinalProducto = $producto['precio_producto'] * (1 - ($producto['descuento_oferta'] / 100));
+            // Tomar el precio del producto tal como viene (ya viene con el descuento si lo tiene)
+            $precioFinalProducto = $producto['precio_producto'];
+    
             $stmtProductos->bind_param(
                 "iiisd",
                 $idPedido,
@@ -140,24 +149,21 @@ class PedidoDAO{
             );
             $stmtProductos->execute();
         }
-
-        $sqlVaciarCesta = "DELETE FROM cesta WHERE id__user = ?";
-        $stmtVaciarCesta = $con->prepare($sqlVaciarCesta);
-        $stmtVaciarCesta->bind_param("i", $idUser);
-        $stmtVaciarCesta->execute();
-
+        
+        // Confirmar la transacción
         $con->commit();
-
+        
+        // Cerrar la conexión
+        $con->close();
+        
+        // Retornar una respuesta exitosa
         return [
             "success" => true,
             "id_pedido" => $idPedido,
             "message" => "Pedido creado correctamente."
         ];
-    
-        $con->close();
-        
     }
-
+    
     public static function getPedidoById($idPedido){
         $con = DataBase::connect();
 
