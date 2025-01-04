@@ -109,19 +109,18 @@ switch ($url) {
         }
         break;
 
-    case 'productos':
-        include_once "controllers/productoController.php";
-        $controller = new ProductoController();
-    
-        if (isset($_GET['categoria'])) {
-            $controller->productosByCategoria();
-        } elseif (isset($_GET['oferta'])) {
-            $controller->productosByOferta();
-        } else {
-            $controller->productos();
-        }
+        case 'productos':
+            include_once "controllers/productoController.php";
+            $controller = new ProductoController();
         
-        break;
+            if (isset($_GET['categoria'])) {
+                $controller->productosByCategoria();
+            } else {
+                // Pasar el criterio de ordenación si está presente
+                $orden = isset($_GET['ordenar']) ? $_GET['ordenar'] : null;
+                $controller->productos($orden);
+            }
+            break;
 
     case 'productos/producto-individual':
         include_once "controllers/productoController.php";

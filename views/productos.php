@@ -86,15 +86,26 @@
                 </h1>
             <div class="productos-list">
                 <div class="productos-ordenar">
-                    <p>
-                        <?= $total_productos ?> productos</p>
-                    <select>
-                        <option selected>Ordenar</option>
-                        <option value="1">Más caros</option>
-                        <option value="2">Más baratos</option>
-                        <option value="3">A-Z</option>
-                        <option value="4">Z-A</option>
-                    </select>
+                    <p><?= $total_productos ?> productos</p>
+                    <form method="get" action="">
+                        <input type="hidden" name="url" value="productos">
+
+                        <?php if (isset($_GET['categoria'])): ?>
+                            <input type="hidden" name="categoria" value="<?= htmlspecialchars($_GET['categoria']) ?>">
+                        <?php endif; ?>
+                        <?php if (isset($_GET['oferta'])): ?>
+                            <input type="hidden" name="oferta" value="<?= htmlspecialchars($_GET['oferta']) ?>">
+                        <?php endif; ?>
+
+                        <select name="ordenar" onchange="this.form.submit()">
+                            <option value="" <?= !isset($_GET['ordenar']) ? 'selected' : '' ?>>Ordenar</option>
+                            <option value="1" <?= (isset($_GET['ordenar']) && $_GET['ordenar'] == '1') ? 'selected' : '' ?>>Nuevos primero</option>
+                            <option value="2" <?= (isset($_GET['ordenar']) && $_GET['ordenar'] == '2') ? 'selected' : '' ?>>Más caros</option>
+                            <option value="3" <?= (isset($_GET['ordenar']) && $_GET['ordenar'] == '3') ? 'selected' : '' ?>>Más baratos</option>
+                            <option value="4" <?= (isset($_GET['ordenar']) && $_GET['ordenar'] == '4') ? 'selected' : '' ?>>A-Z</option>
+                            <option value="5" <?= (isset($_GET['ordenar']) && $_GET['ordenar'] == '5') ? 'selected' : '' ?>>Z-A</option>
+                        </select>
+                    </form>
                 </div>
             </div>  
             <div class="container text-center card-productos">
@@ -141,6 +152,6 @@
         ?>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="js/menu-lateral.js"></script>
+    <script src="views/js/menu-lateral.js"></script>
 </body>
 </html>

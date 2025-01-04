@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const radioLogs = document.getElementById("vbtn-radio4");
     const tablaMostrar = document.getElementById("tabla-mostrar");
     
+    
 
     radioProductos.addEventListener("change", async () => {
         if (radioProductos.checked) {
@@ -85,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </td>
                                 <td>${producto.nombre_producto}</td>
                                 <td>${producto.descripcion_producto}</td>
-                                <td>${producto.precio_producto}</td>
+                                <td>${producto.precio_producto} €</td>
                                 <td>${producto.stock_producto}</td>
                                 <td>
                                     <button class="btn btn-warning btn-sm editar-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${producto.id_producto}">Editar</button>
@@ -327,7 +328,6 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const pedidos = await pedidosAPI.getPedidos();
     
-            // Definir las columnas de forma dinámica
             const columnas = [
                 { key: "id_pedido", label: "ID Pedido" },
                 { key: "fecha_pedido", label: "Fecha Pedido" },
@@ -338,42 +338,173 @@ document.addEventListener("DOMContentLoaded", () => {
                 { key: "metodo_pago", label: "Método de Pago" },
             ];
     
-            // Construir la tabla HTML
-            let tablaHTML = `
-                <button class="btn btn-primary btn-sm create-pedido-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Crear Pedido</button>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            ${columnas.map(col => `<th>${col.label}</th>`).join('')}
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
+            let sortBy = null;
+            let sortOrder = 'asc'; // Ordenación ascendente por defecto
+            let currentCurrency = 'EUR'; // Moneda actual por defecto (Euro)
+            let exchangeRates = {}; // Almacenará los tipos de cambio
     
-            pedidos.forEach(pedido => {
-                tablaHTML += `
-                    <tr>
-                        ${columnas.map(col => `<td>${pedido[col.key] ?? (col.key === "id_oferta_" ? 0 : "")}</td>`).join('')}
-                        <td>
-                            <button class="btn btn-warning btn-sm editar-pedido-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${pedido.id_pedido}">Editar</button>
-                            <button class="btn btn-danger btn-sm eliminar-pedido-btn" data-id="${pedido.id_pedido}">Eliminar</button>
-                        </td>
-                    </tr>
+            const apiKey = 'fca_live_gkcvBGnOgtkAQE1cL57EPOv0GEdSe1ifpHNd1i6i';
+    
+            // Mapeo de símbolos de divisas
+            const currencySymbols = {
+                USD: '$',
+                EUR: '€',
+                GBP: '£',
+                JPY: '¥'
+            };
+    
+            // Función para obtener los tipos de cambio
+            async function obtenerTiposCambio(baseCurrency) {
+                const url = `https://api.freecurrencyapi.com/v1/latest?apikey=${apiKey}&base_currency=${baseCurrency}`;
+                try {
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    if (response.ok) {
+                        return data.data; // Retorna los tipos de cambio
+                    } else {
+                        console.error("Error al obtener los tipos de cambio:", data);
+                        return {};
+                    }
+                } catch (error) {
+                    console.error("Error en la solicitud de tipos de cambio:", error);
+                    return {};
+                }
+            }
+    
+            // Solicitar los tipos de cambio iniciales
+            exchangeRates = await obtenerTiposCambio('EUR');
+    
+            // Función para convertir precios
+            function convertirPrecio(precio, targetCurrency) {
+                if (!exchangeRates[targetCurrency]) return `${precio} €`; // Si no hay tasa, retorna precio original en EUR
+                const convertedPrice = (precio * exchangeRates[targetCurrency]).toFixed(2);
+                const symbol = currencySymbols[targetCurrency] || targetCurrency;
+                return `${convertedPrice} ${symbol}`;
+            }
+    
+            // Función para ordenar los pedidos
+            function ordenarPedidos(pedidos, sortBy, sortOrder) {
+                return pedidos.sort((a, b) => {
+                    const valA = a[sortBy];
+                    const valB = b[sortBy];
+    
+                    // Comparar valores en función de su tipo
+                    if (valA < valB) return sortOrder === 'asc' ? -1 : 1;
+                    if (valA > valB) return sortOrder === 'asc' ? 1 : -1;
+                    return 0;
+                });
+            }
+    
+            // Función para manejar el clic en los encabezados para ordenar
+            function ordenarPorColumna(columna) {
+                if (sortBy === columna) {
+                    sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+                } else {
+                    sortBy = columna;
+                    sortOrder = 'asc';
+                }
+    
+                const pedidosOrdenados = ordenarPedidos(pedidos, sortBy, sortOrder);
+                renderizarTabla(pedidosOrdenados);
+            }
+    
+            // Función para renderizar la tabla con los pedidos
+            function renderizarTabla(pedidos) {
+                let tablaHTML = `
+                    <button class="btn btn-primary btn-sm create-pedido-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Crear Pedido</button>
+                    <div class="currency-selector">
+                        <label for="currency-select">Moneda:</label>
+                        <select id="currency-select" class="form-select">
+                            <option value="USD" ${currentCurrency === 'USD' ? 'selected' : ''}>USD</option>
+                            <option value="EUR" ${currentCurrency === 'EUR' ? 'selected' : ''}>EUR</option>
+                            <option value="GBP" ${currentCurrency === 'GBP' ? 'selected' : ''}>GBP</option>
+                            <option value="JPY" ${currentCurrency === 'JPY' ? 'selected' : ''}>JPY</option>
+                        </select>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                ${columnas.map(col => `
+                                    <th class="sortable" data-column="${col.key}">
+                                        ${col.label}
+                                        <span class="sort-indicator"></span>
+                                    </th>
+                                `).join('')}
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                 `;
-            });
     
-            tablaHTML += `</tbody></table>`;
-            tablaMostrar.innerHTML = tablaHTML;
+                pedidos.forEach(pedido => {
+                    tablaHTML += `
+                        <tr>
+                            ${columnas.map(col => {
+                                const value = col.key === "precio_pedido" 
+                                    ? convertirPrecio(pedido[col.key], currentCurrency) 
+                                    : pedido[col.key];
+                                return `<td>${value ?? ''}</td>`;
+                            }).join('')}
+                            <td>
+                                <button class="btn btn-warning btn-sm editar-pedido-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${pedido.id_pedido}">Editar</button>
+                                <button class="btn btn-danger btn-sm eliminar-pedido-btn" data-id="${pedido.id_pedido}">Eliminar</button>
+                            </td>
+                        </tr>
+                    `;
+                });
     
-            agregarEventosEditarPedidos();
-            agregarEventosEliminarPedidos();
-            agregarEventosCreatePedidos();
+                tablaHTML += `</tbody></table>`;
+                tablaMostrar.innerHTML = tablaHTML;
+    
+                // Agregar eventos al selector de moneda
+                document.getElementById('currency-select').addEventListener('change', async (event) => {
+                    currentCurrency = event.target.value;
+                    if (!exchangeRates[currentCurrency]) {
+                        exchangeRates = await obtenerTiposCambio('EUR'); // Vuelve a solicitar los tipos si no están cargados
+                    }
+                    renderizarTabla(pedidos);
+                });
+    
+                // Agregar eventos a los encabezados de la tabla
+                const sortColumns = document.querySelectorAll('.sortable');
+                sortColumns.forEach(col => {
+                    col.addEventListener('click', () => {
+                        const column = col.getAttribute('data-column');
+                        ordenarPorColumna(column);
+                    });
+                });
+    
+                // Actualizar indicadores de ordenación
+                actualizarIndicadoresOrdenacion();
+            }
+    
+            // Función para actualizar las flechas de ordenación
+            function actualizarIndicadoresOrdenacion() {
+                const sortColumns = document.querySelectorAll('.sortable');
+                sortColumns.forEach(col => {
+                    const indicator = col.querySelector('.sort-indicator');
+                    if (sortBy && col.getAttribute('data-column') === sortBy) {
+                        indicator.textContent = sortOrder === 'asc' ? '↑' : '↓';
+                    } else {
+                        indicator.textContent = '';
+                    }
+                });
+            }
+    
+            // Renderizar la tabla por primera vez
+            renderizarTabla(pedidos);
     
         } catch (error) {
             tablaMostrar.innerHTML = "<p>Error al cargar pedidos. Inténtalo de nuevo más tarde.</p>";
         }
+    
+        agregarEventosCreatePedidos();
+        agregarEventosEditarPedidos();
+        agregarEventosEliminarPedidos();
     }
+    
+    
+    
     
 
     function agregarEventosEditarPedidos() {
@@ -899,9 +1030,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    async function cargarLogs(){
+    async function cargarLogs() {
         try {
             const logs = await logsAPI.getLogs();
+    
+            // Ordenar los logs de mayor ID a menor ID
+            logs.sort((a, b) => b.id_log - a.id_log);
+    
             // Construir la tabla HTML
             const tablaHTML = `
                 <table class="table">
@@ -911,7 +1046,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <th>Log</th>
                         </tr>
                     </thead>
-                    <tbody>                        
+                    <tbody>
                         ${logs.map(log => `
                             <tr>
                                 <td>${log.id_log}</td>
@@ -925,15 +1060,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     </tbody>
                 </table>
             `;
-
+    
             // Insertar la tabla en el contenedor
             tablaMostrar.innerHTML = tablaHTML;
-
+    
         } catch (error) {
             // Mostrar mensaje de error
             tablaMostrar.innerHTML = "<p>Error al cargar logs. Inténtalo de nuevo más tarde.</p>";
         }
     }
+    
 
     async function registerLog(action, apartado, idApartado) {
         const idUser = sessionUser; // Obtener el ID del usuario desde sessionStorage

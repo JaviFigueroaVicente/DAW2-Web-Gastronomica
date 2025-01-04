@@ -3,15 +3,38 @@ include_once "config/dataBase.php";
 include_once "models/productos/Productos.php";
 
 class ProductosDAO{
-    public static function getAll(){
+    public static function getAll($orden = null) {
         $con = DataBase::connect();
-        $stmt = $con->prepare("SELECT * FROM productos");
-
+    
+        // Construir la consulta SQL con ordenación dinámica
+        $sql = "SELECT * FROM productos";
+        switch ($orden) {
+            case '1': 
+                $sql .= " ORDER BY id_producto DESC";
+                break;
+            case '2': // Más caros
+                $sql .= " ORDER BY precio_producto DESC";
+                break;
+            case '3': // Más baratos
+                $sql .= " ORDER BY precio_producto ASC";
+                break;
+            case '4': // A-Z
+                $sql .= " ORDER BY nombre_producto ASC";
+                break;
+            case '5': // Z-A
+                $sql .= " ORDER BY nombre_producto DESC";
+                break;
+            default:
+                // Sin orden específico
+                break;
+        }
+    
+        $stmt = $con->prepare($sql);
         $stmt->execute();
         $result = $stmt->get_result();
-
+    
         $productos = [];
-        while($producto = $result->fetch_object("Productos")){
+        while ($producto = $result->fetch_object("Productos")) {
             $productos[] = [
                 'id_producto' => $producto->getId_producto(),
                 'nombre_producto' => $producto->getNombre_producto(),
@@ -20,11 +43,13 @@ class ProductosDAO{
                 'stock_producto' => $producto->getStock_producto(),
                 'foto_producto' => $producto->getFoto_producto() ? 'data:image/webp;base64,' . base64_encode($producto->getFoto_producto()) : null,
                 'id_categoria_producto' => $producto->getId_categoria_producto()
-            ];}
-
+            ];
+        }
+    
         $con->close();
         return $productos;
     }
+    
 
     public static function countAll(){
         $con = DataBase::connect();
@@ -86,16 +111,38 @@ class ProductosDAO{
     
     
 
-    public static function getProductosByCategoria($id_categoria){
+    public static function getProductosByCategoria($categoria, $orden = null) {
         $con = DataBase::connect();
-        $stmt = $con->prepare("SELECT * FROM productos WHERE id_categoria_producto = ?");
-
-        $stmt->bind_param("i", $id_categoria);
+    
+        $sql = "SELECT * FROM productos WHERE id_categoria_producto = ?";
+        switch ($orden) {
+            case '1': // Nuevos primero
+                $sql .= " ORDER BY id_producto DESC";
+                break;
+            case '2': // Más caros
+                $sql .= " ORDER BY precio_producto DESC";
+                break;
+            case '3': // Más baratos
+                $sql .= " ORDER BY precio_producto ASC";
+                break;
+            case '4': // A-Z
+                $sql .= " ORDER BY nombre_producto ASC";
+                break;
+            case '5': // Z-A
+                $sql .= " ORDER BY nombre_producto DESC";
+                break;
+            default:
+                // Sin orden específico
+                break;
+        }
+    
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("i", $categoria);
         $stmt->execute();
         $result = $stmt->get_result();
-
+    
         $productos = [];
-        while($producto = $result->fetch_object("Productos")){
+        while ($producto = $result->fetch_object("Productos")) {
             $productos[] = [
                 'id_producto' => $producto->getId_producto(),
                 'nombre_producto' => $producto->getNombre_producto(),
@@ -104,12 +151,13 @@ class ProductosDAO{
                 'stock_producto' => $producto->getStock_producto(),
                 'foto_producto' => $producto->getFoto_producto() ? 'data:image/webp;base64,' . base64_encode($producto->getFoto_producto()) : null,
                 'id_categoria_producto' => $producto->getId_categoria_producto()
-            ];}
-
+            ];
+        }
+    
         $con->close();
         return $productos;
     }
-
+    
     public static function countProductosByCategoria($id_categoria){
         $con = DataBase::connect();
         $stmt = $con->prepare("SELECT COUNT(*) as total_productos FROM productos WHERE id_categoria_producto = ?");
@@ -122,17 +170,6 @@ class ProductosDAO{
         $con->close();
         return $total['total_productos'];
     }
-
-
-    public static function getProductosByOferta($id_oferta){
-        $con = DataBase::connect();
-        $stmt = $con->prepare("SELECT * FROM productos WHERE id_oferta_producto = ?");
-        $stmt->bind_param("i", $id_oferta);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $productos = [];
-    }
-
 
     public static function updateProducto($id, $nombre, $descripcion, $precio, $stock, $foto_producto) {
         $con = DataBase::connect();

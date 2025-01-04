@@ -36,6 +36,32 @@ main{
     transition: all 0.2s;
 }
 
+th.sortable {
+    cursor: pointer;
+    position: relative;
+    padding-right: 25px; /* Espacio extra para las flechas */
+}
+
+th.sortable .sort-indicator {
+    position: absolute;
+    right: 5px; /* Coloca las flechas en la esquina derecha */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px; /* Tamaño de las flechas */
+    color: #333; /* Color de las flechas */
+    visibility: hidden; /* Inicia invisibles */
+}
+
+th.sortable.asc .sort-indicator::before {
+    content: "↑"; /* Flecha hacia arriba */
+    visibility: visible; /* Asegura que la flecha esté visible cuando se ordene ascendente */
+}
+
+th.sortable.desc .sort-indicator::before {
+    content: "↓"; /* Flecha hacia abajo */
+    visibility: visible; /* Asegura que la flecha esté visible cuando se ordene descendente */
+}
+
 /* INDEX */
 /* Header_top */
 
@@ -2960,3 +2986,4 @@ footer {
 .footer-redes-inicio .shipping-icons{
     justify-content: flex-end;
 }
+

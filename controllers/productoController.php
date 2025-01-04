@@ -5,7 +5,9 @@ include_once "models/cesta/CestaDAO.php";
 
 class ProductoController{
     public function productos(){
-        $productos = ProductosDAO::getAll();
+        $orden = isset($_GET['ordenar']) ? $_GET['ordenar'] : null;
+        // Llamar al método del DAO con el criterio de ordenación
+        $productos = ProductosDAO::getAll($orden);
         $categoriasProducto = CategoriaProductoDAO::getAllCategoriaProducto();
         $ofertas = CestaDAO::getAllCupones();
         $total_productos = ProductosDAO::countAll();
@@ -21,7 +23,8 @@ class ProductoController{
 
     public function productosByCategoria(){
         $id = intval($_GET['categoria']);
-        $productos = ProductosDAO::getProductosByCategoria($id);
+        $orden = isset($_GET['ordenar']) ? $_GET['ordenar'] : null;
+        $productos = ProductosDAO::getProductosByCategoria($id,$orden);
         $total_productos = ProductosDAO::countProductosByCategoria($id);
         $categoriasProducto = CategoriaProductoDAO::getAllCategoriaProducto();
         $categoriaId = CategoriaProductoDAO::getCategoriaProductoById($id);
@@ -29,11 +32,6 @@ class ProductoController{
         include_once 'views/productos.php';
     }
 
-    public function productosByOferta(){
-        $id = intval($_GET['oferta']);
-        $productos = ProductosDAO::getProductosByOferta($id);
-        include_once 'views/productos.php';
-    }
 
 }
 ?>
