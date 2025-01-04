@@ -2,10 +2,16 @@
 session_start(); 
 
 header('Content-Type: text/html; charset=UTF-8');
+$protectedRoutes = ['productos', 'finalizar'];
 
 
 $url = $_GET['url'] ?? 'index';
 
+
+if (in_array($url, $protectedRoutes) && !isset($_SESSION['user_id'])) {
+    header("Location ?url=login");
+    exit; 
+}
 
 
 switch ($url) {
@@ -63,7 +69,6 @@ switch ($url) {
             case 'delete-pedido':
                 $controller->deletePedido();
                 break;
-
             
             case 'create-pedido':
                 $controller->createPedido();
@@ -88,19 +93,15 @@ switch ($url) {
             case 'delete-user':
                 $controller->deleteUser();
                 break;
-
-            case 'tramitar-pedido':
-                $controller->tramitarPedido();
-                break;
-
-            case 'login':
-                $controller->login();
-                break;
-
-            case 'cupones':
-                $controller -> aplicarCupon();
-                break;
             
+            case 'logs':
+                $controller->getLogs();
+                break;
+
+            case 'insert-log':
+                $controller->insertLog();
+                break;
+                
             default:
                 http_response_code(400);
                 echo json_encode(['error' => 'Acción no válida']);
@@ -134,10 +135,34 @@ switch ($url) {
         $controller->finalizar();  
         break; 
 
+    case'añadir-cesta':
+        include_once "controllers/cestaController.php";
+        $controller = new CestaController();
+        $controller->añadirCesta();
+        break;
+
+    case'finalizar/eliminar-producto-cesta':
+        include_once "controllers/cestaController.php";
+        $controller = new CestaController();
+        $controller->eliminarProductoCesta();
+        break;
+    
+    case 'finalizar/modificar-producto-cesta':
+        include_once "controllers/cestaController.php";
+        $controller = new CestaController();
+        $controller->actualizarCantidadProductoCesta();
+        break;
+
     case 'comprar':
         include_once "controllers/pedidoController.php";
         $controller = new PedidoController();
         $controller->comprar();
+        break;
+
+    case 'comprar/tramitar-pedido':
+        include_once "controllers/pedidoController.php";
+        $controller = new PedidoController();
+        $controller->crearPedido();
         break;
 
     case 'cuenta/mis-pedidos':

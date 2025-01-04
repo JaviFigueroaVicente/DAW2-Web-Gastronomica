@@ -19,6 +19,7 @@
         ?>
     </header>
     <main class="admin-main">
+        <p id="session-data" data-id-user="<?php echo $_SESSION['user_id']; ?>"></p>
         <section class= "cesta">
             <h2>Administrar Web</h2>            
         </section>   
@@ -31,6 +32,8 @@
                     <label class="btn btn-outline-danger" for="vbtn-radio2">Pedidos</label>
                     <input type="radio" class="btn-check" data-section="usuarios" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
                     <label class="btn btn-outline-danger" for="vbtn-radio3">Usuarios</label> 
+                    <input type="radio" class="btn-check" data-section="logs" name="vbtn-radio" id="vbtn-radio4" autocomplete="off">
+                    <label class="btn btn-outline-danger" for="vbtn-radio4">Logs</label>
                 </div>
             </aside>
             <div id="tabla-mostrar" class="col-lg-7"> 

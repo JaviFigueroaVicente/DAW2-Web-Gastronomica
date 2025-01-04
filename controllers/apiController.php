@@ -1,12 +1,12 @@
 <?php
 include_once "config/dataBase.php";
+include_once "models/logs/LogsDAO.php";
 
 class ApiController {
     public function admin() {
         include_once "views/admin.php";
     }
 
-    // Productos
 
     public function getProductos() {
         include_once 'models/productos/ProductosDAO.php';
@@ -363,164 +363,44 @@ class ApiController {
             echo json_encode(['error' => 'Método no permitido']);
         }
     }
-    public function tramitarPedido() {
-        include_once 'models/pedidos/PedidoDAO.php'; // Incluye la clase PedidoDAO para manejar los pedidos.
-    
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = json_decode(file_get_contents('php://input'), true);
-    
-            // Validación básica de datos
-            if (!isset($_SESSION['user_id'], $data['delivery_option'], $data['pay_option'], $data['products']) || empty($data['products'])) {
-                echo json_encode([
-                    "success" => false,
-                    "message" => "Faltan datos necesarios para procesar el pedido."
-                ]);
-                return;
-            }
-    
-            $idUser = $_SESSION['user_id']; // Obtener el ID del usuario desde la sesión
-            $direccion = $data['delivery_option']; // Dirección o tipo de entrega
-            $metodoPago = $data['pay_option']; // Método de pago
-            $idOferta = $data['id_oferta'] ?? null; // Puede ser null si no hay oferta
-            $productos = $data['products']; // Array de productos enviados desde el frontend
-    
-            // Validar que los productos tengan la estructura esperada
-            foreach ($productos as $producto) {
-                if (!isset($producto['id_producto'], $producto['cantidad'], $producto['precio_producto'], $producto['tamaño'])) {
-                    echo json_encode([
-                        "success" => false,
-                        "message" => "La información de los productos no es válida."
-                    ]);
-                    return;
-                }
-            }
-    
-            // Llamar a la función insertarPedido desde PedidoDAO
-            try {
-                $resultado = PedidoDAO::insertarPedido($idUser, $direccion, $metodoPago, $idOferta, $productos);
-    
-                if ($resultado['success']) {
-                    echo json_encode([
-                        "success" => true,
-                        "id_pedido" => $resultado['id_pedido'],
-                        "message" => $resultado['message']
-                    ]);
-                } else {
-                    echo json_encode([
-                        "success" => false,
-                        "message" => "Error al insertar el pedido."
-                    ]);
-                }
-            } catch (Exception $e) {
-                echo json_encode([
-                    "success" => false,
-                    "message" => "Ocurrió un error: " . $e->getMessage()
-                ]);
-            }
-        } else {
-            echo json_encode([
-                "success" => false,
-                "message" => "Método no permitido."
-            ]);
-        }
-    }
-    
-    
-    
 
-    public function login() {
-        // Inicia sesión si no está iniciada
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-    
-        // Verifica que el método sea POST y la acción sea login
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_GET['action']) || $_GET['action'] !== 'login') {
-            echo json_encode([
-                'success' => false,
-                'message' => 'Método no permitido o acción inválida.'
-            ]);
-            exit;
-        }
-    
-        include_once 'models/users/UserDAO.php';
-    
-        // Obtener datos enviados desde el cliente
-        $data = json_decode(file_get_contents('php://input'), true);
-        $email = $data['email'] ?? '';
-        $password = $data['password'] ?? '';
-    
-        // Validar datos obligatorios
-        if (empty($email) || empty($password)) {
-            echo json_encode([
-                'success' => false,
-                'message' => 'Por favor, completa todos los campos.'
-            ]);
-            exit;
-        }
-    
-        try {
-            // Llama al método verifyUser del DAO
-            $result = UserDAO::verifyUser($email, $password);
-    
-            if ($result['success']) {
-                // Credenciales correctas: establece variables de sesión
-                $_SESSION['user_id'] = $result['user']['id_user'];
-                $_SESSION['user_name'] = $result['user']['nombre'];
-                $_SESSION['user_apellidos'] = $result['user']['apellidos'];
-                $_SESSION['user_rol'] = $result['user']['admin'];
-                $_SESSION['user_email'] = $result['user']['email'];
-                $_SESSION['user_telefono'] = $result['user']['telefono'];
-                $_SESSION['user_direction'] = $result['user']['direction'];
-    
-                echo json_encode([
-                    'success' => true,
-                    'user' => $result['user']
-                ]);
-            } else {
-                // Credenciales incorrectas
-                echo json_encode([
-                    'success' => false,
-                    'message' => $result['message']
-                ]);
-            }
-        } catch (Exception $e) {
-            // Manejo de errores
-            error_log('Error en el login: ' . $e->getMessage()); // Log del error interno
-            echo json_encode([
-                'success' => false,
-                'message' => 'Hubo un problema con el inicio de sesión. Inténtalo más tarde.'
-            ]);
-        }
+    public function getLogs(){
+        include_once 'models/logs/LogsDAO.php';
+        $logs = LogsDAO::getLogs();
+        header('Content-Type: application/json');
+        echo json_encode($logs);
     }
 
-    public function aplicarCupon() {
-        include_once 'models/cesta/CestaDAO.php';
-    
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = json_decode(file_get_contents('php://input'), true);
-    
-            if (!isset($data['cupon_code'])) {
-                echo json_encode([
-                    "success" => false,
-                    "message" => "Falta el código del cupón."
-                ]);
-                return;
-            }
-    
-            $cuponCode = $data['cupon_code'];
-    
-            // Llamar a la función aplicarCupon desde CuponDAO
-            $resultado = CestaDAO::getCupon($cuponCode);
-    
-            echo json_encode($resultado);
-        } else {
-            echo json_encode([
-                "success" => false,
-                "message" => "Método no permitido."
-            ]);
-        }
+    public function insertLog() {
+    // Incluye el DAO de logs
+    include_once 'models/logs/LogsDAO.php';
+
+    // Obtener los datos de la solicitud (asume que es un POST con JSON)
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    // Extraer los valores
+    $id_user_log = (int)$data['id_user_log'];
+    $action_log = $data['action_log'];
+    $apartado_log = $data['apartado_log'];
+    $id_apartado_log = (int)$data['id_apartado_log'];
+
+    try {
+        // Llamar al método del DAO para insertar el log
+        LogsDAO::insertLog($id_user_log, $action_log, $apartado_log, $id_apartado_log);
+
+    } catch (Exception $e) {
+        // Manejar errores
+        http_response_code(500); // Internal Server Error
+        echo json_encode([
+            'success' => false,
+            'message' => 'Error al insertar el log.',
+            'error' => $e->getMessage()
+        ]);
     }
-     
+    }
+
+
 }
+
+
 ?>

@@ -1,14 +1,28 @@
 import { ProductosAPI } from "./productosAPI.js";
 import { PedidosAPI } from "./pedidosAPI.js";
 import { UserAPI } from "./userAPI.js";
+import { LogsAPI } from "./logsAPI.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+    const idUserElement = document.getElementById('session-data');
+    const idUser = idUserElement.dataset.idUser;
+    
+    // Almacena el ID en sessionStorage
+    sessionStorage.setItem('id_user', idUser);
+    
+    // Recupera el valor almacenado desde sessionStorage
+    const sessionUser = sessionStorage.getItem('id_user');
+    
+    // Imprime el valor almacenado
+    console.log("ID User almacenado:", sessionUser);
     const productosAPI = new ProductosAPI('?url=api');
     const pedidosAPI = new PedidosAPI('?url=api'); 
-    const userAPI = new UserAPI('?url=api');// Define la URL base de tu API
+    const userAPI = new UserAPI('?url=api');
+    const logsAPI = new LogsAPI('?url=api');// Define la URL base de tu API
     const radioProductos = document.getElementById("vbtn-radio1");
     const radioPedidos= document.getElementById("vbtn-radio2");
     const radioUsuarios = document.getElementById("vbtn-radio3");
+    const radioLogs = document.getElementById("vbtn-radio4");
     const tablaMostrar = document.getElementById("tabla-mostrar");
     
 
@@ -28,6 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
     radioUsuarios.addEventListener("change", async () => {
         if (radioUsuarios.checked) {
             cargarUsuarios();
+        }
+    });
+
+    radioLogs.addEventListener("change", async () => {
+        if (radioLogs.checked) {
+            cargarLogs();
         }
     });
 
@@ -154,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Enviar datos al servidor
                     await productosAPI.updateProducto(formData);
                     alert("Producto actualizado correctamente.");
-    
+                    await registerLog('UPDATE', 'PRODUCTOS', id);
                     // Cerrar el modal
                     const modalElement = document.querySelector("#staticBackdrop");
                     const modalInstance = bootstrap.Modal.getInstance(modalElement);
@@ -212,6 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function deleteProducto(id) {
         try {
             // Llamada a la API para eliminar el producto
+            await registerLog('DELETE', 'PRODUCTOS', id);
             await productosAPI.deleteProducto(id);
             alert("Producto eliminado correctamente.");
     
@@ -281,6 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     // Llamada a la API para crear el producto
                     await productosAPI.createProducto(formData);
+                    await registerLog('CREATE', 'PRODUCTOS', null);
                     alert("Producto creado correctamente.");
     
                     // Cerrar el modal
@@ -460,6 +482,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
                 try {
                     const response = await pedidosAPI.updatePedido(formData);
+                    await registerLog('UPDATE', 'PEDIDOS', id);
                     if (response.success) {
                         alert("Pedido actualizado correctamente.");
                     } else {
@@ -489,6 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function deletePedido(id) {
         try {
             // Llamada a la API para eliminar el producto
+            await registerLog('DELETE', 'PEDIDOS', id);
             await pedidosAPI.deletePedido(id);
             alert("Pedido eliminado correctamente.");
             
@@ -560,6 +584,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 try {
                     const response = await pedidosAPI.createPedido(formData);
+                    await registerLog('CREATE', 'PRODUCTOS', null);
                     if (response.success) {
                         alert("Pedido creado correctamente.");
                     } else {
@@ -743,6 +768,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     // Llamar a la API para editar el usuario
                     const response = await userAPI.updateUser(formData);
+                    await registerLog('UPDATE', 'USERS', id);
     
                     if (response.success) {
                         alert("Usuario editado correctamente.");
@@ -832,6 +858,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     const response = await userAPI.createUser(formData);
                     if (response.success) {
+                        await registerLog('CREATE', 'USERS', null);
+
                         alert("Usuario creado correctamente.");
                     } else {
                         alert(response.error || "Error al crear el usuario.");
@@ -859,6 +887,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function deleteUser(id) {
         try {
             // Llamada a la API para eliminar el usuario
+            await registerLog('DELETE', 'USERS', id);
             await userAPI.deleteUser(id);
             alert("Usuario eliminado correctamente.");
     
@@ -867,6 +896,72 @@ document.addEventListener("DOMContentLoaded", () => {
     
         } catch (error) {
             alert("Error al eliminar el usuario. Inténtalo de nuevo.");
+        }
+    }
+
+    async function cargarLogs(){
+        try {
+            const logs = await logsAPI.getLogs();
+            // Construir la tabla HTML
+            const tablaHTML = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Log</th>
+                        </tr>
+                    </thead>
+                    <tbody>                        
+                        ${logs.map(log => `
+                            <tr>
+                                <td>${log.id_log}</td>
+                                <td>
+                                    El usuario con ID <strong>${log.id_user_log}</strong> ha hecho <strong>${log.action_log}</strong> sobre la tabla <strong>${log.apartado_log}</strong>
+                                    ${log.id_apartado_log !== 0 ? `, sobre el id <strong>${log.id_apartado_log}</strong>` : ''}
+                                    ${log.fecha_log ? `. Fecha: ${log.fecha_log}` : ''}
+                                </td>
+                            </tr>
+                        `).join("")}
+                    </tbody>
+                </table>
+            `;
+
+            // Insertar la tabla en el contenedor
+            tablaMostrar.innerHTML = tablaHTML;
+
+        } catch (error) {
+            // Mostrar mensaje de error
+            tablaMostrar.innerHTML = "<p>Error al cargar logs. Inténtalo de nuevo más tarde.</p>";
+        }
+    }
+
+    async function registerLog(action, apartado, idApartado) {
+        const idUser = sessionUser; // Obtener el ID del usuario desde sessionStorage
+        if (!idUser) {
+            alert("Usuario no autenticado. No se puede registrar el log.");
+            return;
+        }
+    
+         // Crear el objeto con la información del log
+        const logData = {
+            id_user_log: idUser, // ID del usuario desde sessionStorage
+            action_log: action, // Acción realizada (como 'CREATE', 'DELETE', etc.)
+            apartado_log: apartado, // Apartado donde se realiza la acción (por ejemplo, 'USERS')
+            id_apartado_log: idApartado, // ID del apartado afectado (como ID de usuario, ID de producto, etc.)
+        };
+
+        try {
+            // Realizar la llamada a la API para registrar el log
+            const response = await fetch('?url=api&action=insert-log', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(logData), // Enviar los datos como JSON
+            });
+
+        } catch (error) {
+            console.error('Error en la solicitud de registro de log:', error); // Manejo de errores
         }
     }
 

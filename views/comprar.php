@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="views/css/styles.css">   
-
     <title>Mammoth's Kitchen</title>  
 </head>
 <body>
@@ -18,7 +17,7 @@
         ?>
     </header>
     <main>
-        <form id="tramitarPedidoForm">
+        <form action="?url=comprar/tramitar-pedido" method="POST">
             <section class="comprar row">
                 <div class="tramitar col-8">
                     <h1>Tramita tu pedido</h1>                
@@ -131,8 +130,24 @@
                         </button>    
                         <div class="collapse" id="collapseResumenPedido">
                             <div class="card card-body">   
-                                <div class="actualizar-direction actualizar-productos">
-                                      <!-- Aquí se mostrarán los productos -->
+                                <div class="actualizar-direction">
+                                    <?php    
+                                    foreach ($cesta as $producto):  
+                                    ?>
+                                    <div class="card card-finalizar">
+                                        <a href="?url=productos/producto-individual&id=<?=$producto['id_producto']?>"><img src="data:image/webp;base64,<?= base64_encode($producto['foto_producto']) ?>" class="card-img-top"  class="card-img-top" alt="..."></a>
+                                        <div class="card-body">
+                                            <h5><a href="?url=productos/producto-individual&id=<?=$producto['id_producto']?>"><?=$producto['nombre_producto']?></a></h5>
+                                            <p class="card-text texto-tamaño comment">Tamaño: <?= $producto['tamaño']?></p>
+                                            <div class="producto-borrar">                                                      
+                                                <p class="card-text texto-cantidad comment">Cantidad: <?= $producto['cantidad']?></p> 
+                                                <p><?=number_format($producto['precio_producto']*$producto['cantidad']*(1-$producto['descuento_oferta']/100), 2, ',', '.')?>€</p>
+                                            </div>                                            
+                                        </div>                                        
+                                    </div> 
+                                    <?php
+                                    endforeach; 
+                                    ?>        
                                 </div>     
                                 <div class="revisar-bottom">
                                     <p>Elige una opción de envío para estos productos</p>
@@ -153,7 +168,17 @@
                             <div class="tramitar-subtotal">
                                 <div>
                                     <p>Subtotal</p>
-                                    <p class="precio-subtotal"> 0,00 €</p>
+                                    <p class="precio-subtotal"><?php                                    
+                                    $subtotal = 0;
+                                    foreach ($cesta as $producto) {
+                                        $subtotal += $producto['precio_producto']*$producto['cantidad'];
+                                    }
+                                    if ($producto['descuento_oferta']){
+                                        $subtotal = $subtotal*(1-$producto['descuento_oferta']/100);
+                                    }
+                                    echo number_format($subtotal, 2, ',', '.');
+                                    ?> €
+                                    </p>
                                 </div>
                                 <div>
                                     <div class="div-gastos-envio">
@@ -165,13 +190,39 @@
                             <div class="tramitar-total">
                                 <div class="total">
                                     <p>Total</p>
-                                    <span class="precio-total">0,00 €</span>
+                                    <p class="precio-total"><?php
+                                        $total = 0;
+                                        $totalRebajado = 0;
+                                        foreach ($cesta as $producto) {
+                                            $precioSinDescuento = $producto['precio_producto'] * $producto['cantidad'];
+                                            $total += $precioSinDescuento;
+                                
+                                            if (!empty($producto['descuento_oferta'])) {
+                                                $precioConDescuento = $precioSinDescuento * (1 - $producto['descuento_oferta'] / 100);
+                                                $totalRebajado += $precioConDescuento;
+                                            } else {
+                                                $totalRebajado += $precioSinDescuento;
+                                            }
+                                        }
+                                
+                                        if ($total !== $totalRebajado) {
+                                            echo number_format($totalRebajado, 2, ',', '.');
+                                        } else {
+                                            echo number_format($total, 2, ',', '.');
+                                        }
+                                        ?> €
+                                    </p>
                                 
                                     <!-- Inputs ocultos para enviar el total al servidor -->
-                                   
+                                    <input name="precio_total_pedido" type="text" value="<?php echo number_format($totalRebajado, 2, ',', '.'); ?>" hidden>
+                                    <input type="text" name="id_oferta" value="<?php echo !empty($producto['id__oferta']) ? $producto['id__oferta'] : ''; ?>" hidden>
                                 </div>
                                 <div class="ahorrado">
-                                    
+                                    <?php if ($producto['descuento_oferta']): ?>
+                                        <p class="ahorrado-verde">
+                                            <?= 'Has ahorrado ' . number_format($total - $totalRebajado, 2, ',', '.') . '€' ?>
+                                        </p>
+                                    <?php endif; ?>
                                     <p>* IVA incluido</p>
                                 </div>
                             </div>                                                                          
@@ -199,6 +250,5 @@
         ?>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="api/comprar.js"></script>
 </body>
 </html>
