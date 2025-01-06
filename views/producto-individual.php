@@ -31,7 +31,6 @@
                             <div class="thumbnail active"><img src="<?=$productoIndividual['foto_producto']?>" alt=""></div>                        
                         </div>
                         <div class="main-image">
-                            <span class="discount-badge">-50%</span>
                             <img src="<?=$productoIndividual['foto_producto']?>" alt="Imagen Principal">
                         </div>                    
                     </div>                 
@@ -44,7 +43,6 @@
                     <div>
                         <div class="header-precios">
                             <span class="rebajado" data-precio="<?=number_format($productoIndividual['precio_producto'], 2, ',', '.')?>">€</span>
-                            <span class="precio-antiguo" data-precio="230.00">€</span>
                         </div>
                     </div>
                     <div class="entrega-estimada">
@@ -76,17 +74,17 @@
                         <div class="cantidad">
                             <p>Cantidad:</p>
                             <div class="modify">
-                                <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual['stock_producto'], 2, ',', '.')?>">
+                                <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual['stock_producto'])?>">
                                 <div class="modificar-producto">
                                     <button type="button" class="btn-reducir">-</button>
-                                    <input type="text" value="1" class="cantidad-productos">
+                                    <input type="button" <?php if($productoIndividual['stock_producto'] == 0){ echo 'value="0"'; }else{ echo 'value="1"';} ?> class="cantidad-productos">
                                     <button type="button" class="btn-aumentar">+</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="botones">
-                        <button class="agregar-cesta" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <button class="agregar-cesta" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" <?php if($productoIndividual['stock_producto'] == 0){ echo 'disabled'; } ?>>
                             <img src="views/img/icons/cart_white.svg" alt="">Añadir a la cesta
                         </button>           
                         <button class="agregar-favoritos" type="button">
@@ -114,13 +112,12 @@
                                     <input name="producto_id" type="text" hidden value="<?=number_format($productoIndividual['id_producto'], 2, ',', '.')?>">
                                     <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual['stock_producto'], 2, ',', '.')?>">
                                     <button type="button" class="btn-reducir">-</button>
-                                    <input name="cantidad" type="text" value="1" class="cantidad-productos">
+                                    <input name="cantidad" type="button" value="1" class="cantidad-productos">
                                     <button type="button" class="btn-aumentar">+</button>
                                 </div>                            
                             </div>
                             <div class="producto-borrar header-precios">     
                                 <span class="rebajado" data-precio="<?=number_format($productoIndividual['precio_producto'], 2, ',', '.')?>">€</span>                       
-                                <span class="precio-antiguo" data-precio="230.00">€</span>
                             </div>                        
                         </div>
                         <div class="sumario">                            
@@ -139,14 +136,6 @@
             <div class="descripcion-producto">
                 <h2>Características <?=$productoIndividual['nombre_producto']?></h2>
                 <p class="caracteristicas-producto"><?=$productoIndividual['descripcion_producto']?></p>
-            </div>
-            <div class="ingredientes-producto">
-                <strong>Ingredientes:</strong>
-                <ul>
-                    <li><strong class="ingrediente-strong">bacon:</strong> bacon</li>
-                    <li><strong class="ingrediente-strong">bacon:</strong> bacon</li>
-                </ul>
-                <strong>*Algunos productos podrían provocar alergías</strong>
             </div>
         </section>        
     </main>

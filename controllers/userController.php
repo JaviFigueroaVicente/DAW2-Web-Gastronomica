@@ -96,7 +96,7 @@ class UserController{
     public function logout() {
         session_start();
         session_destroy();
-        header("Location: ?url=index");
+        header("Location: ?url=login");
         exit;
     }
 

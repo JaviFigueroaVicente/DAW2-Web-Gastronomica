@@ -2,14 +2,14 @@
 session_start(); 
 
 header('Content-Type: text/html; charset=UTF-8');
-$protectedRoutes = ['productos', 'finalizar'];
+$protectedRoutes = ['finalizar', 'comprar', 'admin', 'api', 'cuenta', 'datos-personales', 'datos-personales','datos-acceso'];
 
 
 $url = $_GET['url'] ?? 'index';
 
 
 if (in_array($url, $protectedRoutes) && !isset($_SESSION['user_id'])) {
-    header("Location ?url=login");
+    header("Location: ?url=login");
     exit; 
 }
 
@@ -18,7 +18,7 @@ switch ($url) {
     case 'index':
         include_once "controllers/indexController.php"; 
         $controller = new IndexController();
-        $controller->index();  
+        $controller->index(); 
         break;
 
     case 'admin':

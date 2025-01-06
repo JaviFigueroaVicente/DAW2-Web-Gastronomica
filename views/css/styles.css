@@ -820,7 +820,7 @@ ul{
 
 #grid-comidas .col a {
     position: absolute;
-    bottom: 0px;
+    bottom: -1px;
     left: 10px;
     color: #1a1a1a;
     text-decoration: none;
@@ -829,7 +829,8 @@ ul{
     padding: 5px 10px;
     text-align: center; 
     background-color: #ffffff;
-    transition: filter 0.2s ease;   
+    transition: filter 0.2s ease;  
+    clip-path: polygon(0 0, 90% 0, 100% 100%, 100% 100%, 0 100%); 
 }
 #grid-comidas .col a:hover{
     color: #888888;
@@ -907,6 +908,7 @@ ul{
 
 .carousel-item {
     width: 100%;
+    transition: transform 1s ease-in-out;
 }
 
 
@@ -922,17 +924,23 @@ ul{
     height: 250px;
     object-fit: cover;
     border-radius: 15px 0 15px 0;
+    position: relative;
+
 }
 
 .discount {
     font-size: 16px;
     font-weight: bold;
-    margin: 10px 0;
+    margin-left: 15px;
     display: flex;
     justify-content: left;
     width: 75px;
     background-color: #E4022C;
     color: #ffffff;
+    z-index: 2;
+    position: absolute;
+    padding-bottom: 10px;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%, 0 100%);
 }
 
 .discount strong{
@@ -949,6 +957,10 @@ ul{
     position: relative; 
     background-color: #ffffff; 
     padding: 5px 10px;
+    z-index: 30;
+    margin-top: -30px;
+    width: 80%;
+    clip-path: polygon(0 0, 90% 0, 100% 100%, 100% 100%, 0 100%);
 }
 
 .deadline img {
@@ -962,17 +974,6 @@ ul{
 
 .deadline strong {
     font-weight: 700; 
-}
-
-.deadline::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 20px;
-    height: 20px;
-    background-color: #ffffff; 
-    clip-path: polygon(100% 0, 0 100%, 100% 100%); 
 }
 
 
@@ -1429,6 +1430,14 @@ ul{
     background-color: #ffffff;    
 }
 
+.modificar-producto button:hover{
+    cursor: pointer;
+}
+
+.modificar-producto button:disabled{
+    cursor: not-allowed;
+}
+
 
 .modificar-producto input{
     width: 35px;
@@ -1440,6 +1449,11 @@ ul{
     border-bottom: none;
     border-left: 1px solid #888888;
     border-right: 1px solid #888888;
+    background-color: #ffffff;
+}
+
+.modificar-producto input:hover{
+    cursor: auto;
 }
 
 
@@ -2220,6 +2234,10 @@ ul{
     height: 40px;
 }
 
+.cuenta-section nav{
+    border-top: none;
+}
+
 /* datos-personales */
 .datos-personales{
     background-color: #f2f2f2;
@@ -2538,6 +2556,12 @@ ul{
     background-color: #EA3D5E;
 }
 
+.agregar-cesta:disabled{
+    cursor: not-allowed;
+    background-color: #EA3D5Ef0;
+}
+
+
 .agregar-favoritos{
     margin-top: 20px;
     display: flex;
@@ -2713,8 +2737,6 @@ ul{
 }
 
 /* Mis pedidos */
-
-
 /* Producto individual  */
 .tabla-productos-pedido thead th{
     font-size: 14px;
@@ -2724,20 +2746,27 @@ ul{
     background-color: transparent;
 }
 
+.producto-pedido-foto .card a:hover{
+    border: none;
+}
+
 .producto-pedido-foto .card-finalizar{
     padding: 0;
     align-items: center;
 }
 
+
 .producto-pedido-foto .card-finalizar h5 a{
     color: #888888;  
     font-weight: 600;
     font-size: 14px;
+    min-height: 0px;
 }
 
 .producto-pedido-foto .card-finalizar h5 a:hover{
     color: #1a1a1a;
     transition: all 0.3 ease;
+    border: none;
 }
 
 .producto-pedido-foto .card-finalizar .producto-borrar p{

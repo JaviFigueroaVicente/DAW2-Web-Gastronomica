@@ -1,14 +1,13 @@
-// Gestion de tamaños
-const sizeRadios = document.querySelectorAll('input[name="size"]');
+// Gestión de tamaños
+const sizeRadios = document.querySelectorAll('input[name="tamaño"]');
 const selectedSizeText = document.getElementById('selected-size');
-
 
 sizeRadios.forEach((radio) => {
     radio.addEventListener('change', (event) => {
         selectedSizeText.textContent = `Tamaño: ${event.target.value}`;
+        actualizarPrecios(); // Actualizar precios cuando se cambia el tamaño
     });
 });
-
 
 // Función para actualizar los precios de todos los bloques, incluyendo "producto-borrar"
 function actualizarPrecios() {
@@ -21,26 +20,20 @@ function actualizarPrecios() {
 
     // Recorrer todos los bloques de precios
     bloquesPrecios.forEach((bloque) => {
-        // Obtener los elementos de precio rebajado y precio antiguo en cada bloque
         const rebajado = bloque.querySelector('.rebajado');
-        const precioRebajado = parseFloat(rebajado.getAttribute('data-precio'));
+        const precioRebajado = parseFloat(rebajado.getAttribute('data-precio').replace('.', '').replace('€', '').trim());
         
-        const precioAntiguo = bloque.querySelector('.precio-antiguo');
-        const precioAntiguoBase = parseFloat(precioAntiguo.getAttribute('data-precio'));
-
-        // Verificar si los valores son números válidos
-        if (isNaN(precioRebajado) || isNaN(precioAntiguoBase)) {
+        // Verificar si el precio rebajado es un número válido
+        if (isNaN(precioRebajado)) {
             console.error("Uno de los precios no es un número válido");
             return; // Detenemos la ejecución si hay un valor no válido
         }
         
-        // Calcular el subtotal para los precios rebajado y antiguo
+        // Calcular el subtotal para los precios rebajados
         const subtotalRebajado = cantidad * precioRebajado;
-        const subtotalAntiguo = cantidad * precioAntiguoBase;
 
-        // Actualizar los precios en el bloque correspondiente
+        // Actualizar el precio rebajado
         rebajado.textContent = `${formatearPrecio(subtotalRebajado)}€`;
-        precioAntiguo.textContent = `${formatearPrecio(subtotalAntiguo)}€`;
     });
 
     // Actualizar la cantidad de artículos en el sumario
@@ -61,7 +54,6 @@ function deshabilitarBotones() {
     const cantidades = document.querySelectorAll('.cantidad-productos');
     const botonesAumentar = document.querySelectorAll('.btn-aumentar');
     
-
     cantidades.forEach((cantidadInput, index) => {
         const cantidad = parseInt(cantidadInput.value) || 0;
         const botonReducir = botonesReducir[index];
@@ -86,10 +78,7 @@ function deshabilitarBotones() {
             botonAumentar.removeAttribute('disabled');
         }       
     });   
-    
 }
-
-
 
 // Función para sincronizar la cantidad entre ambos inputs
 function sincronizarCantidades(cantidadInput) {
@@ -142,11 +131,7 @@ document.querySelectorAll('.btn-reducir').forEach(boton => {
 // Inicialización
 actualizarPrecios();
 
-
-
-
-// Gestion de favoritos
-
+// Gestión de favoritos
 const favoritoButton = document.querySelector('.agregar-favoritos');
 const favoritoIcon = favoritoButton.querySelector('.favorito-icon');
 const favoritoText = favoritoButton.querySelector('.favorito-text');
@@ -163,6 +148,6 @@ favoritoButton.addEventListener('click', () => {
         favoritoText.textContent = 'Quitar de favoritos'; // Cambia el texto
     } else {
         favoritoIcon.src = favoritoGray; // Cambia a la imagen gris
-        favoritoText.textContent = 'Añadir a mis favoritos'; // Restaura el texto
+        favoritoText.textContent = 'Añadir a favoritos'; // Restaura el texto
     }
 });

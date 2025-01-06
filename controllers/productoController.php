@@ -16,8 +16,9 @@ class ProductoController{
     
     public function productoIndividual(){
         $id = intval($_GET['id']);
-        $categoriaId = CategoriaProductoDAO::getCategoriaProductoById($id);
         $productoIndividual = ProductosDAO::getProductoIndividual($id);
+        $id_categoria = $productoIndividual['id_categoria_producto'];
+        $categoriaId = CategoriaProductoDAO::getCategoriaProductoById($id_categoria);
         include_once 'views/producto-individual.php';        
     }
 

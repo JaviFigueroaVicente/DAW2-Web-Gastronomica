@@ -69,7 +69,7 @@ class UserDAO{
     
         if (is_null($apellidos)) $apellidos = null;
         if (is_null($direccion)) $direccion = null;
-        if (is_null($telefono)) $telefono = null;
+        if (is_null($telefono)) $telefono = 0;
     
         $resultado = $stmt->execute();
  

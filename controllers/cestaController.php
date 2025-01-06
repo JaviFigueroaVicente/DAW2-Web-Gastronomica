@@ -13,6 +13,10 @@ class CestaController{
 
 
     public function añadirCesta(){
+        if (!isset($_SESSION['user_id'])){
+            header("Location: ?url=login");
+            return;
+        }
         $user_id = $_SESSION['user_id'];
         $producto_id = $_POST['producto_id'];
         $cantidad = $_POST['cantidad'];

@@ -1,5 +1,5 @@
-RewriteEngine ON
-RewriteBase /m09daw2/Proyecto%20Página%20Gastronómica/MammothsKitchen/
+RewriteEngine On
+RewriteBase /m09DAW2/Proyecto%20Página%20Gastronómica/MammothsKitchen/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule !.(.+)$ index.php?url=$1 [QSA,L]
+RewriteRule ^(.*)$ index.php [QSA,L]

@@ -111,38 +111,38 @@
                     <div class="carousel-item active">
                         <div class="d-flex justify-content-center gap-3">
                             <div class="carousel-card">
-                                <a href="views/productos.php">
+                                <a href="?url=finalizar">
                                     <div class="discount">
-                                        <span>HASTA <strong>70</strong>%</span>
+                                        <span>HASTA <strong>50</strong>%</span>
                                     </div>
                                     <img src="views/img/banners/carousel-img1.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Hasta el <strong>30/10</strong> a las <strong>23:00h.</strong></p>
+                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
                                     </div>
                                 </a>
                             </div>
                             <div class="carousel-card">
-                                <a href="views/productos.php">
+                                <a href="?url=finalizar">
                                     <div class="discount">
                                         <span>HASTA <strong>60</strong>%</span>
                                     </div>
                                     <img src="views/img/banners/carousel-img2.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Hasta el <strong>30/10</strong> a las <strong>23:00h.</strong></p>
+                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
                                     </div>
                                 </a>
                             </div>
                             <div class="carousel-card">
-                                <a href="views/productos.php">
+                                <a href="?url=finalizar">
                                     <div class="discount">
                                         <span>HASTA <strong>50</strong>%</span>
                                     </div>
                                     <img src="views/img/banners/carousel-img3.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Hasta el <strong>30/10</strong> a las <strong>23:00h.</strong></p>
+                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
                                     </div>
                                 </a>
                             </div>
@@ -151,38 +151,38 @@
                     <div class="carousel-item">
                         <div class="d-flex justify-content-center gap-3">
                             <div class="carousel-card">
-                                <a href="views/productos.php">
+                                <a href="?url=finalizar">
                                     <div class="discount">
                                         <span>HASTA <strong>70</strong>%</span>
                                     </div>
                                     <img src="views/img/banners/carousel-img2.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Hasta el <strong>30/10</strong> a las <strong>23:00h.</strong></p>
+                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
                                     </div>
                                 </a>
                             </div>
                             <div class="carousel-card">
-                                <a href="views/productos.php">
+                                <a href="?url=finalizar">
                                     <div class="discount">
                                         <span>HASTA <strong>60</strong>%</span>
                                     </div>
                                     <img src="views/img/banners/carousel-img1.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Hasta el <strong>30/10</strong> a las <strong>23:00h.</strong></p>
+                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
                                     </div>
                                 </a>
                             </div>
                             <div class="carousel-card">
-                                <a href="views/productos.php">
+                                <a href="?url=finalizar">
                                     <div class="discount">
                                         <span>HASTA <strong>50</strong>%</span>
                                     </div>
                                     <img src="views/img/banners/carousel-img3.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Hasta el <strong>30/10</strong> a las <strong>23:00h.</strong></p>
+                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
                                     </div>
                                 </a>
                             </div>
@@ -191,38 +191,38 @@
                     <div class="carousel-item">
                         <div class="d-flex justify-content-center gap-3">
                             <div class="carousel-card">
-                                <a href="views/productos.php">
+                                <a href="?url=finalizar">
                                     <div class="discount">
                                         <span>HASTA <strong>70</strong>%</span>
                                     </div>
                                     <img src="views/img/banners/carousel-img3.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Hasta el <strong>30/10</strong> a las <strong>23:00h.</strong></p>
+                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
                                     </div>
                                 </a>
                             </div>
                             <div class="carousel-card">
-                                <a href="views/productos.php">
+                                <a href="?url=finalizar">
                                     <div class="discount">
                                         <span>HASTA <strong>60</strong>%</span>
                                     </div>
                                     <img src="views/img/banners/carousel-img1.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Hasta el <strong>30/10</strong> a las <strong>23:00h.</strong></p>
+                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
                                     </div>
                                 </a>
                             </div>
                             <div class="carousel-card">
-                                <a href="views/productos.php">
+                                <a href="?url=finalizar">
                                     <div class="discount">
                                         <span>HASTA <strong>50</strong>%</span>
                                     </div>
                                     <img src="views/img/banners/carousel-img2.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Hasta el <strong>30/10</strong> a las <strong>23:00h.</strong></p>
+                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
                                     </div>
                                 </a>
                             </div>
