@@ -7,7 +7,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="views/css/styles.css">   
+    <link rel="stylesheet" href="views/css/styles.css"> 
+    <link rel="icon" href="views/img/icons/icono.svg" type="image/x-icon">  
     <title>Mammoth's Kitchen</title>    
 </head>
 <body>    
@@ -23,7 +24,7 @@
                 <!-- Título y descripción del banner principal -->
                 <p class="banner-principal-titulo">RECETAS PARA LA SALUD</p>
                 <p class="banner-principal-p">Nuevas recetas saludables</p>
-                <a href="productos.php">Ver recetas</a> <!-- Enlace a la página de productos -->
+                <a href="?url=productos">Ver recetas</a> <!-- Enlace a la página de productos -->
             </div> 
         </section>
 
@@ -64,7 +65,7 @@
                     <!-- Imagen de comida baja en hidratos -->
                     <div class="col">
                         <img src="views/img/banners/comida1.webp" alt="">
-                        <a href="?url=productos">
+                        <a href="?url=productos&categoria=4">
                             <div>
                                 <p>COMIDA BAJA EN <strong>HIDRATOS</strong></p>
                                 <img class="arrow" src="views/img/icons/arrow.svg" alt="">
@@ -74,7 +75,7 @@
                     <!-- Imagen de comida alta en proteínas -->
                     <div class="col">
                         <img src="views/img/banners/comida2.webp" alt="">
-                        <a href="productos.php">
+                        <a href="?url=productos&categoria=3">
                             <div>
                                 <p>COMIDA ALTA EN <strong>PROTEÍNAS</strong></p>
                                 <img class="arrow" src="views/img/icons/arrow.svg" alt="">
@@ -88,7 +89,7 @@
                     <!-- Comida sin calorías -->
                     <div class="col">
                         <img src="views/img/banners/comida3.webp" alt="">
-                        <a href="productos.php">
+                        <a href="?url=productos&categoria=5">
                             <div>
                                 <p>COMIDA SIN <strong>CALORÍAS</strong></p>
                                 <img class="arrow" src="views/img/icons/arrow.svg" alt="">
@@ -98,7 +99,7 @@
                     <!-- Comida tipo Food -->
                     <div class="col">
                         <img src="views/img/banners/comida4.webp" alt="">
-                        <a href="productos.php">
+                        <a href="?url=productos&categoria=6">
                             <p class="colocar">.</p>
                             <div>
                                 <p>COMIDA <strong>TIPO FOOD</strong></p>
@@ -109,7 +110,7 @@
                     <!-- Comida sin grasas -->
                     <div class="col">
                         <img src="views/img/banners/comida5.webp" alt="">
-                        <a href="productos.php">
+                        <a href="?url=productos&categoria=1">
                             <div>
                                 <p>COMIDA SIN <strong>GRASAS</strong></p>
                                 <img class="arrow" src="views/img/icons/arrow.svg" alt="">
@@ -138,7 +139,7 @@
                                     <img src="views/img/banners/carousel-img1.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
+                                        <p>Con el código <strong>bernat</strong> rebaja del <strong>50%</strong></p>
                                     </div>
                                 </a>
                             </div>
@@ -146,12 +147,12 @@
                             <div class="carousel-card">
                                 <a href="?url=finalizar">
                                     <div class="discount">
-                                        <span>HASTA <strong>60</strong>%</span>
+                                        <span>HASTA <strong>15</strong>%</span>
                                     </div>
-                                    <img src="views/img/banners/carousel-img2.webp" alt="">
+                                    <img src="views/img/banners/fit.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
+                                        <p>Con el código <strong>fit</strong> rebaja del <strong>15%</strong></p>
                                     </div>
                                 </a>
                             </div>
@@ -159,12 +160,12 @@
                             <div class="carousel-card">
                                 <a href="?url=finalizar">
                                     <div class="discount">
-                                        <span>HASTA <strong>50</strong>%</span>
+                                        <span>HASTA <strong>20</strong>%</span>
                                     </div>
-                                    <img src="views/img/banners/carousel-img3.webp" alt="">
+                                    <img src="views/img/banners/proteina.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
+                                        <p>Con el código <strong>proteina</strong> rebaja del <strong>20%</strong></p>
                                     </div>
                                 </a>
                             </div>
@@ -175,36 +176,36 @@
                             <div class="carousel-card">
                                 <a href="?url=finalizar">
                                     <div class="discount">
-                                        <span>HASTA <strong>70</strong>%</span>
+                                        <span>HASTA <strong>10</strong>%</span>
+                                    </div>
+                                    <img src="views/img/banners/zero.webp" alt="">
+                                    <div class="deadline">
+                                        <img src="views/img/icons/clock.svg" alt="">
+                                        <p>Con el código <strong>zero</strong> rebaja del <strong>10%</strong></p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="carousel-card">
+                                <a href="?url=finalizar">
+                                    <div class="discount">
+                                        <span>HASTA <strong>40</strong>%</span>
                                     </div>
                                     <img src="views/img/banners/carousel-img2.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
+                                        <p>Con el código <strong>mammoth</strong> rebaja del <strong>40%</strong></p>
                                     </div>
                                 </a>
                             </div>
                             <div class="carousel-card">
                                 <a href="?url=finalizar">
                                     <div class="discount">
-                                        <span>HASTA <strong>60</strong>%</span>
-                                    </div>
-                                    <img src="views/img/banners/carousel-img1.webp" alt="">
-                                    <div class="deadline">
-                                        <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="carousel-card">
-                                <a href="?url=finalizar">
-                                    <div class="discount">
-                                        <span>HASTA <strong>50</strong>%</span>
+                                        <span>HASTA <strong>35</strong>%</span>
                                     </div>
                                     <img src="views/img/banners/carousel-img3.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
+                                        <p>Con el código <strong>daw</strong> rebaja del <strong>35%</strong></p>
                                     </div>
                                 </a>
                             </div>
@@ -215,36 +216,36 @@
                             <div class="carousel-card">
                                 <a href="?url=finalizar">
                                     <div class="discount">
-                                        <span>HASTA <strong>70</strong>%</span>
+                                        <span>HASTA <strong>10</strong>%</span>
                                     </div>
-                                    <img src="views/img/banners/carousel-img3.webp" alt="">
+                                    <img src="views/img/banners/comida.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
+                                        <p>Con el código <strong>comida</strong> rebaja del <strong>10%</strong></p>
                                     </div>
                                 </a>
                             </div>
                             <div class="carousel-card">
                                 <a href="?url=finalizar">
                                     <div class="discount">
-                                        <span>HASTA <strong>60</strong>%</span>
+                                        <span>HASTA <strong>12</strong>%</span>
                                     </div>
-                                    <img src="views/img/banners/carousel-img1.webp" alt="">
+                                    <img src="views/img/banners/desayuno.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
+                                        <p>Con el código <strong>desayuno</strong> rebaja del <strong>12%</strong></p>
                                     </div>
                                 </a>
                             </div>
                             <div class="carousel-card">
                                 <a href="?url=finalizar">
                                     <div class="discount">
-                                        <span>HASTA <strong>50</strong>%</span>
+                                        <span>HASTA <strong>99</strong>%</span>
                                     </div>
-                                    <img src="views/img/banners/carousel-img2.webp" alt="">
+                                    <img src="views/img//banners/gratis.webp" alt="">
                                     <div class="deadline">
                                         <img src="views/img/icons/clock.svg" alt="">
-                                        <p>Con el código <strong>navidad</strong> rebaja del <strong>50%</strong></p>
+                                        <p>Con el código <strong>gratis</strong> rebaja del <strong>99%</strong></p>
                                     </div>
                                 </a>
                             </div>
@@ -260,7 +261,7 @@
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>        
-            <a href="views/productos.php" class="ofertas-button">
+            <a href="?url=finalizar" class="ofertas-button">
                 <p>Más ofertas de Restaurante</p>
                 <img class="arrow" src="views/img/icons/arrow.svg" alt="">
             </a>
@@ -272,25 +273,25 @@
             <div class="container text-center">
                 <div class="row">
                     <div class="col">
-                        <a href="views/productos.php">
+                        <a href="?url=productos&categoria=2">
                             <img src="views/img/banners/carne.webp" alt="">
                             <span>Carnes</span>
                         </a>
                     </div>
                     <div class="col">
-                        <a href="views/productos.php">
+                        <a href="?url=productos&categoria=3">
                             <img src="views/img/banners/pescado.webp" alt="">
                             <span>Pescados</span>
                         </a>
                     </div>
                     <div class="col">
-                        <a href="views/productos.php">
+                        <a href="?url=productos&categoria=1">
                             <img src="views/img/banners/pasta.webp" alt="">
                             <span>Pasta</span>
                         </a>
                     </div>
                     <div class="col">
-                        <a href="views/productos.php">
+                        <a href="?url=productos&categoria=4">
                             <img src="views/img/banners/legumbres.webp" alt="">
                             <span>Legumbres</span>
                         </a>
@@ -298,25 +299,25 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <a href="views/productos.php">
+                        <a href="?url=productos&categoria=5">
                             <img src="views/img/banners/frutos-secos.webp" alt="">
                             <span>Frutos secos</span>
                         </a>
                     </div>
                     <div class="col">
-                        <a href="views/productos.php">
+                        <a href="?url=productos&categoria=7">
                             <img src="views/img/banners/lacteos.webp" alt="">
                             <span>Lácteos</span>
                         </a>
                     </div>
                     <div class="col">
-                        <a href="views/productos.php">
+                        <a href="?url=productos&categoria=6">
                             <img src="views/img/banners/frutas-verduras.webp" alt="">
                             <span>Frutas y verduras</span>
                         </a>
                     </div>
                     <div class="col">
-                        <a href="views/productos.php">
+                        <a href="?url=productos&categoria=8">
                             <img src="views/img/banners/otros.webp" alt="">
                             <span>Otros alimentos</span>
                         </a>

@@ -167,7 +167,7 @@ class UserController {
             $_SESSION['user_direction'] = $direccion;
             $_SESSION['user_telefono'] = $telefono;
             header("Location: ?url=datos-personales");
-            exit;
+            exit();
         } else {
             echo "Hubo un error al actualizar el perfil. Inténtalo de nuevo.";
         }

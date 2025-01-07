@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="views/css/styles.css">
+    <link rel="icon" href="views/img/icons/icono.svg" type="image/x-icon">
     <title>Productos</title>
 </head>
 <body>
@@ -31,38 +32,6 @@
                         foreach ($categoriasProducto as $categoria) {
                             echo '<li><a href="?url=productos&categoria='.$categoria['id_categoria_producto'].'">' . ucfirst($categoria['nombre_categoria_producto']) . '</a></li>';
                         }
-                        ?>
-                    </ul>
-                </li>
-                <!-- Menú de ingredientes colapsable -->
-                <li class="menu-item">
-                    <button class="menu-header" type="button" data-bs-toggle="collapse" data-bs-target="#ingredientes" aria-expanded="true" aria-controls="ingredientes">
-                        + Ingredientes
-                    </button>
-                    <ul id="ingredientes" class="menu-subitems collapse">
-                        <!-- Lista estática de ingredientes -->
-                        <li>Carnes</li>
-                        <li>Pescados</li>
-                        <li>Pasta</li>
-                        <li>Legumbres</li>
-                        <li>Frutos secos</li>
-                        <li>Lácteos</li>
-                        <li>Frutas y verduras</li>
-                        <li>Otros alimentos</li>
-                    </ul>
-                </li>
-                <!-- Menú de ofertas colapsable -->
-                <li class="menu-item">
-                    <button class="menu-header" type="button" data-bs-toggle="collapse" data-bs-target="#ofertas" aria-expanded="false" aria-controls="ofertas">
-                        + Ofertas
-                    </button>
-                    <ul id="ofertas" class="menu-subitems collapse">
-                        <li><a href="?url=productos">Todas las ofertas</a></li>
-                        <?php
-                            // Se generan las ofertas dinámicamente desde el array $ofertas
-                            foreach ($ofertas as $oferta) {
-                                echo '<li><a href="?url=productos&oferta=' . $oferta->getId_oferta() . '">' . ucfirst($oferta->getNombre_oferta()) . '</a></li>';
-                            }
                         ?>
                     </ul>
                 </li>

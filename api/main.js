@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editarProductoForm">
+                    <form id="editarProductoForm" enctype="multipart/form-data">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="nombre" name="nombre" value="${producto.nombre_producto}" required>
                         
@@ -258,25 +258,25 @@ document.addEventListener("DOMContentLoaded", () => {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="crearProductoForm">
+                    <form id="crearProductoForm" enctype="multipart/form-data">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="nombre" name="nombre" required>
-    
+
                         <label for="descripcion" class="form-label">Descripción</label>
                         <input type="text" class="form-control" id="descripcion" name="descripcion" required>
-    
+
                         <label for="precio" class="form-label">Precio</label>
                         <input type="number" class="form-control" id="precio" name="precio" step="0.01" required>
-    
+
                         <label for="stock" class="form-label">Stock</label>
                         <input type="number" class="form-control" id="stock" name="stock" min="0" required>
-    
+
                         <label for="id_categoria_producto" class="form-label">ID Categoría</label>
                         <input type="number" class="form-control" id="id_categoria_producto" name="id_categoria_producto" min="1" required>
-    
+
                         <label for="foto_producto" class="form-label">Imagen</label>
                         <input type="file" class="form-control" id="foto_producto" name="foto_producto" accept="image/*" required>
-    
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Guardar</button>

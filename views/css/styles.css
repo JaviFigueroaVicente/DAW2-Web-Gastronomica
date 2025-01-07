@@ -250,16 +250,30 @@ th.sortable.desc .sort-indicator::before {
     transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
 }
 
+.inicio-sesion .btn-group .dropdown-menu .button-iniciar-sesion{
+    display: flex;
+    align-items: center;
+}
+
 .inicio-sesion .btn-group .dropdown-menu .btn-iniciar {
     background-color: #E4022C;
-    color: #ffffff;
+    display: flex;
+    justify-content: center;
     border-radius: 25px;
     text-align: center;
-    align-content: center;
     font-weight: 500;
     height: 50px; /* Aumentado ligeramente */
-    display: table;
+    align-items: center;
 }
+
+.inicio-sesion .btn-group .dropdown-menu .btn-iniciar a{
+    color: #ffffff;
+    width: 100%;
+} 
+
+.inicio-sesion .btn-group .dropdown-menu .btn-iniciar a:hover{
+    text-decoration: none;
+} 
 
 .inicio-sesion .btn-group .dropdown-menu .btn-iniciar:hover {
     background-color: #EA3D5E;
@@ -791,11 +805,27 @@ ul {
     font-weight: 700;
 }
 .title-caracteristicas img{
-    height: 90px;
+    height: auto;
+    max-height: 90px;
     width: 90px;
     margin-bottom: 10px;
 }
+@media (max-width: 768px) {
+    .title-caracteristicas img{
+        height: 40px;  
+        width: 40px;
+    }
 
+}
+
+@media (max-width: 576px) {
+    #grid-comidas .col img {
+        height: 20px; /* Ajusta la altura en pantallas pequeñas */
+        width: 40px;;
+        
+
+    }
+}
 /* FitFood Types */
 #grid-comidas {
     display: flex;
@@ -835,6 +865,18 @@ ul {
     width: 100%;
     object-fit: cover;
     border-radius: 25px 0px 25px 0px;
+}
+
+@media (max-width: 768px) {
+    #grid-comidas .col img {
+        height: 150px; /* Ajusta la altura en pantallas medianas */
+    }
+}
+
+@media (max-width: 576px) {
+    #grid-comidas .col img {
+        height: 100px; /* Ajusta la altura en pantallas pequeñas */
+    }
 }
 
 #grid-comidas .col a {
@@ -947,6 +989,19 @@ ul {
 
 }
 
+
+@media (max-width: 768px) {
+    .carousel-card img {
+        height: 125px; /* Ajusta la altura en pantallas medianas */
+    }
+}
+
+@media (max-width: 576px) {
+    #grid-comidas .col img {
+        height: 80px; /* Ajusta la altura en pantallas pequeñas */
+    }
+}
+
 .discount {
     font-size: 16px;
     font-weight: bold;
@@ -972,7 +1027,7 @@ ul {
     align-items: center;
     font-size: 14px;
     font-weight: 400; 
-    gap: 10px; 
+    gap: 0px; 
     position: relative; 
     background-color: #ffffff; 
     padding: 5px 10px;
@@ -1250,7 +1305,6 @@ ul {
 
 .productos-list .container{
     overflow-y: hidden;
-    
 }
 
 .card-productos .col{
@@ -1268,7 +1322,7 @@ ul {
     background-color: transparent;
     border: none;
     margin-top: 10px;
-    ;
+
 }
 
 .card-productos .card:hover {
@@ -1285,7 +1339,10 @@ ul {
 }
 
 .card-productos .card-img-top {
-    height: 250px;
+    height: auto;
+    max-height: 250px;
+    object-fit: cover;
+    width: 100%;
     transition: transform 0.3s ease-in-out;
     display: block;
     padding-top: 5%;
@@ -1302,6 +1359,7 @@ ul {
 .card-productos .card-body {
     padding: 1rem;
     text-align: center;
+    height: auto;
 }
 
 .card-productos .card-title {
@@ -3021,14 +3079,44 @@ footer {
     color: #f2f2f2;
 }
 
-.footer-redes-inicio{
-    justify-content: space-between;
-    margin-top: 10px;
-    border-top: none;
-    width: 100%;
+@media (max-width: 768px) {
+    .newsletter {
+        flex-direction: column; /* Ajusta la disposición */
+        text-align: center;
+        gap: 20px;
+    }
+
+    .footer-info,
+    .footer-redes,
+    .footer-bottom {
+        flex-direction: column; /* Cambia a disposición vertical */
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .contact-info {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .footer-buttons {
+        justify-content: center;
+    }
 }
 
-.footer-redes-inicio .shipping-icons{
-    justify-content: flex-end;
-}
+@media (max-width: 480px) {
+    .footer-section strong {
+        font-size: 14px;
+    }
 
+    .contact-item img {
+        height: 25px;
+        width: 25px;
+    }
+
+    .footer-buttons button {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+}

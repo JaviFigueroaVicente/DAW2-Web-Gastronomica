@@ -24,7 +24,7 @@
 
 <div class="header-main">
     <a href="?url=index">
-        <img id="logo" src="views/img/icons/logo.webp" alt="Logo">
+        <img id="logo" src="views/img/icons/logo.svg" alt="Logo">
     </a>
     <div class="buscador">
         <form action="?url=productos" method="get">
@@ -47,7 +47,11 @@
                                 <span>Hola, identifícate</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a href="?url=login" class="dropdown-item btn-iniciar">Iniciar sesión</a></li>
+                                <li class="button-iniciar-sesion">
+                                    <div class="dropdown-item btn-iniciar">
+                                        <a href="?url=login" clas="">Iniciar sesión</a>
+                                    </div>
+                                </li>
                                 <hr>
                                 <li><p class="dropdown-item btn-nuevo-cliente"><strong>¿Nuevo cliente?</strong><a href="?url=registro"> Crea tu cuenta</a></p></li>
                             </ul>
@@ -111,19 +115,19 @@
                 <a class="nav-link" aria-current="page" href="?url=productos">RECETAS</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="?url=productos">MENÚ DEL DÍA</a>
+                <a class="nav-link" href="?url=productos&categoria=1">PASTA</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="?url=productos&categoria=2">FIT FOOD</a>
+                <a class="nav-link" href="?url=productos&categoria=2">CARNE</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="?url=productos">PLATOS COMBINADOS</a>
+                <a class="nav-link" href="?url=productos&categoria=3">PESCADO</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="?url=productos">CREACIÓN DE PLATOS</a>
+                <a class="nav-link" href="?url=productos&categoria=4">LEGUMBRES</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="?url=productos">INGREDIENTES</a>
+                <a class="nav-link" href="?url=productos&categoria=9">POSTRES</a>
             </li>
         </ul>
     </nav>
