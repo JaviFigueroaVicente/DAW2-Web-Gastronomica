@@ -44,26 +44,11 @@
                                     <div class="direction-domicilio">
                                         <div class="domicilio-button">
                                             <button class= "btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDomicilioDetails" aria-expanded="false" aria-controls="collapseDomicilioDetails">
-                                                <input require id="radio-domicilio" type="radio" name="deliveryOption" value="<?= $_SESSION['user_direction']?>" class="direction-radio">
+                                                <input require id="radio-domicilio" type="radio" name="deliveryOption" value="<?= $_SESSION['user_direction']?>" class="direction-radio" disabled>
                                             </button> 
                                             <label for="radio-domicilio"><strong>Enviar a domicilio</strong></label>
                                             <p><strong> 4,99 €</strong> con envío estándar</p> 
-                                        </div>                                                          
-                                        <div class="collapse" id="collapseDomicilioDetails">
-                                            <div class="card card-body">                                            
-                                                <div class="form-group">
-                                                    <input name="login-email" type="text" id="domicilio" value="<?= $_SESSION['user_direction'] ;?>" placeholder=" " required>
-                                                    <label for="login-email">Dirección</label>
-                                                </div>
-                                                <div class="actualizar-direction">
-                                                    <div class="custom-checkbox-container">
-                                                        <input type="checkbox" id="custom-checkbox" class="custom-checkbox" value="Tienda" name="deliveryOption">
-                                                        <label for="custom-checkbox"></label>                                                    
-                                                    </div>
-                                                    <p>Actualizar mi dirección</p>
-                                                </div>                                                  
-                                            </div>
-                                        </div>                                      
+                                        </div>                                                                                       
                                     </div>                                   
                                 </div>
                                 <div class="direction-factura">

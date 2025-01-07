@@ -113,30 +113,40 @@ class PedidoDAO {
 
     // Método para insertar un nuevo pedido en la base de datos
     public static function insertarPedido($idUser, $direccion, $metodoPago, $id_oferta_cesta) {
+        // Conexión a la base de datos
         $con = DataBase::connect();
+    
         // Obtener los productos de la cesta del usuario
-        $productos = CestaDAO::getCesta($idUser); 
-        
+        $productos = CestaDAO::getCesta($idUser);
+        if (empty($productos)) {
+            die("Error: La cesta está vacía.");
+        }
+    
         // Calcular el precio total del pedido, aplicando los descuentos si existen
         $precioTotal = 0;
         foreach ($productos as $producto) {
             $descuento = $producto['id__oferta'] ? (1 - ($producto['descuento_oferta'] / 100)) : 1;
             $precioTotal += $producto['precio_producto'] * $producto['cantidad'] * $descuento;
         }
-
-        // Insertar el pedido en la tabla de pedidos
+    
+        // Insertar el pedido en la base de datos
         $sqlInsertPedido = "
             INSERT INTO pedidos 
             (fecha_pedido, estado_pedido, id_user_pedido, precio_pedido, direccion_pedido, metodo_pago, id_oferta_) 
             VALUES 
             (NOW(), 'Pendiente', ?, ?, ?, ?, ?)
         ";
+    
         $stmtPedido = $con->prepare($sqlInsertPedido);
         $stmtPedido->bind_param("idssi", $idUser, $precioTotal, $direccion, $metodoPago, $id_oferta_cesta);
         $stmtPedido->execute();
-
+    
+        if ($stmtPedido->affected_rows === 0) {
+            die("Error: No se pudo insertar el pedido.");
+        }
+    
         $idPedido = $con->insert_id;
-
+    
         // Insertar los productos en la tabla pedido_productos
         $sqlInsertProductos = "
             INSERT INTO pedido_productos 
@@ -144,13 +154,11 @@ class PedidoDAO {
             VALUES 
             (?, ?, ?, ?, ?)
         ";
+    
         $stmtProductos = $con->prepare($sqlInsertProductos);
-
-        // Recorrer los productos y almacenarlos en la tabla pedido_productos
+    
         foreach ($productos as $producto) {
             $precioFinalProducto = $producto['precio_producto'] * (1 - ($producto['descuento_oferta'] / 100));
-
-            // Insertar el producto en la tabla pedido_productos
             $stmtProductos->bind_param(
                 "iiisd",
                 $idPedido,
@@ -160,37 +168,27 @@ class PedidoDAO {
                 $precioFinalProducto
             );
             $stmtProductos->execute();
-
-            // Actualizar el stock del producto
-            $sqlUpdateStock = "
-                UPDATE productos 
-                SET stock_producto = stock_producto - ? 
-                WHERE id_producto = ?
-            ";
-            $stmtUpdateStock = $con->prepare($sqlUpdateStock);
-            $stmtUpdateStock->bind_param("ii", $producto['cantidad'], $producto['id_producto']);
-            $stmtUpdateStock->execute();
         }
-
+    
         // Vaciar la cesta del usuario después de realizar el pedido
         $sqlVaciarCesta = "DELETE FROM cesta WHERE id__user = ?";
         $stmtVaciarCesta = $con->prepare($sqlVaciarCesta);
         $stmtVaciarCesta->bind_param("i", $idUser);
         $stmtVaciarCesta->execute();
-
+    
         // Confirmar la transacción
         $con->commit();
-
-        // Devolver un mensaje de éxito
+    
+        // Cerrar la conexión
+        $con->close();
+    
         return [
             "success" => true,
             "id_pedido" => $idPedido,
             "message" => "Pedido creado correctamente."
         ];
-
-        // Cerrar la conexión
-        $con->close();
     }
+    
 
     // Método para obtener un pedido específico por su ID
     public static function getPedidoById($idPedido){
