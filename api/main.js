@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <th>Descripción</th>
                             <th>Precio</th>
                             <th>Stock</th>
+                            <th>ID Categoria Producto</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -88,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <td>${producto.descripcion_producto}</td>
                                 <td>${producto.precio_producto} €</td>
                                 <td>${producto.stock_producto}</td>
+                                <td>${producto.id_categoria_producto}</td>
                                 <td>
                                     <button class="btn btn-primary btn-sm editar-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${producto.id_producto}">Editar</button>
                                     <button class="btn btn-danger btn-sm eliminar-btn" data-id="${producto.id_producto}">Eliminar</button>    
@@ -139,6 +141,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         <label for="stock" class="form-label">Stock</label>
                         <input type="number" class="form-control" id="stock" name="stock" value="${producto.stock_producto}" min="0" required>
                         
+                        <label for="id_categoria_producto" class="form-label">ID categoria producto</label>
+                        <input type="number" class="form-control" id="id_categoria_producto" name="id_categoria_producto" value="${producto.id_categoria_producto}" required>
+
                         <label for="foto_producto" class="form-label">Actualizar Imagen (Opcional)</label>
                         <input type="file" class="form-control" id="foto_producto" name="foto_producto" accept="image/*">
     
@@ -164,6 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 formData.append("nombre_producto", form.nombre.value);
                 formData.append("descripcion_producto", form.descripcion.value);
                 formData.append("precio_producto", parseFloat(form.precio.value));
+                formData.append("id_categoria_producto", parseInt(form.id_categoria_producto.value, 10));
                 formData.append("stock_producto", parseInt(form.stock.value, 10));
     
                 // Agregar la imagen si fue seleccionada

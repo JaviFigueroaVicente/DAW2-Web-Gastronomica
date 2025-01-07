@@ -44,6 +44,7 @@ class ApiController {
             $descripcion = $_POST['descripcion_producto'];
             $precio = $_POST['precio_producto'];
             $stock = $_POST['stock_producto'];
+            $id_categoria_producto = $_POST['id_categoria_producto'];
     
             // Procesar la foto del producto si se sube
             $foto_producto = null;
@@ -52,7 +53,7 @@ class ApiController {
             }
     
             // Actualizar el producto usando el DAO
-            $resultado = ProductosDAO::updateProducto($id, $nombre, $descripcion, $precio, $stock, $foto_producto);
+            $resultado = ProductosDAO::updateProducto($id, $nombre, $descripcion, $precio, $stock, $id_categoria_producto, $foto_producto);
     
             if ($resultado) {
                 echo json_encode(['success' => true]);  // Si es exitoso, se devuelve éxito

@@ -230,7 +230,7 @@ class ProductosDAO {
     }
 
     // Método para actualizar los detalles de un producto.
-    public static function updateProducto($id, $nombre, $descripcion, $precio, $stock, $foto_producto) {
+    public static function updateProducto($id, $nombre, $descripcion, $precio, $stock, $id_categoria_producto, $foto_producto) {
         $con = DataBase::connect();
     
         // Si se proporciona una imagen, la consulta incluye la actualización de la foto.
@@ -240,20 +240,22 @@ class ProductosDAO {
                         descripcion_producto = ?, 
                         precio_producto = ?, 
                         stock_producto = ?, 
-                        foto_producto = ? 
+                        foto_producto = ?,
+                        id_categoria_producto = ? 
                     WHERE id_producto = ?";
             $stmt = $con->prepare($sql);
-            $stmt->bind_param("ssdisi", $nombre, $descripcion, $precio, $stock, $foto_producto, $id);
+            $stmt->bind_param("ssdisii", $nombre, $descripcion, $precio, $stock, $foto_producto, $id_categoria_producto, $id);
         } else {
             // Si no se proporciona imagen, solo se actualizan los demás campos.
             $sql = "UPDATE productos SET 
                         nombre_producto = ?, 
                         descripcion_producto = ?, 
                         precio_producto = ?, 
-                        stock_producto = ? 
+                        stock_producto = ?,
+                        id_categoria_producto = ?
                     WHERE id_producto = ?";
             $stmt = $con->prepare($sql);
-            $stmt->bind_param("ssdii", $nombre, $descripcion, $precio, $stock, $id);
+            $stmt->bind_param("ssdiii", $nombre, $descripcion, $precio, $stock, $id_categoria_producto, $id);
         }
     
         $resultado = $stmt->execute();  // Ejecutar la consulta de actualización.
@@ -285,7 +287,7 @@ class ProductosDAO {
         
         // Preparar la consulta.
         $stmt = $con->prepare($sql);
-        $stmt->bind_param("ssdisb", $nombre, $descripcion, $precio, $stock, $id_categoria_producto, $foto_producto);
+        $stmt->bind_param("ssdiis", $nombre, $descripcion, $precio, $stock, $id_categoria_producto, $foto_producto);
     
         $resultado = $stmt->execute();  // Ejecutar la inserción.
     
