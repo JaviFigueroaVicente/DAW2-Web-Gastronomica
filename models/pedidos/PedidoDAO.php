@@ -2,18 +2,24 @@
 include_once "config/dataBase.php";
 include_once "models/pedidos/Pedido.php";
 
-class PedidoDAO{
+class PedidoDAO {
+
+    // Método para obtener todos los pedidos desde la base de datos
     public static function getAllPedidos() {
+        // Establecer la conexión con la base de datos
         $con = DataBase::connect();
+
+        // Preparar y ejecutar la consulta para obtener todos los pedidos
         $stmt = $con->prepare("SELECT * FROM pedidos");
         $stmt->execute();
         $result = $stmt->get_result();
 
         $pedidos = [];
+        // Recorrer cada pedido en el resultado y almacenarlo en un array
         while ($pedido = $result->fetch_object("Pedido")) {
             $pedidos[] = [
                 'id_pedido' => $pedido->getId_pedido(),
-                'fecha_pedido' => $pedido ->getFecha_Pedido(),
+                'fecha_pedido' => $pedido->getFecha_Pedido(),
                 'estado_pedido' => $pedido->getEstado_pedido(),
                 'id_user_pedido' => $pedido->getId_user_pedido(),
                 'precio_pedido' => $pedido->getPrecio_pedido(),
@@ -23,19 +29,24 @@ class PedidoDAO{
             ];
         }
 
+        // Cerrar la conexión y devolver el array de pedidos
         $con->close();
         return $pedidos;
     }
 
+    // Método para obtener todos los pedidos de un usuario específico
     public static function getPedidos($idUser) {
         $con = DataBase::connect();
 
+        // Preparar y ejecutar la consulta para obtener los pedidos de un usuario
         $sql = "SELECT * FROM pedidos WHERE id_user_pedido = ?";
         $stmt = $con->prepare($sql);
         $stmt->bind_param("i", $idUser);
         $stmt->execute();
         $result = $stmt->get_result();
         $pedidos = [];
+        
+        // Recorrer cada pedido y almacenarlo en un array
         while ($row = $result->fetch_assoc()) {
             $pedidos[] = [
                 'id_pedido' => $row['id_pedido'],
@@ -48,12 +59,16 @@ class PedidoDAO{
             ];
         }
 
+        // Cerrar la conexión y devolver el array de pedidos
         $con->close();
         return $pedidos;
     }
 
+    // Método para obtener los detalles de un pedido específico (productos en el pedido)
     public static function getPedidoIndividual($idPedido) {
         $con = DataBase::connect();
+        
+        // Preparar y ejecutar la consulta para obtener los productos de un pedido específico
         $sql = "
             SELECT 
                 pp.id_pedido_productos,
@@ -64,7 +79,6 @@ class PedidoDAO{
                 pp.precio__producto,
                 p.nombre_producto,
                 p.foto_producto
-                
             FROM 
                 pedido_productos pp
             INNER JOIN 
@@ -74,13 +88,13 @@ class PedidoDAO{
             WHERE 
                 pp.id__pedido = ?
         ";
-    
         $stmt = $con->prepare($sql);
         $stmt->bind_param("i", $idPedido);
         $stmt->execute();
         $result = $stmt->get_result();
-    
+
         $productos = [];
+        // Recorrer los productos y almacenarlos en un array
         while ($row = $result->fetch_assoc()) {
             $productos[] = [
                 'id_producto' => $row['id_producto_'],
@@ -91,24 +105,26 @@ class PedidoDAO{
                 'foto_producto' => $row['foto_producto']
             ];
         }
-    
+
+        // Cerrar la conexión y devolver el array de productos
         $con->close();
         return $productos;
     }
-    
-    
-    
+
+    // Método para insertar un nuevo pedido en la base de datos
     public static function insertarPedido($idUser, $direccion, $metodoPago, $id_oferta_cesta) {
         $con = DataBase::connect();
+        // Obtener los productos de la cesta del usuario
         $productos = CestaDAO::getCesta($idUser); 
-    
+        
+        // Calcular el precio total del pedido, aplicando los descuentos si existen
         $precioTotal = 0;
         foreach ($productos as $producto) {
             $descuento = $producto['id__oferta'] ? (1 - ($producto['descuento_oferta'] / 100)) : 1;
             $precioTotal += $producto['precio_producto'] * $producto['cantidad'] * $descuento;
         }
-    
-        // Insertar el pedido
+
+        // Insertar el pedido en la tabla de pedidos
         $sqlInsertPedido = "
             INSERT INTO pedidos 
             (fecha_pedido, estado_pedido, id_user_pedido, precio_pedido, direccion_pedido, metodo_pago, id_oferta_) 
@@ -118,10 +134,10 @@ class PedidoDAO{
         $stmtPedido = $con->prepare($sqlInsertPedido);
         $stmtPedido->bind_param("idssi", $idUser, $precioTotal, $direccion, $metodoPago, $id_oferta_cesta);
         $stmtPedido->execute();
-    
+
         $idPedido = $con->insert_id;
-    
-        // Insertar los productos en el pedido
+
+        // Insertar los productos en la tabla pedido_productos
         $sqlInsertProductos = "
             INSERT INTO pedido_productos 
             (id__pedido, id_producto_, cantidad_producto, tamaño_producto, precio__producto) 
@@ -129,11 +145,12 @@ class PedidoDAO{
             (?, ?, ?, ?, ?)
         ";
         $stmtProductos = $con->prepare($sqlInsertProductos);
-    
+
+        // Recorrer los productos y almacenarlos en la tabla pedido_productos
         foreach ($productos as $producto) {
             $precioFinalProducto = $producto['precio_producto'] * (1 - ($producto['descuento_oferta'] / 100));
-    
-            // Insertar producto en la tabla pedido_productos
+
+            // Insertar el producto en la tabla pedido_productos
             $stmtProductos->bind_param(
                 "iiisd",
                 $idPedido,
@@ -143,8 +160,8 @@ class PedidoDAO{
                 $precioFinalProducto
             );
             $stmtProductos->execute();
-    
-            // Restar el stock del producto
+
+            // Actualizar el stock del producto
             $sqlUpdateStock = "
                 UPDATE productos 
                 SET stock_producto = stock_producto - ? 
@@ -154,29 +171,32 @@ class PedidoDAO{
             $stmtUpdateStock->bind_param("ii", $producto['cantidad'], $producto['id_producto']);
             $stmtUpdateStock->execute();
         }
-    
-        // Vaciar la cesta del usuario
+
+        // Vaciar la cesta del usuario después de realizar el pedido
         $sqlVaciarCesta = "DELETE FROM cesta WHERE id__user = ?";
         $stmtVaciarCesta = $con->prepare($sqlVaciarCesta);
         $stmtVaciarCesta->bind_param("i", $idUser);
         $stmtVaciarCesta->execute();
-    
+
         // Confirmar la transacción
         $con->commit();
-    
+
+        // Devolver un mensaje de éxito
         return [
             "success" => true,
             "id_pedido" => $idPedido,
             "message" => "Pedido creado correctamente."
         ];
-    
+
+        // Cerrar la conexión
         $con->close();
     }
-    
 
+    // Método para obtener un pedido específico por su ID
     public static function getPedidoById($idPedido){
         $con = DataBase::connect();
 
+        // Preparar y ejecutar la consulta para obtener un pedido específico
         $sql = "SELECT * FROM pedidos WHERE id_pedido = ?";
         $stmt = $con->prepare($sql);
         $stmt->bind_param("i", $idPedido);
@@ -184,13 +204,16 @@ class PedidoDAO{
         $result = $stmt->get_result();
         $pedido = $result->fetch_object("Pedido");
 
+        // Cerrar la conexión y devolver el pedido
         $con->close();
         return $pedido;
     }
 
+    // Método para actualizar los detalles de un pedido
     public static function updatePedido($idPedido, $fechaPedido, $estadoPedido, $idUserPedido, $precioPedido, $direccionPedido, $metodoPago) {
         $con = DataBase::connect();
-    
+
+        // Preparar y ejecutar la consulta para actualizar el pedido
         $sql = "UPDATE pedidos 
                 SET fecha_pedido = ?, 
                     estado_pedido = ?, 
@@ -198,7 +221,6 @@ class PedidoDAO{
                     precio_pedido = ?, 
                     direccion_pedido = ?, 
                     metodo_pago = ?
-                    
                 WHERE id_pedido = ?";
         
         $stmt = $con->prepare($sql);
@@ -211,25 +233,30 @@ class PedidoDAO{
             $metodoPago, 
             $idPedido
         );
-    
+
+        // Ejecutar la consulta y cerrar la conexión
         $resultado = $stmt->execute();
         $stmt->close();
         $con->close();
-    
+
         return $resultado;
     }
-    
-    
 
+    // Método para eliminar un pedido
     public static function deletePedido($idPedido){
         $con = DataBase::connect();
+
+        // Preparar y ejecutar la consulta para eliminar el pedido
         $stmt = $con->prepare("DELETE FROM pedidos WHERE id_pedido = ?");
         $stmt->bind_param("i", $idPedido);
         $resultado = $stmt->execute();
+
+        // Cerrar la conexión y devolver el resultado
         $con->close();
         return $resultado;
     }
-    
+
+    // Método para crear un nuevo pedido (método legado o de respaldo)
     public static function createPedido($estadoPedido, $id_user_pedido, $precio_pedido, $direccion_pedido, $metodo_pago){
         $con = DataBase::connect();
         $stmt = $con->prepare("INSERT INTO pedidos (fecha_pedido, estado_pedido, id_user_pedido, precio_pedido, direccion_pedido, metodo_pago) VALUES (NOW(), ?, ?, ?, ?, ?)");
@@ -240,6 +267,6 @@ class PedidoDAO{
 
         return $resultado;
     }
-    
+
 }
 ?>

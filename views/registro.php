@@ -17,10 +17,12 @@
         ?>
     </header>
     <main class="registro">
+        <!-- Sección para la creación de una nueva cuenta -->
         <section class="login">
             <h2>Crear una nueva cuenta</h2>
             <div class="div-inicio-sesion">
                 <div class="identificacion">
+                    <!-- Opción para registrarse mediante Google -->
                     <div class="btn-google">
                         <div class="btn-google-div">
                             <a href="">
@@ -32,43 +34,72 @@
                         </div>
                     </div>
                     <h5><strong>O regístrate con tus datos personales</strong></h5>
+                    <!-- Formulario de registro con datos personales -->
+                    <?php
+                        // Display any errors from the session
+                        if (isset($_SESSION['errors'])) {
+                            foreach ($_SESSION['errors'] as $error) {
+                                echo "<p style='color: red;'>$error</p>";
+                            }
+                            unset($_SESSION['errors']); // Clear the errors after displaying them
+                        }
+                    ?>
                     <form class="form-inicio" method="POST" action="?url=registro/create">
                         <fieldset>
+                            <!-- Campo de correo electrónico -->
                             <div class="form-group">
-                                <input name="email" type="email" id="input1" placeholder=" " required>
+                                <input name="email" type="email" id="input1" placeholder=" "  value="<?= isset($_SESSION['form_data']['email']) ? $_SESSION['form_data']['email'] : '' ?>">
                                 <label for="email">E-Mail</label>
                             </div>
+
+                            <!-- Campo de contraseña -->
                             <div class="form-group">
-                                <input name="contra" type="password" id="input2" placeholder=" " required>
+                                <input name="contra" type="password" id="input2" placeholder=" ">
                                 <label for="contra">Contraseña</label>                                                               
                             </div>
                             <small class="small comment">Debe tener un mínimo de 8 carácteres</small>
+
+                            <!-- Campo de nombre -->
                             <div class="form-group">
-                                <input name="nombre" type="text" id="input1" placeholder=" " required>
+                                <input name="nombre" type="text" id="input1" placeholder=" " value="<?= isset($_SESSION['form_data']['nombre']) ? $_SESSION['form_data']['nombre'] : '' ?>">
                                 <label for="nombre">Nombre</label>
                             </div>
                         </fieldset>
                         <fieldset>
+                            <!-- Sección opcional para más información -->
                             <p>Ayúdanos a conocerte para mejorar tu experiencia: <small class="comment">(Opcional)</small></p>
+
+                            <!-- Campo de apellidos -->
                             <div class="form-group">
-                                <input name="apellidos" type="text" id="input1" placeholder=" ">
+                                <input name="apellidos" type="text" id="input1" placeholder=" " value="<?= isset($_SESSION['form_data']['apellidos']) ? $_SESSION['form_data']['apellidos'] : '' ?>">
                                 <label for="apellidos">Apellidos</label>
                             </div>
-                            <small class="small comment">Te lo pedimos para completar tu perfil</small>
+                            
+                            <!-- Campo de teléfono -->
                             <div class="form-group">
-                                <input name="telefono" type="text" id="input1" placeholder=" ">
+                                <input name="telefono" type="text" id="input1" placeholder=" " value="<?= isset($_SESSION['form_data']['telefono']) ? $_SESSION['form_data']['telefono'] : '' ?>">
                                 <label for="telefono">Teléfono</label>
                             </div>
-                            <small class="small comment">Te lo pedimos para poder contactar contigo</small>
+                            
+                            <!-- Campo de dirección -->
                             <div class="form-group">
-                                <input name="direction" type="text" id="input1" placeholder=" ">
+                                <input name="direction" type="text" id="input1" placeholder=" " value="<?= isset($_SESSION['form_data']['direction']) ? $_SESSION['form_data']['direction'] : '' ?>">
                                 <label for="direction">Dirección</label>
                             </div>
-                            <small class="small comment">Te lo pedimos para poder enviarte los pedidos</small>
                         </fieldset>
-                        <input class="login-submit" type="submit" value="Regístrame">                        
+
+                        <!-- Botón de envío del formulario -->
+                        <input class="login-submit" type="submit" value="Regístrame">
                     </form>
+
+                    <?php
+                    // Clear the form data after it is displayed in the form
+                    unset($_SESSION['form_data']);
+                    ?>
+
+                    <!-- Aviso de términos y condiciones -->
                     <small class="form-aviso">* Al crear esta cuenta aceptas nuestros <a href="">Términos y condiciones</a> y nuestra <a href="">Política de privacidad</a></small>
+                    <!-- Enlace para iniciar sesión si ya tienes una cuenta -->
                     <div class="cuenta-login-link">
                         <p>¿Ya tienes una cuenta?</p>
                         <a href="?url=login">Iniciar sesión</a>

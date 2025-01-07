@@ -16,21 +16,25 @@
             include_once "views/headers/header.php";
         ?>
     </header>
-    <main class= "cuenta">
+    <main class="cuenta">
+        <!-- Sección principal de la cuenta del usuario -->
         <section class="cuenta-section">
+            <!-- Barra de navegación de migas de pan (breadcrumbs) para mostrar la ubicación actual del usuario -->
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="?url=cuenta">Mi cuenta</a></li>
-                    <li class="breadcrumb-item">Mis pedidos</li>
+                    <li class="breadcrumb-item"><a href="?url=cuenta">Mi cuenta</a></li> <!-- Enlace a la página principal de la cuenta -->
+                    <li class="breadcrumb-item">Mis pedidos</li> <!-- Página actual -->
                 </ol>
             </nav>
             <div>
-                <h1>Mis pedidos</h1>
+                <h1>Mis pedidos</h1> <!-- Título de la sección -->
             </div>          
             <div>
+                <!-- Tabla que muestra los detalles de los pedidos del usuario -->
                 <table class="table table-striped tabla-productos-pedido">                    
                     <thead>
                         <tr>
+                            <!-- Encabezados de las columnas de la tabla -->
                             <th scope="col">Identificador Pedido</th>
                             <th scope="col">Fecha</th>
                             <th scope="col">Precio Total</th>
@@ -41,17 +45,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($pedidosUser as $pedido): ?>
-                        <tr>
-                            <th scope="row"><?= number_format($pedido['id_pedido']) ?></th>
-                            <td><?= date('d/m/Y', strtotime($pedido['fecha_pedido'])) ?></td>
-                            <td><?= number_format($pedido['precio_pedido'], 2) ?> €</td>
-                            <td><?= $pedido['metodo_pago'] ?></td>
-                            <td><?= $pedido['estado_pedido'] ?></td>
-                            <td><a href="">Pedir Factura</a></td>
-                            <td><a href="?url=cuenta/mis-pedidos/detalles-pedido&id_pedido=<?= $pedido['id_pedido']?>">Ver detalles del pedido</a></td>
-                        </tr>
-                    <?php endforeach; ?>
+                        <!-- Se iteran los pedidos del usuario y se muestran en la tabla -->
+                        <?php foreach ($pedidosUser as $pedido): ?>
+                            <tr>
+                                <!-- Muestra el identificador del pedido -->
+                                <th scope="row"><?= number_format($pedido['id_pedido']) ?></th>
+                                <!-- Muestra la fecha del pedido, formateada como día/mes/año -->
+                                <td><?= date('d/m/Y', strtotime($pedido['fecha_pedido'])) ?></td>
+                                <!-- Muestra el precio total del pedido, formateado a dos decimales -->
+                                <td><?= number_format($pedido['precio_pedido'], 2) ?> €</td>
+                                <!-- Muestra el método de pago utilizado en el pedido -->
+                                <td><?= $pedido['metodo_pago'] ?></td>
+                                <!-- Muestra el estado actual del pedido -->
+                                <td><?= $pedido['estado_pedido'] ?></td>
+                                <!-- Enlace para solicitar la factura del pedido -->
+                                <td><a href="">Pedir Factura</a></td>
+                                <!-- Enlace para ver los detalles completos del pedido -->
+                                <td><a href="?url=cuenta/mis-pedidos/detalles-pedido&id_pedido=<?= $pedido['id_pedido']?>">Ver detalles del pedido</a></td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div> 

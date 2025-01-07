@@ -64,109 +64,123 @@ th.sortable.desc .sort-indicator::before {
 
 /* INDEX */
 /* Header_top */
-
+/* INDEX */
+/* Header_top */
 
 .header_top {
     background-color: #101A25;
     display: flex;
     align-items: center;
-    font-size: 12px;
+    font-size: 14px; /* Aumentado para pantallas grandes */
     font-weight: 700;
-    height: 45px;
+    height: 50px; /* Aumentado para pantallas grandes */
     padding: 0 10%;
 }
 
 .header_top ul {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 25px; /* Aumentado para mayor separación */
     margin: 0;
     padding: 0;
 }
 
 .header_top li {
     display: flex;
-    align-items: center; 
+    align-items: center;
 }
 
 .header_top a {
     text-decoration: none;
     color: #ffffff;
     display: flex;
-    align-items: center; 
+    align-items: center;
 }
 
 .header_top a:hover {
     text-decoration: underline solid 1px;
 }
 
-
 /* Header-main */
-.header-main{
+.header-main {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-left: 10%;
     margin-right: 10%;
-    height: 90px;
-}
-#logo{
-    height: 50px;
-    width: 275px;
+    height: 100px; /* Aumentado ligeramente */
 }
 
-.buscador{
+#logo {
+    height: 60px; /* Aumentado para pantallas grandes */
+    width: 300px; /* Aumentado para pantallas grandes */
+}
+
+.buscador {
     position: relative;
-    height: 41px;
-    width: 465px;
+    height: 45px; /* Aumentado ligeramente */
+    width: 50%; /* Ajustado para pantallas grandes */
 }
 
-.buscador form{
-    display: block;
+.buscador form {
+    display: flex;
+    align-items: center;
     height: 100%;
 }
 
-.buscador input{
-    position: relative;
+.buscador input {
+    flex: 1;
     height: 100%;
-    width: 100%;
     border: 1px solid #888888;
     appearance: none;
     box-sizing: border-box;
     border-radius: 3px;
     padding-left: 20px;
+    font-size: 16px; /* Aumentado ligeramente */
 }
 
-.buscador input::placeholder{
+.buscador input::placeholder {
     opacity: 50%;
+    color: #888888;
 }
 
-.buscador img{
-    cursor: pointer;
+.buscador button {
     position: absolute;
-    right: 5px;
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
-}
-
-#iconos{
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
     display: flex;
     align-items: center;
-    gap: 30px;
+    justify-content: center;
+}
+
+.buscador img {
+    height: 35px; /* Aumentado ligeramente */
+    width: 35px; /* Aumentado ligeramente */
+}
+
+#iconos {
+    display: flex;
+    align-items: center;
+    gap: 35px; /* Aumentado para mayor separación */
     width: 30%;
     justify-content: space-between;
 }
 
-#iconos .sesiones{
+#iconos .sesiones {
     text-decoration: none;
     color: #1a1a1a;
     font-weight: 300;
-    font-size: 12px;
+    font-size: 14px; /* Aumentado ligeramente */
 }
 
-.icon{
-    height: 30px;
-    width: 30px;
+.icon {
+    height: 35px; /* Aumentado ligeramente */
+    width: 35px; /* Aumentado ligeramente */
 }
 
 .carrito-icon {
@@ -189,169 +203,168 @@ th.sortable.desc .sort-indicator::before {
 
 .carrito-icon span {
     position: absolute;
-    top: -10px;    
-    background-color: #ff0000; 
-    color: #ffffff; 
-    font-size: 13px; 
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
+    top: -10px;
+    background-color: #ff0000;
+    color: #ffffff;
+    font-size: 14px; /* Ajustado */
+    width: 22px; /* Ajustado */
+    height: 22px; /* Ajustado */
+    line-height: 22px; /* Ajustado */
     text-align: center;
     border-radius: 50%;
 }
 
-.inicio-sesion{
+.inicio-sesion {
     display: flex;
     align-items: center;
 }
 
-.inicio-sesion .btn-group button{
+.inicio-sesion .btn-group button {
     background-color: transparent;
     color: #1a1a1a;
-    font-size: 16px;
+    font-size: 18px; /* Aumentado ligeramente */
     font-weight: 400;
     border-color: transparent;
 }
 
-.inicio-sesion .btn-group button:focus{
+.inicio-sesion .btn-group button:focus {
     background-color: transparent;
     color: #1a1a1a;
     border: none;
 }
 
-.inicio-sesion .btn-group .dropdown-menu{
+.inicio-sesion .btn-group .dropdown-menu {
     --bs-dropdown-link-active-color: #1a1a1a;
     --bs-dropdown-link-active-bg: transparent;
     justify-content: center;
     padding: 15px;
-    width: 250px;
-    font-size: 14px;
+    width: 270px; /* Aumentado ligeramente */
+    font-size: 16px; /* Aumentado ligeramente */
     border: none;
     border-top: #E4022C 4px solid;
-    -webkit-box-shadow: 1px 7px 18px -1px rgba(26,26,26,0.8);
-    -moz-box-shadow: 1px 7px 18px -1px rgba(26,26,26,0.8);
-    box-shadow: 1px 7px 18px -1px rgba(26,26,26,0.8);
+    -webkit-box-shadow: 1px 7px 18px -1px rgba(26, 26, 26, 0.8);
+    -moz-box-shadow: 1px 7px 18px -1px rgba(26, 26, 26, 0.8);
+    box-shadow: 1px 7px 18px -1px rgba(26, 26, 26, 0.8);
     transition: max-height 0.3s ease;
     transform: translateY(-10px);
-    transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease; 
+    transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
 }
 
-
-.inicio-sesion .btn-group .dropdown-menu .btn-iniciar{
+.inicio-sesion .btn-group .dropdown-menu .btn-iniciar {
     background-color: #E4022C;
     color: #ffffff;
     border-radius: 25px;
     text-align: center;
     align-content: center;
     font-weight: 500;
-    height: 42px;
+    height: 50px; /* Aumentado ligeramente */
     display: table;
 }
 
-.inicio-sesion .btn-group .dropdown-menu .btn-iniciar:hover{
+.inicio-sesion .btn-group .dropdown-menu .btn-iniciar:hover {
     background-color: #EA3D5E;
     text-decoration: none;
     transition: all 0.2s;
 }
 
-.inicio-sesion .btn-group .dropdown-menu p{
+.inicio-sesion .btn-group .dropdown-menu p {
     text-align: left;
     padding: 0;
-    width: 80%; 
+    width: 80%;
 }
 
-.inicio-sesion .btn-group .dropdown-menu a{
+.inicio-sesion .btn-group .dropdown-menu a {
     text-decoration: none;
     color: #E4022C;
     font-weight: 500;
 }
 
-.inicio-sesion .btn-group .dropdown-menu a:hover{
+.inicio-sesion .btn-group .dropdown-menu a:hover {
     text-decoration: underline 1px solid;
 }
 
-
-.inicio-sesion .btn-group .dropdown-menu .dropdown-item{
+.inicio-sesion .btn-group .dropdown-menu .dropdown-item {
     white-space: normal;
 }
 
-.btn-nuevo-cliente:hover{
+.btn-nuevo-cliente:hover {
     background-color: transparent;
 }
 
-.nombre-desplegable:hover{
+.nombre-desplegable:hover {
     background-color: transparent;
 }
 
 /* Header-nav */
 
-#header-nav{
+#header-nav {
     display: flex;
     justify-content: center;
 }
 
-nav{
+nav {
     width: 80%;
     border-top: 1px solid #888888;
 }
-.nav{
+
+.nav {
     --bs-nav-link-hover-color: #101a25;
 }
 
-.justify-content-between{
-    font-size: 13px;
+.justify-content-between {
+    font-size: 14px; /* Aumentado ligeramente */
     font-weight: 600;
-    height: 45px;
+    height: 50px; /* Aumentado ligeramente */
     width: 100%;
 }
-ul{
+
+ul {
     -webkit-padding-start: 0;
     align-items: center;
 }
 
-.nav-link{
+.nav-link {
     color: #1a1a1a;
 }
 
-.nav :hover{
+.nav :hover {
     color: #101A25;
     text-decoration: underline;
-    text-decoration-color: #E4022C; 
+    text-decoration-color: #E4022C;
     text-decoration-thickness: 1.5px;
     text-underline-offset: 10px;
 }
 
 /* Desplegable logueado */
 .dropdown-log {
-    font-size: 16px;
+    font-size: 18px; /* Aumentado ligeramente */
     font-weight: 500;
 }
 
-.dropdown-log li{
+.dropdown-log li {
     margin-bottom: 10px;
 }
 
-
-.ul-dropdown{
+.ul-dropdown {
     padding-top: 15px;
     padding-bottom: 5px;
     border-top: 1px solid #888888;
     border-bottom: 1px solid #888888;
     color: #1a1a1a;
 }
-.lista-dropdown{
+
+.lista-dropdown {
     list-style: none;
-    gap: 15px
+    gap: 15px;
 }
 
-.a-log{
+.a-log {
     color: #1a1a1a !important;
 }
 
-.a-log:hover{
+.a-log:hover {
     text-decoration: none !important;
 }
-
 
 
 /* Header inicio sesión y registro */
@@ -593,6 +606,12 @@ ul{
 .nueva-cuenta a:hover {
     background-color: #EA3D5E;
     transition: all 0.2;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    text-align: center;
 }
 
 /* Registro */
@@ -1452,9 +1471,6 @@ ul{
     background-color: #ffffff;
 }
 
-.modificar-producto input:hover{
-    cursor: auto;
-}
 
 
 .card-finalizar .texto-descuento{

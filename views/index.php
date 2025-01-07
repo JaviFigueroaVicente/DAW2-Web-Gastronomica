@@ -17,16 +17,22 @@
         ?>       
     </header>
     <main>
+        <!-- Sección del banner principal -->
         <section class="banner-principal">
             <div class="banner-principal-texto">
+                <!-- Título y descripción del banner principal -->
                 <p class="banner-principal-titulo">RECETAS PARA LA SALUD</p>
                 <p class="banner-principal-p">Nuevas recetas saludables</p>
-                <a href="productos.php">Ver recetas</a>
+                <a href="productos.php">Ver recetas</a> <!-- Enlace a la página de productos -->
             </div> 
         </section>
-        <section class="title-section">                        
+
+        <!-- Sección de introducción sobre el restaurante -->
+        <section class="title-section">
             <h1>Mammoth’s Kitchen, restaurante de comida saludable y recetas fit</h1>
-            <p>Mammoth’s Kitchen es tu restaurante de confianza para entrega a domicilio. Aquí podrás encontrar todo tipo de comida saludable y podrás ver todas las recetas que tenemos disponibles ¡No esperes más y disfruta de la major comida saludable con Mammoth’ Kitchen!</p>        
+            <p>Mammoth’s Kitchen es tu restaurante de confianza para entrega a domicilio...</p> <!-- Descripción del restaurante -->
+            
+            <!-- Lista de características del restaurante -->
             <ul>
                 <li class="title-caracteristicas">
                     <img src="views/img/icons/estrellas.webp" alt="">
@@ -50,9 +56,12 @@
                 </li>
             </ul>
         </section>
-        <section  id="grid-comidas"> 
+
+        <!-- Sección de imágenes de comida -->
+        <section id="grid-comidas"> 
             <div class="container text-left">
                 <div id="row1" class="row">
+                    <!-- Imagen de comida baja en hidratos -->
                     <div class="col">
                         <img src="views/img/banners/comida1.webp" alt="">
                         <a href="?url=productos">
@@ -62,6 +71,7 @@
                             </div>
                         </a>
                     </div>
+                    <!-- Imagen de comida alta en proteínas -->
                     <div class="col">
                         <img src="views/img/banners/comida2.webp" alt="">
                         <a href="productos.php">
@@ -72,7 +82,10 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- Segunda fila de imágenes de comida -->
                 <div id="row2" class="row">
+                    <!-- Comida sin calorías -->
                     <div class="col">
                         <img src="views/img/banners/comida3.webp" alt="">
                         <a href="productos.php">
@@ -82,6 +95,7 @@
                             </div>
                         </a>
                     </div>
+                    <!-- Comida tipo Food -->
                     <div class="col">
                         <img src="views/img/banners/comida4.webp" alt="">
                         <a href="productos.php">
@@ -92,6 +106,7 @@
                             </div>
                         </a>
                     </div>
+                    <!-- Comida sin grasas -->
                     <div class="col">
                         <img src="views/img/banners/comida5.webp" alt="">
                         <a href="productos.php">
@@ -104,10 +119,15 @@
                 </div>
             </div>  
         </section>
+
+        <!-- Sección del carrusel con ofertas -->
         <section class="section-carousel">
             <h2>Las mejores ofertas en el restaurante</h2>
+            
+            <!-- Carrusel de ofertas -->
             <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
+                    <!-- Primera diapositiva del carrusel -->
                     <div class="carousel-item active">
                         <div class="d-flex justify-content-center gap-3">
                             <div class="carousel-card">
@@ -122,6 +142,7 @@
                                     </div>
                                 </a>
                             </div>
+                            <!-- Segunda tarjeta de oferta -->
                             <div class="carousel-card">
                                 <a href="?url=finalizar">
                                     <div class="discount">
@@ -134,6 +155,7 @@
                                     </div>
                                 </a>
                             </div>
+                            <!-- Tercera tarjeta de oferta -->
                             <div class="carousel-card">
                                 <a href="?url=finalizar">
                                     <div class="discount">
@@ -242,7 +264,8 @@
                 <p>Más ofertas de Restaurante</p>
                 <img class="arrow" src="views/img/icons/arrow.svg" alt="">
             </a>
-        </section>        
+        </section>    
+        <!-- seccion de alimentos  -->
         <section class="alimentos">
             <h2>Proteínas, grasas e hidratos de carbono</h2>
             <p>Conviertete en un verdadero chef con todos los conocimientos de cocina. Lleva tu nutrición al siguiente nivel con nuestro sistema de edición y creación de menús guiado y personalizado. Prepárate para conseguir la mejor salud con la mejor calidad de comida</p>

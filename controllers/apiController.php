@@ -1,105 +1,105 @@
 <?php
-include_once "config/dataBase.php";
-include_once "models/logs/LogsDAO.php";
+include_once "config/dataBase.php"; 
+include_once "models/logs/LogsDAO.php"; 
 
 class ApiController {
+    // Método que carga la vista del administrador
     public function admin() {
         include_once "views/admin.php";
     }
 
-
+    // Obtener todos los productos
     public function getProductos() {
         include_once 'models/productos/ProductosDAO.php';
-        $productos = ProductosDAO::getAll();
+        $productos = ProductosDAO::getAll();  // Llamar al DAO para obtener los productos
         header('Content-Type: application/json');
-        echo json_encode($productos);
+        echo json_encode($productos);  // Devolver los productos en formato JSON
     }
 
+    // Obtener un producto individual por ID
     public function getProductoIndividual() {
         include_once 'models/productos/ProductosDAO.php';
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $producto = ProductosDAO::getProductoIndividual($id);
+        if (isset($_GET['id'])) {  // Si se pasa un ID por GET
+            $id = $_GET['id'];  
+            $producto = ProductosDAO::getProductoIndividual($id); // Obtener producto por ID
             
             if ($producto) {
-                echo json_encode($producto);
+                echo json_encode($producto);  // Si el producto existe, devolverlo
             } else {
-                echo json_encode(['error' => 'Producto no encontrado']);
+                echo json_encode(['error' => 'Producto no encontrado']);  // Si no se encuentra el producto
             }
         } else {
-            echo json_encode(['error' => 'ID de producto no proporcionado']);
+            echo json_encode(['error' => 'ID de producto no proporcionado']);  // Si no se pasa el ID
         }
     }
     
+    // Actualizar un producto
     public function updateProducto() {
         include_once 'models/productos/ProductosDAO.php';
     
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Validar y extraer datos enviados
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {  // Si el método es POST
+            // Extraemos los datos del producto
             $id = $_POST['id_producto'];
             $nombre = $_POST['nombre_producto'];
             $descripcion = $_POST['descripcion_producto'];
             $precio = $_POST['precio_producto'];
             $stock = $_POST['stock_producto'];
     
-            // Verificar si se envió una imagen
+            // Procesar la foto del producto si se sube
             $foto_producto = null;
             if (isset($_FILES['foto_producto']) && $_FILES['foto_producto']['error'] === UPLOAD_ERR_OK) {
                 $foto_producto = file_get_contents($_FILES['foto_producto']['tmp_name']); // Leer el archivo en binario
             }
     
-            // Llamar al modelo para actualizar los datos
+            // Actualizar el producto usando el DAO
             $resultado = ProductosDAO::updateProducto($id, $nombre, $descripcion, $precio, $stock, $foto_producto);
     
-            // Responder al cliente
             if ($resultado) {
-                echo json_encode(['success' => true]);
+                echo json_encode(['success' => true]);  // Si es exitoso, se devuelve éxito
             } else {
-                echo json_encode(['success' => false, 'error' => 'No se pudo actualizar el producto.']);
+                echo json_encode(['success' => false, 'error' => 'No se pudo actualizar el producto.']);  // Si hay error
             }
         } else {
-            echo json_encode(['error' => 'Método no permitido']);
+            echo json_encode(['error' => 'Método no permitido']);  // Si no es POST
         }
     }
-    
-    
-    
 
+    // Eliminar un producto
     public function deleteProducto() {
         include_once 'models/productos/ProductosDAO.php';
     
-        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-            // Leer el cuerpo de la solicitud
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {  // Si el método es DELETE
+            // Leer los datos de la solicitud
             $data = json_decode(file_get_contents("php://input"), true);
     
-            if (isset($data['id_producto'])) {
+            if (isset($data['id_producto'])) {  // Verificar si se pasa el ID
                 $id = $data['id_producto'];
     
-                // Eliminar producto en la base de datos
+                // Llamar al DAO para eliminar el producto
                 $resultado = ProductosDAO::deleteProducto($id);
     
-                // Responder al cliente
                 if ($resultado) {
-                    echo json_encode(['success' => true]);
+                    echo json_encode(['success' => true]);  // Si la eliminación es exitosa
                 } else {
-                    http_response_code(500); // Indicar error interno
+                    http_response_code(500);  // Error en el servidor
                     echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el producto.']);
                 }
             } else {
-                http_response_code(400); // Solicitud incorrecta
+                http_response_code(400);  // Error de solicitud incorrecta
                 echo json_encode(['success' => false, 'error' => 'ID de producto no proporcionado.']);
             }
         } else {
-            http_response_code(405); // Método no permitido
+            http_response_code(405);  // Método no permitido
             echo json_encode(['error' => 'Método no permitido']);
         }
     }
-    
+
+    // Crear un nuevo producto
     public function createProducto() {
         include_once 'models/productos/ProductosDAO.php';
     
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Validar y extraer datos
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {  // Si el método es POST
+            // Extraer los datos del producto
             $nombre = $_POST['nombre_producto'];
             $descripcion = $_POST['descripcion_producto'];
             $precio = $_POST['precio_producto'];
@@ -109,53 +109,52 @@ class ApiController {
     
             $rutaImagen = null;
             if ($foto_producto && $foto_producto['error'] === UPLOAD_ERR_OK) {
-                $rutaImagen = file_get_contents($foto_producto['tmp_name']); // Leer contenido binario de la imagen
+                $rutaImagen = file_get_contents($foto_producto['tmp_name']);  // Obtener la imagen
             }
     
-            // Crear producto en la base de datos
+            // Crear el producto en la base de datos
             $resultado = ProductosDAO::createProducto($nombre, $descripcion, $precio, $stock, $id_categoria_producto, $rutaImagen);
     
-            // Responder al cliente
             if ($resultado) {
-                echo json_encode(['success' => true]);
+                echo json_encode(['success' => true]);  // Si la creación es exitosa
             } else {
-                echo json_encode(['success' => false, 'error' => 'No se pudo crear el producto.']);
+                echo json_encode(['success' => false, 'error' => 'No se pudo crear el producto.']);  // Si falla
             }
         } else {
-            echo json_encode(['error' => 'Método no permitido']);
+            echo json_encode(['error' => 'Método no permitido']);  // Si no es POST
         }
     }
-    
-
 
     // Pedidos
 
     public function getPedidos() {
         include_once 'models/pedidos/PedidoDAO.php';
-        $pedidos = PedidoDAO::getAllPedidos();
+        $pedidos = PedidoDAO::getAllPedidos();  // Obtener todos los pedidos
         header('Content-Type: application/json');
-        echo json_encode($pedidos);
+        echo json_encode($pedidos);  // Devolver en formato JSON
     }
+
     public function getPedidoIndividual() {
         include_once 'models/pedidos/PedidoDAO.php';
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $pedido = PedidoDAO::getPedidoById($id);
+        if (isset($_GET['id'])) {  // Si se pasa un ID por GET
+            $id = $_GET['id'];  
+            $pedido = PedidoDAO::getPedidoById($id);  // Obtener pedido por ID
 
             if ($pedido) {
-                echo json_encode($pedido);
+                echo json_encode($pedido);  // Si existe, devolverlo
             } else {
-                echo json_encode(['error' => 'Pedido no encontrado']);
+                echo json_encode(['error' => 'Pedido no encontrado']);  // Si no se encuentra
             }
         } else {
-            echo json_encode(['error' => 'ID de pedido no proporcionado']);
+            echo json_encode(['error' => 'ID de pedido no proporcionado']);  // Si no se pasa el ID
         }
     }
+
     public function updatePedido() {
         include_once 'models/pedidos/PedidoDAO.php';
     
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Validar y extraer datos enviados
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {  // Si el método es POST
+            // Extraer los datos del pedido
             $idPedido = $_POST['id_pedido'];
             $fechaPedido = $_POST['fecha_pedido'];
             $estadoPedido = $_POST['estado_pedido'];
@@ -163,93 +162,90 @@ class ApiController {
             $precioPedido = $_POST['precio_pedido'];
             $direccionPedido = $_POST['direccion_pedido'];
             $metodoPago = $_POST['metodo_pago'];
-        
     
-            // Llamar al modelo para actualizar los datos
+            // Actualizar el pedido usando el DAO
             $resultado = PedidoDAO::updatePedido($idPedido, $fechaPedido, $estadoPedido, $idUserPedido, $precioPedido, $direccionPedido, $metodoPago);
     
-            // Responder al cliente
             if ($resultado) {
-                echo json_encode(['success' => true]);
+                echo json_encode(['success' => true]);  // Si es exitoso
             } else {
-                echo json_encode(['success' => false, 'error' => 'No se pudo actualizar el pedido.']);
+                echo json_encode(['success' => false, 'error' => 'No se pudo actualizar el pedido.']);  // Si falla
             }
         } else {
-            echo json_encode(['error' => 'Método no permitido']);
+            echo json_encode(['error' => 'Método no permitido']);  // Si no es POST
         }
     }
-    
-    
+
     public function deletePedido() {
         include_once 'models/pedidos/PedidoDAO.php';
     
-        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {  // Si el método es DELETE
             // Leer el cuerpo de la solicitud
             $data = json_decode(file_get_contents("php://input"), true);
     
-            if (isset($data['id_pedido'])) {
+            if (isset($data['id_pedido'])) {  // Verificar si se pasa el ID
                 $id = $data['id_pedido'];
     
-                // Eliminar producto en la base de datos
+                // Llamar al DAO para eliminar el pedido
                 $resultado = PedidoDAO::deletePedido($id);
     
-                // Responder al cliente
                 if ($resultado) {
-                    echo json_encode(['success' => true]);
+                    echo json_encode(['success' => true]);  // Si la eliminación es exitosa
                 } else {
-                    http_response_code(500); // Indicar error interno
+                    http_response_code(500);  // Error interno
                     echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el pedido.']);
                 }
             } else {
-                http_response_code(400); // Solicitud incorrecta
+                http_response_code(400);  // Error de solicitud incorrecta
                 echo json_encode(['success' => false, 'error' => 'ID de pedido no proporcionado.']);
             }
         } else {
-            http_response_code(405); // Método no permitido
+            http_response_code(405);  // Método no permitido
             echo json_encode(['error' => 'Método no permitido']);
         }
     }
+
     public function createPedido() {
         include_once 'models/pedidos/PedidoDAO.php';
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Validar y extraer datos
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {  // Si el método es POST
+            // Extraer los datos del pedido
             $estadoPedido = $_POST['estado_pedido'];
             $idUserPedido = $_POST['id_user_pedido'];
             $precioPedido = $_POST['precio_pedido'];
             $direccionPedido = $_POST['direccion_pedido'];
             $metodoPago = $_POST['metodo_pago'];
 
+            // Crear el pedido en la base de datos
             $resultado = PedidoDAO::createPedido($estadoPedido, $idUserPedido, $precioPedido, $direccionPedido, $metodoPago);
-            // Responder al cliente
+            
             if ($resultado) {
-                echo json_encode(['success' => true]);
+                echo json_encode(['success' => true]);  // Si la creación es exitosa
             } else {
-                echo json_encode(['success' => false, 'error' => 'No se pudo crear el pedido.']);
+                echo json_encode(['success' => false, 'error' => 'No se pudo crear el pedido.']);  // Si falla
             }
         } else {
-            echo json_encode(['error' => 'Método no permitido']);
+            echo json_encode(['error' => 'Método no permitido']);  // Si no es POST
         }
     }
-
     
     // Usuarios
 
     public function getUsers() {
         include_once 'models/users/UserDAO.php';
-        $usuarios = UserDAO::getAllUsers();
+        $usuarios = UserDAO::getAllUsers();  // Obtener todos los usuarios
         header('Content-Type: application/json');
-        echo json_encode($usuarios);
+        echo json_encode($usuarios);  // Devolverlos en formato JSON
     }
 
     public function getUserIndividual() {
         include_once 'models/users/UserDAO.php';
-        if (isset($_GET['id'])) {
-            $id = intval($_GET['id']);
-            $usuario = UserDAO::getUserById($id);
+        if (isset($_GET['id'])) {  // Si se pasa un ID por GET
+            $id = intval($_GET['id']); 
+            $usuario = UserDAO::getUserById($id);  // Obtener usuario por ID
     
             if ($usuario) {
-                // Solo devolver los datos del usuario sin la contraseña
+                // Devolver solo los datos del usuario (sin la contraseña)
                 $user_data = [
                     'id_user' => $usuario->getId_user(),
                     'nombre_user' => $usuario->getNombre_user(),
@@ -261,18 +257,19 @@ class ApiController {
                 ];
                 echo json_encode($user_data);
             } else {
-                echo json_encode(['error' => 'Usuario no encontrado']);
+                echo json_encode(['error' => 'Usuario no encontrado']);  // Si no se encuentra el usuario
             }
         } else {
-            echo json_encode(['error' => 'ID de usuario no proporcionado']);
+            echo json_encode(['error' => 'ID de usuario no proporcionado']);  // Si no se pasa el ID
         }
     }
     
+    // Actualizar un usuario
     public function updateUser() {
         include_once 'models/users/UserDAO.php';
     
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Validar y extraer datos enviados
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {  // Si el método es POST
+            // Extraer los datos del usuario
             $id = $_POST['id_user'];
             $nombre = $_POST['nombre_user'];
             $apellidos = $_POST['apellidos_user'];
@@ -281,37 +278,35 @@ class ApiController {
             $direction = $_POST['direction_user'];
             $rol = $_POST['admin_rol'];
     
-            // Verificamos si la contraseña fue proporcionada
+            // Verificar si se proporciona una nueva contraseña
             if (empty($_POST['contra_user'])) {
-                // Si la contraseña no se proporciona, utilizamos la contraseña actual del usuario
+                // Si no se proporciona, usamos la contraseña actual
                 $usuario = UserDAO::getUserById($id);
-                $contra = $usuario->getPassword_user();  // Obtiene la contraseña actual
+                $contra = $usuario->getPassword_user();
             } else {
-                // Si la contraseña se proporciona, la hashamos
+                // Si se proporciona, se hashifica
                 $contra = password_hash($_POST['contra_user'], PASSWORD_DEFAULT);
             }
     
-            // Llamar al modelo para actualizar los datos
+            // Actualizar los datos del usuario
             $resultado = UserDAO::updateUser($id, $contra, $nombre, $apellidos, $email, $telefono, $direction, $rol);
     
-            // Responder al cliente
             if ($resultado) {
-                echo json_encode(['success' => true]);
+                echo json_encode(['success' => true]);  // Si es exitoso
             } else {
-                echo json_encode(['success' => false, 'error' => 'No se pudo actualizar el usuario.']);
+                echo json_encode(['success' => false, 'error' => 'No se pudo actualizar el usuario.']);  // Si falla
             }
         } else {
-            echo json_encode(['error' => 'Método no permitido']);
+            echo json_encode(['error' => 'Método no permitido']);  // Si no es POST
         }
     }
     
-    
-
+    // Crear un nuevo usuario
     public function createUser(){
         include_once 'models/users/UserDAO.php';
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Validar y extraer datos
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {  // Si el método es POST
+            // Extraer los datos del usuario
             $contra = $_POST['contra_user'];
             $nombre = $_POST['nombre_user'];
             $apellidos = $_POST['apellidos_user'];
@@ -320,55 +315,58 @@ class ApiController {
             $direction = $_POST['direction_user'];
             $admin_rol = $_POST['admin_rol'];
 
+            // Hashificar la contraseña
             $contraHash = password_hash($contra, PASSWORD_DEFAULT);
 
+            // Crear el nuevo usuario
             $resultado = UserDAO::createUser($email, $contraHash, $nombre, $apellidos, $telefono, $direction, $admin_rol);
-            // Responder al cliente
+            
             if ($resultado) {
-                echo json_encode(['success' => true]);
+                echo json_encode(['success' => true]);  // Si la creación es exitosa
             } else {
-                echo json_encode(['success' => false, 'error' => 'No se pudo crear el pedido.']);
+                echo json_encode(['success' => false, 'error' => 'No se pudo crear el usuario.']);  // Si falla
             }
         } else {
-            echo json_encode(['error' => 'Método no permitido']);
+            echo json_encode(['error' => 'Método no permitido']);  // Si no es POST
         }
     }
 
+    // Eliminar un usuario
     public function deleteUser() {
         include_once 'models/users/UserDAO.php';
 
-        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-            // Leer el cuerpo de la solicitud
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {  // Si el método es DELETE
+            // Leer los datos de la solicitud
             $data = json_decode(file_get_contents("php://input"), true);
 
-            if (isset($data['id_user'])) {
+            if (isset($data['id_user'])) {  // Verificar si se pasa el ID
                 $id = $data['id_user'];
 
-                // Eliminar producto en la base de datos
+                // Eliminar el usuario
                 $resultado = UserDAO::deleteUser($id);
 
-                // Responder al cliente
                 if ($resultado) {
-                    echo json_encode(['success' => true]);
+                    echo json_encode(['success' => true]);  // Si la eliminación es exitosa
                 } else {
-                    http_response_code(500); // Indicar error interno
+                    http_response_code(500);  // Error interno
                     echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el usuario.']);
                 }
             } else {
-                http_response_code(400); // Solicitud incorrecta
+                http_response_code(400);  // Solicitud incorrecta
                 echo json_encode(['success' => false, 'error' => 'ID de usuario no proporcionado.']);
             }
         } else {
-            http_response_code(405); // Método no permitido
+            http_response_code(405);  // Método no permitido
             echo json_encode(['error' => 'Método no permitido']);
         }
     }
 
+    // Obtener logs
     public function getLogs(){
         include_once 'models/logs/LogsDAO.php';
-        $logs = LogsDAO::getLogs();
+        $logs = LogsDAO::getLogs();  // Obtener los logs
         header('Content-Type: application/json');
-        echo json_encode($logs);
+        echo json_encode($logs);  // Devolver los logs en formato JSON
     }
 
     public function insertLog() {

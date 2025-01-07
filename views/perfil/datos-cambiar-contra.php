@@ -16,22 +16,31 @@
             include 'views/headers/header.php';
         ?>
     </header>
-    <main class="datos-personales ">    
-        <section class="datos-personales-section actu-contra-section">            
+    <main class="datos-personales">
+        <!-- Sección para cambiar la contraseña -->
+        <section class="datos-personales-section actu-contra-section">
             <div>
                 <h1>Crear nueva contraseña</h1>
                 <p>Introduce la nueva contraseña. Te la pediremos siempre que inicies sesión.</p>
-            </div>    
+            </div>
+            <!-- Formulario para ingresar la nueva contraseña -->
             <form action="?url=datos-acceso/update-password/cambiar" class="form-inicio actu-contra" method="POST">
                 <div class="form-group">
+                    <!-- Campo para la nueva contraseña -->
                     <input name="actu-contra" type="password" placeholder=" " required>
-                    <label for="actu-contra">Contraseña</label>                                                               
+                    <label for="actu-contra">Contraseña</label>
                 </div>
+                
+                <!-- Mensaje de requisito para la contraseña -->
                 <small class="small comment">Debe tener un mínimo de 8 carácteres</small>
+                
                 <div class="form-group">
+                    <!-- Campo para confirmar la nueva contraseña -->
                     <input name="confirm-contra" type="password" placeholder=" " required>
-                    <label for="confirm-contra">Confirma Contraseña</label>                                                               
+                    <label for="confirm-contra">Confirma Contraseña</label>
                 </div>
+
+                <!-- Botón para enviar el formulario -->
                 <input class="login-submit" type="submit" value="Guardar contraseña">
             </form>
         </section>

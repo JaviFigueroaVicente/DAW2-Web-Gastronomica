@@ -18,9 +18,11 @@
     </header>
     <main class="cuenta">
         <section class="cuenta-section">
+            <!-- Bienvenida al usuario con su nombre -->
             <h1>Hola, <?=$_SESSION['user_name']?></h1>
             <div class="container text-center">
                 <div class="row row-cols-3">
+                    <!-- Sección para los "Mis pedidos" -->
                     <div class="col">
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
@@ -38,6 +40,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Sección para los "Mis datos personales" -->
                     <div class="col">
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
@@ -55,10 +58,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Sección para las "Mis direcciones" -->
                     <div class="col">
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
-                                <a href="">                                
+                                <a href="">
                                     <div class="col-md-3">
                                         <img src="views/img/icons/location_black.svg" class="img-fluid rounded-start" alt="...">
                                     </div>
@@ -72,6 +76,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Sección para las "Mis opiniones" -->
                     <div class="col">
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
@@ -82,13 +87,14 @@
                                     <div class="col-md-10">
                                         <div class="card-body">
                                             <h2 class="card-title">Mis opiniones</h2>
-                                            <p class="card-text">Opinar sobre tus compras, gestionar tus comentarios en produtos y blog</p>
+                                            <p class="card-text">Opinar sobre tus compras, gestionar tus comentarios en productos y blog</p>
                                         </div>
                                     </div>
                                 </a>
                             </div>
                         </div>
                     </div>
+                    <!-- Sección para los "Mis favoritos" -->
                     <div class="col">
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
@@ -106,6 +112,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Sección para el "Acceso y seguridad" -->
                     <div class="col">
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
@@ -123,6 +130,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Sección para la "Ayuda" -->
                     <div class="col">
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
@@ -140,8 +148,9 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Sección de administración solo visible para usuarios con rol 'admin' -->
                     <?php
-                        if($_SESSION['user_rol'] == '1'){
+                        if($_SESSION['user_rol'] == '1'){  // Verificación si el usuario es administrador
                     ?>
                     <div class="col">
                         <div class="card mb-3" style="max-width: 540px;">
@@ -160,13 +169,14 @@
                             </div>
                         </div>
                     </div>
-                <?php
+                    <?php
                         }
                     ?>
                 </div>
             </div>
         </section>
     </main>
+
     <footer>
         <?=
             include 'footer/footer.php';

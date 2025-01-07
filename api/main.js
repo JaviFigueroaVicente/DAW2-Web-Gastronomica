@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <td>${producto.precio_producto} €</td>
                                 <td>${producto.stock_producto}</td>
                                 <td>
-                                    <button class="btn btn-warning btn-sm editar-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${producto.id_producto}">Editar</button>
+                                    <button class="btn btn-primary btn-sm editar-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${producto.id_producto}">Editar</button>
                                     <button class="btn btn-danger btn-sm eliminar-btn" data-id="${producto.id_producto}">Eliminar</button>    
                                 </td>
                             </tr>
@@ -127,20 +127,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <div class="modal-body">
                     <form id="editarProductoForm">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" value="${producto.nombre_producto}" required>
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="${producto.nombre_producto}" required>
                         
-                        <label for="descripcion">Descripción</label>
-                        <input type="text" id="descripcion" name="descripcion" value="${producto.descripcion_producto}" required>
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" value="${producto.descripcion_producto}" required>
                         
-                        <label for="precio">Precio</label>
-                        <input type="number" id="precio" name="precio" value="${producto.precio_producto}" step="0.01" required>
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="precio" name="precio" value="${producto.precio_producto}" step="0.01" required>
                         
-                        <label for="stock">Stock</label>
-                        <input type="number" id="stock" name="stock" value="${producto.stock_producto}" min="0" required>
+                        <label for="stock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="stock" name="stock" value="${producto.stock_producto}" min="0" required>
                         
-                        <label for="foto_producto">Actualizar Imagen (Opcional)</label>
-                        <input type="file" id="foto_producto" name="foto_producto" accept="image/*">
+                        <label for="foto_producto" class="form-label">Actualizar Imagen (Opcional)</label>
+                        <input type="file" class="form-control" id="foto_producto" name="foto_producto" accept="image/*">
     
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -259,23 +259,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <div class="modal-body">
                     <form id="crearProductoForm">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" required>
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
     
-                        <label for="descripcion">Descripción</label>
-                        <input type="text" id="descripcion" name="descripcion" required>
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" required>
     
-                        <label for="precio">Precio</label>
-                        <input type="number" id="precio" name="precio" step="0.01" required>
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="precio" name="precio" step="0.01" required>
     
-                        <label for="stock">Stock</label>
-                        <input type="number" id="stock" name="stock" min="0" required>
+                        <label for="stock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="stock" name="stock" min="0" required>
     
-                        <label for="id_categoria_producto">ID Categoría</label>
-                        <input type="number" id="id_categoria_producto" name="id_categoria_producto" min="1" required>
+                        <label for="id_categoria_producto" class="form-label">ID Categoría</label>
+                        <input type="number" class="form-control" id="id_categoria_producto" name="id_categoria_producto" min="1" required>
     
-                        <label for="foto_producto">Imagen</label>
-                        <input type="file" id="foto_producto" name="foto_producto" accept="image/*" required>
+                        <label for="foto_producto" class="form-label">Imagen</label>
+                        <input type="file" class="form-control" id="foto_producto" name="foto_producto" accept="image/*" required>
     
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -446,7 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 return `<td>${value ?? ''}</td>`;
                             }).join('')}
                             <td>
-                                <button class="btn btn-warning btn-sm editar-pedido-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${pedido.id_pedido}">Editar</button>
+                                <button class="btn btn-primary btn-sm editar-pedido-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${pedido.id_pedido}">Editar</button>
                                 <button class="btn btn-danger btn-sm eliminar-pedido-btn" data-id="${pedido.id_pedido}">Eliminar</button>
                             </td>
                         </tr>
@@ -554,32 +554,32 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="modal-body">
                     <form id="editarPedidoForm">
                         
-                        <label for="fecha_pedido">Fecha del Pedido</label>
-                        <input type="datetime-local" id="fecha_pedido" name="fecha_pedido" 
+                        <label for="fecha_pedido" class="form-label">Fecha del Pedido</label>
+                        <input class="form-control" type="datetime-local" id="fecha_pedido" name="fecha_pedido" 
                             value="${new Date(pedido.fecha_pedido).toISOString().slice(0, 16)}" required>
                         
-                        <label for="estado_pedido">Estado</label>
-                        <select id="estado_pedido" name="estado_pedido" required>
+                        <label for="estado_pedido" class="form-label">Estado</label>
+                        <select id="estado_pedido" class="form-control" name="estado_pedido" required>
                             <option value="Pendiente" ${pedido.estado_pedido === "Pendiente" ? "selected" : ""}>Pendiente</option>
                             <option value="En Proceso" ${pedido.estado_pedido === "En Proceso" ? "selected" : ""}>En Proceso</option>
                             <option value="Completado" ${pedido.estado_pedido === "Completado" ? "selected" : ""}>Completado</option>
                             <option value="Cancelado" ${pedido.estado_pedido === "Cancelado" ? "selected" : ""}>Cancelado</option>
                         </select>
     
-                        <label for="id_user_pedido">Usuario ID</label>
-                        <input type="number" id="id_user_pedido" name="id_user_pedido" 
+                        <label for="id_user_pedido" class="form-label">Usuario ID</label>
+                        <input type="number" class="form-control" id="id_user_pedido" name="id_user_pedido" 
                             value="${pedido.id_user_pedido}" required>
                         
-                        <label for="precio_pedido">Precio</label>
-                        <input type="number" id="precio_pedido" name="precio_pedido" 
+                        <label for="precio_pedido" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="precio_pedido" name="precio_pedido" 
                             value="${pedido.precio_pedido}" step="0.01" required>
                         
-                        <label for="direccion_pedido">Dirección</label>
-                        <input type="text" id="direccion_pedido" name="direccion_pedido" 
+                        <label for="direccion_pedido" class="form-label">Dirección</label>
+                        <input type="text" id="direccion_pedido" class="form-control" name="direccion_pedido" 
                             value="${pedido.direccion_pedido}" required>
                         
-                        <label for="metodo_pago">Método de Pago</label>
-                        <select id="metodo_pago" name="metodo_pago" required>
+                        <label for="metodo_pago" class="form-label">Método de Pago</label>
+                        <select id="metodo_pago" class="form-control" name="metodo_pago" required>
                             <option value="Tarjeta" ${pedido.metodo_pago === "Tarjeta" ? "selected" : ""}>Tarjeta</option>
                             <option value="Efectivo" ${pedido.metodo_pago === "Efectivo" ? "selected" : ""}>Efectivo</option>
                             <option value="Transferencia" ${pedido.metodo_pago === "Transferencia" ? "selected" : ""}>Transferencia</option>
@@ -667,7 +667,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <div class="modal-body">
                     <form id="crearPedidoForm">
-                        <label for="estado_pedido">Estado</label>
+                        <label for="estado_pedido" class="form-label">Estado</label>
                         <select id="estado_pedido" name="estado_pedido" required>
                             <option value="Pendiente">Pendiente</option>
                             <option value="En Proceso">En Proceso</option>
@@ -675,17 +675,17 @@ document.addEventListener("DOMContentLoaded", () => {
                             <option value="Cancelado">Cancelado</option>
                         </select>
 
-                        <label for="id_user_pedido">Usuario ID</label>
-                        <input type="number" id="id_user_pedido" name="id_user_pedido" required>
+                        <label for="id_user_pedido" class="form-label">Usuario ID</label>
+                        <input type="number" class="form-control" id="id_user_pedido" name="id_user_pedido" required>
 
-                        <label for="precio_pedido">Precio</label>
-                        <input type="number" id="precio_pedido" name="precio_pedido" step="0.01" required>
+                        <label for="precio_pedido" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="precio_pedido" name="precio_pedido" step="0.01" required>
 
-                        <label for="direccion_pedido">Dirección</label>
-                        <input type="text" id="direccion_pedido" name="direccion_pedido" required>
+                        <label for="direccion_pedido" class="form-label">Dirección</label>
+                        <input type="text" class="form-control" id="direccion_pedido" name="direccion_pedido" required>
 
-                        <label for="metodo_pago">Método de Pago</label>
-                        <select id="metodo_pago" name="metodo_pago" required>
+                        <label for="metodo_pago" class="form-label">Método de Pago</label>
+                        <select id="metodo_pago" class="form-control" name="metodo_pago" required>
                             <option value="Tarjeta">Tarjeta</option>
                             <option value="Efectivo">Efectivo</option>
                             <option value="Transferencia">Transferencia</option>
@@ -803,7 +803,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <td>${usuario.direction_user}</td>
                                 <td>${usuario.admin_rol}</td>
                                 <td>
-                                    <button class="btn btn-warning btn-sm editar-user-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${usuario.id_user}">Editar</button>
+                                    <button class="btn btn-primary btn-sm editar-user-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-id="${usuario.id_user}">Editar</button>
                                     <button class="btn btn-danger btn-sm eliminar-user-btn" data-id="${usuario.id_user}">Eliminar</button>
                                 </td>
                             </tr>
@@ -842,26 +842,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <div class="modal-body">
                     <form id="editarUserForm">
-                        <label for="nombre_user">Nombre</label>
-                        <input type="text" id="nombre_user" name="nombre_user" value="${user.nombre_user}" required>
+                        <label for="nombre_user" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre_user" name="nombre_user" value="${user.nombre_user}" required>
     
-                        <label for="apellidos_user">Apellidos</label>
-                        <input type="text" id="apellidos_user" name="apellidos_user" value="${user.apellidos_user}" required>
+                        <label for="apellidos_user" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="apellidos_user" name="apellidos_user" value="${user.apellidos_user}" required>
     
-                        <label for="contra_user">Nueva Contraseña (Opcional)</label>
-                        <input type="password" id="contra_user" name="contra_user" placeholder="Dejar en blanco para no cambiar">
+                        <label for="contra_user" class="form-label">Nueva Contraseña (Opcional)</label>
+                        <input type="password" class="form-control" id="contra_user" name="contra_user" placeholder="Dejar en blanco para no cambiar">
     
-                        <label for="email_user">Correo</label>
-                        <input type="email" id="email_user" name="email_user" value="${user.email_user}" required>
+                        <label for="email_user" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="email_user" name="email_user" value="${user.email_user}" required>
     
-                        <label for="telefono_user">Teléfono</label>
-                        <input type="text" id="telefono_user" name="telefono_user" value="${user.telefono_user}" required>
+                        <label for="telefono_user" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="telefono_user" name="telefono_user" value="${user.telefono_user}" required>
     
-                        <label for="direction_user">Dirección</label>
-                        <input type="text" id="direction_user" name="direction_user" value="${user.direction_user}" required>
+                        <label for="direction_user" class="form-label">Dirección</label>
+                        <input type="text" class="form-control" id="direction_user" name="direction_user" value="${user.direction_user}" required>
     
-                        <label for="admin_rol">Rol</label>
-                        <select id="admin_rol" name="admin_rol" required>
+                        <label for="admin_rol" class="form-label">Rol</label>
+                        <select id="admin_rol" class="form-control" name="admin_rol" required>
                             <option value="0" ${user.admin_rol === 0 ? "selected" : ""}>Usuario</option>
                             <option value="1" ${user.admin_rol === 1 ? "selected" : ""}>Administrador</option>
                         </select>
@@ -940,26 +940,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <div class="modal-body">
                     <form id="crearUserForm">
-                        <label for="nombre_user">Nombre</label>
-                        <input type="text" id="nombre_user" name="nombre_user" required>
+                        <label for="nombre_user" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre_user" name="nombre_user" required>
 
-                        <label for="apellidos_user">Apellidos</label>
-                        <input type="text" id="apellidos_user" name="apellidos_user" required>
+                        <label for="apellidos_user" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="apellidos_user" name="apellidos_user" required>
 
-                        <label for="contra_user">Contraseña</label>
-                        <input type="password" id="contra_user" name="contra_user" required>
+                        <label for="contra_user" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="contra_user" name="contra_user" required>
 
-                        <label for="email_user">Correo</label>
-                        <input type="email" id="email_user" name="email_user" required>
+                        <label for="email_user" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="email_user" name="email_user" required>
 
-                        <label for="telefono_user">Teléfono</label>
-                        <input type="text" id="telefono_user" name="telefono_user" required>
+                        <label for="telefono_user" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="telefono_user" name="telefono_user" required>
 
-                        <label for="direction_user">Dirección</label>
-                        <input type="text" id="direction_user" name="direction_user" required>
+                        <label for="direction_user" class="form-label">Dirección</label>
+                        <input type="text" class="form-control" id="direction_user" name="direction_user" required>
 
-                        <label for="admin_rol">Rol</label>
-                        <select id="admin_rol" name="admin_rol" required>
+                        <label for="admin_rol" class="form-label">Rol</label>
+                        <select id="admin_rol" class="form-control" name="admin_rol" required>
                             <option value="0">Usuario</option>
                             <option value="1">Administrador</option>
                         </select>

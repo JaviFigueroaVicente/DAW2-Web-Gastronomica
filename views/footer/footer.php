@@ -1,3 +1,4 @@
+<!-- Footer General -->
 <div class="newsletter">
     <div>
         <h2>Únete a nuestra Newsletter</h2>
@@ -7,6 +8,8 @@
         <input type="email" name="EMAIL" placeholder="Tu email">
     </form>
 </div>
+
+<!-- Sección de Contacto -->
 <div class="footer-content">
     <div class="footer-sections">
         <div class="contact-info">
@@ -38,6 +41,8 @@
                 </a>
             </div>
         </div>
+
+        <!-- Sección de Ayuda y Compra segura -->
         <div class="footer-info">
             <div class="footer-section">
                 <strong>Ayuda</strong>
@@ -69,14 +74,16 @@
             </div>
         </div>
     </div>
+
+    <!-- Sección de Redes y Pagos -->
     <div class="footer-redes">
-        <div class="icon-list">                
+        <div class="icon-list">
             <a href="#">
                 <img src="views/img/banners/excelente.webp" alt="">
             </a>
-            <a href="">
+            <a href="#">
                 <img src="views/img/banners/redes.webp" alt="">
-            </a>                   
+            </a>
         </div>
         <div class="payment-icons">
             <span>Pagos online</span>
@@ -84,11 +91,13 @@
         </div>
         <div class="shipping-icons">
             <span>Envíos realizados con:</span>
-            <a href="">
+            <a href="#">
                 <img src="views/img/banners/envios.webp" alt="">
             </a>
         </div>
     </div>
+
+    <!-- Sección Inferior -->
     <div class="footer-bottom">
         <div class="bottom-links">
             <span>Visita:</span>
@@ -100,6 +109,8 @@
             <button type="button">Español</button>
         </div>
     </div>
+
+    <!-- Sección Legal -->
     <div class="footer-bottom legal">
         <ul>
             <li><a href="#">Política de privacidad</a></li>

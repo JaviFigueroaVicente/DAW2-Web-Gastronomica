@@ -77,7 +77,7 @@
                                 <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual['stock_producto'])?>">
                                 <div class="modificar-producto">
                                     <button type="button" class="btn-reducir">-</button>
-                                    <input type="button" <?php if($productoIndividual['stock_producto'] == 0){ echo 'value="0"'; }else{ echo 'value="1"';} ?> class="cantidad-productos">
+                                    <input type="text" <?php if($productoIndividual['stock_producto'] == 0){ echo 'value="0"'; }else{ echo 'value="1"';} ?> class="cantidad-productos">
                                     <button type="button" class="btn-aumentar">+</button>
                                 </div>
                             </div>
@@ -112,7 +112,7 @@
                                     <input name="producto_id" type="text" hidden value="<?=number_format($productoIndividual['id_producto'], 2, ',', '.')?>">
                                     <input class="stock-producto" type="text" hidden value="<?=number_format($productoIndividual['stock_producto'], 2, ',', '.')?>">
                                     <button type="button" class="btn-reducir">-</button>
-                                    <input name="cantidad" type="button" value="1" class="cantidad-productos">
+                                    <input name="cantidad" type="text" value="1" class="cantidad-productos">
                                     <button type="button" class="btn-aumentar">+</button>
                                 </div>                            
                             </div>

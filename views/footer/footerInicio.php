@@ -1,3 +1,4 @@
+<!-- Footer del login -->
 <div class="footer-content">
     <div class="footer-sections">
         <div class="footer-redes footer-redes-inicio">

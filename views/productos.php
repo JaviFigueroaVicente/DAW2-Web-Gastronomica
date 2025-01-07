@@ -19,6 +19,7 @@
     <main class="productos">
         <aside class="menu-lateral">
             <ul class="menu-categorias">
+                <!-- Menú de categorías colapsable -->
                 <li class="menu-item">
                     <button class="menu-header" type="button" data-bs-toggle="collapse" data-bs-target="#categorias" aria-expanded="true" aria-controls="categorias">
                         + Categorías
@@ -26,17 +27,20 @@
                     <ul id="categorias" class="menu-subitems collapse">
                         <li><a href="?url=productos">Todas las categorías</a></li>
                         <?php
+                        // Se generan las categorías dinámicamente desde el array $categoriasProducto
                         foreach ($categoriasProducto as $categoria) {
                             echo '<li><a href="?url=productos&categoria='.$categoria['id_categoria_producto'].'">' . ucfirst($categoria['nombre_categoria_producto']) . '</a></li>';
                         }
                         ?>
                     </ul>
                 </li>
+                <!-- Menú de ingredientes colapsable -->
                 <li class="menu-item">
                     <button class="menu-header" type="button" data-bs-toggle="collapse" data-bs-target="#ingredientes" aria-expanded="true" aria-controls="ingredientes">
                         + Ingredientes
                     </button>
                     <ul id="ingredientes" class="menu-subitems collapse">
+                        <!-- Lista estática de ingredientes -->
                         <li>Carnes</li>
                         <li>Pescados</li>
                         <li>Pasta</li>
@@ -47,6 +51,7 @@
                         <li>Otros alimentos</li>
                     </ul>
                 </li>
+                <!-- Menú de ofertas colapsable -->
                 <li class="menu-item">
                     <button class="menu-header" type="button" data-bs-toggle="collapse" data-bs-target="#ofertas" aria-expanded="false" aria-controls="ofertas">
                         + Ofertas
@@ -54,6 +59,7 @@
                     <ul id="ofertas" class="menu-subitems collapse">
                         <li><a href="?url=productos">Todas las ofertas</a></li>
                         <?php
+                            // Se generan las ofertas dinámicamente desde el array $ofertas
                             foreach ($ofertas as $oferta) {
                                 echo '<li><a href="?url=productos&oferta=' . $oferta->getId_oferta() . '">' . ucfirst($oferta->getNombre_oferta()) . '</a></li>';
                             }
@@ -62,34 +68,43 @@
                 </li>
             </ul>
         </aside>
+
         <section class="lista-productos">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="?url=productos">Productos</a></li>
-                    <?php if (isset($_GET['categoria'])) {
-                        echo '<li class="breadcrumb-item active" aria-current="page">' . ucfirst($categoriaId['id_categoria_producto']) . '</li>';
-                    } elseif (isset($_GET['oferta'])) {
-                        echo '<li class="breadcrumb-item active" aria-current="page">' . ucfirst($oferta->getNombre_oferta()) . '</li>'; 
-                    }?>
+                    <?php 
+                        // Muestra las migas de pan basadas en la URL
+                        if (isset($_GET['busqueda']) && !empty($_GET['busqueda'])) {
+                            echo '<li class="breadcrumb-item active" aria-current="page">Búsqueda: "' . htmlspecialchars($_GET['busqueda']) . '"</li>';
+                        } elseif (isset($_GET['categoria'])) {
+                            echo '<li class="breadcrumb-item active" aria-current="page">' . ucfirst($categoriaId['nombre_categoria_producto']) . '</li>';
+                        }
+                    ?>
                 </ol>
             </nav>
-                <h1>
-                    <?php 
-                    if (isset($_GET['categoria'])) {
-                        echo ucfirst($categoriaId['nombre_categoria_producto']);
-                    } elseif (isset($_GET['oferta'])) {
-                        echo ucfirst($oferta->getNombre_oferta());
-                    } else {
-                        echo "Todos los productos";
-                    }
-                    ?>
-                </h1>
+
+            <h1>
+            <?php 
+                // Título dinámico según los filtros de la URL
+                if (isset($_GET['busqueda']) && !empty($_GET['busqueda'])) {
+                    echo "Resultados para: \"" . htmlspecialchars($_GET['busqueda']) . "\"";
+                } elseif (isset($_GET['categoria'])) {
+                    echo ucfirst($categoriaId['nombre_categoria_producto']);
+                } elseif (isset($_GET['oferta'])) {
+                    echo ucfirst($oferta->getNombre_oferta());
+                } else {
+                    echo "Todos los productos";
+                }
+            ?>
+            </h1>
             <div class="productos-list">
                 <div class="productos-ordenar">
                     <p><?= $total_productos ?> productos</p>
                     <form method="get" action="">
                         <input type="hidden" name="url" value="productos">
 
+                        <!-- Mantiene los parámetros de URL para categorías y ofertas -->
                         <?php if (isset($_GET['categoria'])): ?>
                             <input type="hidden" name="categoria" value="<?= htmlspecialchars($_GET['categoria']) ?>">
                         <?php endif; ?>
@@ -97,6 +112,7 @@
                             <input type="hidden" name="oferta" value="<?= htmlspecialchars($_GET['oferta']) ?>">
                         <?php endif; ?>
 
+                        <!-- Selector de ordenación -->
                         <select name="ordenar" onchange="this.form.submit()">
                             <option value="" <?= !isset($_GET['ordenar']) ? 'selected' : '' ?>>Ordenar</option>
                             <option value="1" <?= (isset($_GET['ordenar']) && $_GET['ordenar'] == '1') ? 'selected' : '' ?>>Nuevos primero</option>
@@ -112,6 +128,7 @@
                 <?php if (!empty($productos)): ?>
                     <div class="row">
                         <?php
+                        // Muestra los productos en tarjetas, organizados en filas de tres productos
                         $count = 0;
                         foreach ($productos as $producto):
                             if ($count > 0 && $count % 3 === 0): ?>

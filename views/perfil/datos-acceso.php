@@ -16,9 +16,12 @@
             include 'views/headers/header.php';
         ?>
     </header>
-    <main class="datos-personales ">
+
+    <main class="datos-personales">
+        <!-- Sección para mostrar los datos personales y la opción de cambiar contraseña -->
         <section class="datos-personales-section datos-acceso">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <!-- Breadcrumb (navegación de enlaces) -->
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="?url=cuenta">Mi cuenta</a></li>
                 </ol>
@@ -27,11 +30,15 @@
                 <h1>Crear nueva contraseña</h1>
                 <p> Estos son tus datos de inicio de sesión:</p>
             </div>
+
             <div class="datos-email">
+                <!-- Muestra el email del usuario (almacenado en la sesión) -->
                 <p class="datos-label">E-Mail:</p>
                 <p><?= $_SESSION['user_email'] ;?></p>
             </div>
+
             <div class="datos-email datos-contra">
+                <!-- Muestra la contraseña oculta (en forma de asteriscos) y el enlace para cambiarla -->
                 <div>
                     <p class="datos-label">Contraseña:</p>
                     <p>********</p>
@@ -40,6 +47,7 @@
             </div>
         </section>
     </main>
+
     <footer>
         <?=
             include 'views/footer/footer.php';
